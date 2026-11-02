@@ -419,7 +419,7 @@ body:has(#seq.rx) #app>header{visibility:hidden}
 <script src="assets/cshop/cshop_pack.js"></script>
 <link rel="preload" as="image" href="assets/bg_forest.webp?v=84x" fetchpriority="high">
 <script src="assets/introlive/intro_live.js"></script>
-<title>Guildies Preview v84z99zx</title>
+<title>Guildies Preview v84z99zy</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Jolly+Lodger&family=Grandstander:wght@500;600;700;800;900&family=Nunito:wght@600;800;900&family=Press+Start+2P&family=Comic+Neue:wght@700&family=IM+Fell+English+SC&family=Permanent+Marker&family=Nosifer&display=swap">
@@ -4825,7 +4825,7 @@ html.reduce .vzs,html.reduce .vzlrw,html.reduce .vztally.in,html.reduce .vzsb.n2
     <div id="jkList"></div>
     <div class="jkctl"><button type="button" class="go sm" id="jkClose">Close</button></div></div></div>
   <div class="tcorner l">© 2026 KENNETH BENEDICT</div>
-  <div class="tcorner r">PICKY GAMES · PREVIEW v84z99zx</div>
+  <div class="tcorner r">PICKY GAMES · PREVIEW v84z99zy</div>
 </div>
 
 <!-- CREATE-A-GUILDIE (FTUE): Mirror Booth on a comic page + character sheet -->
@@ -15149,6 +15149,328 @@ const _ch=comboHit;comboHit=function(src,t,o){const c=_ch.apply(this,arguments);
 .fhsp .rpcard{max-width:440px}.fhsp h3{margin:0 0 6px;font:400 24px/1.1 var(--display)}.fhsp p{margin:0 0 12px;font:700 15px/1.35 var(--body)}`;
   document.head.appendChild(st);
 }
+
+/* ===== v84z99zy THE REST OF THE FIRST-HOUR REVIEW (items 6 to 14, Kenneth 2026-11-02) =====
+   6  Odd Jobs in the story: Ghost Cat's 20-minute Fish Run after rescue 2 (no benched Guildie needed), and a Night Shift
+      offered when a session winds down (8 h, comes back with a crate).
+   7  Results card carrot: the next rescue's silhouette and "N fights to go", plus the Guild Road (stars + Codex finds,
+      a reward at every step).
+   8  Combos change the fight: frozen foes SHATTER into a splash, stunned foes LAUNCH into others, bleeding foes BURST and heal,
+      toads POP into slowing goo, burning foes FLARE onto neighbours.
+   9  Lessons for SHELL, KITER and SPLIT elites (CLEAN SWEEP! payoff for area hits on pieces); retaliate (a foe hit by a
+      Guildie you sent onto it turns on that Guildie for 3 s); JUST IN TIME! for a last-second step out of a red circle
+      and for catching a diver right after it pounces.
+   10 Effect budget on phones: fewer particles, fewer big effects at once, fewer word pop-ups.
+   11 Combo mastery (Bronze 3 / Silver 10 / Gold 25 uses, +5/10/15% combo damage), Codex milestone rewards, and a daily
+      Featured Combo contract.
+   12 Family deaths: slimes SPLAT, machines SPROING apart, ghosts POOF, fliers lose their feathers.
+   13 Gear upgrades +1 (+20% damage) and +2 (a twist per gear), paid in gold and Foil Shards; pets (Gerald, Shirley)
+      in their own slot.
+   14 Weekly Collector boss: 60 seconds against the Collector's Stand-In, scored by damage, three reward tiers per week.
+   Kill switch: window.__ZY.on=false (or any single flag below) restores the v84z99zx behaviour. Save fields: prog.zy */
+{
+const ZY={on:true,oj:true,road:true,cfx:true,elite:true,ret:true,jit:true,budget:true,mast:true,death:true,gear:true,pets:true,wk:true,log:[]};
+window.__ZY=ZY;
+const on=f=>ZY.on&&ZY[f];
+const zy=()=>{prog.zy=prog.zy||{};return prog.zy};
+const isPhone=()=>{try{return Math.min(innerWidth,innerHeight)<520||matchMedia('(pointer:coarse)').matches}catch(e){return false}};
+const zlog=(...a)=>{ZY.log.push(a.join(' '));if(ZY.log.length>200)ZY.log.shift()};
+const inFight=()=>S&&!S.over;
+const gName=k=>k==='cat'?'Ghost Cat':(k==='me'?((prog.me&&prog.me.name)||'You'):((GUILDIES[k]&&GUILDIES[k].name)||k));
+
+/* ---------- shared per-frame hooks (inside the battle update and draw) ---------- */
+const TICKS=[],DRAWS=[];
+{const CB=window.__CB;if(CB){const t0=CB.tick;CB.tick=function(dt){const r=t0?t0.apply(this,arguments):undefined;if(ZY.on&&S)for(const f of TICKS)try{f(dt)}catch(e){console.warn('zy tick',e)}return r};
+  const d0=CB.draw;CB.draw=function(c){const r=d0?d0.apply(this,arguments):undefined;if(ZY.on&&S)for(const f of DRAWS)try{f(c)}catch(e){console.warn('zy draw',e)}return r}}}
+
+const css=document.createElement('style');css.id='zy-css';css.textContent=`
+.zycar{display:flex;align-items:center;gap:10px;justify-content:center;margin:.4cqh auto 0;font:800 clamp(10px,1.7cqh,14px)/1.15 Nunito,sans-serif;color:#fbf7ef;flex-wrap:wrap}
+.rws .zycar{position:absolute;left:4cqw;top:47cqh;max-width:27cqw;z-index:2;flex-direction:column;align-items:flex-start;justify-content:flex-start;margin:0;gap:1cqh;font-size:2.7cqh}.rws .zycar .zynx img{width:4.5cqh;height:4.5cqh}.rws .zyroad{flex-wrap:wrap}
+.vzttl+.zycar{position:absolute;left:8cqw;top:12.5cqh;justify-content:flex-start;margin:0;z-index:3;font-size:2.6cqh}
+.zywkm{display:block!important;max-width:62cqw;background:rgba(23,18,31,.8);border:2px solid #f2b630;border-radius:12px;padding:4px 10px;text-align:left}.zywkm b{color:#f2b630}
+.zycar .zynx{display:flex;align-items:center;gap:6px;background:rgba(23,18,31,.72);border:2px solid #f2b630;border-radius:999px;padding:2px 10px 2px 3px}
+.zycar .zynx img{width:28px;height:28px;object-fit:contain;filter:brightness(0) drop-shadow(0 0 2px #f2b630)}
+.zycar .zynx b{color:#f2b630}
+.zyroad{display:flex;align-items:center;gap:6px;background:rgba(23,18,31,.72);border:2px solid #9be15d;border-radius:999px;padding:3px 10px}
+.zyroad .pips{display:flex;gap:3px}.zyroad .pips i{width:9px;height:9px;border-radius:50%;background:#3b3248;border:1.5px solid #9be15d}.zyroad .pips i.on{background:#9be15d}
+.zyroad small{opacity:.85;font-weight:700}
+.zyroad.got{animation:zyGot 1.1s ease-out 2}@keyframes zyGot{50%{box-shadow:0 0 0 6px rgba(155,225,93,.45)}}
+.zyam{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 10px;padding:8px 10px;background:rgba(20,14,28,.55);border:2px solid #5b4a72;border-radius:12px;color:#fbf7ef}.zyam>div{flex:1 1 220px;min-width:0}
+.zyup{}.zyam .go.sm{font-size:14px;line-height:1.1;padding:5px 12px;min-height:0}
+.zyup .zyl{display:flex;justify-content:space-between;gap:8px;align-items:center}.zyup .zyl b{font:400 18px/1 "Luckiest Guy",var(--display,sans-serif);color:#f2b630}
+.zyup p{margin:4px 0;font:700 12.5px/1.3 Nunito,sans-serif}.zyup .go{margin-top:4px}
+.zypet{}.zypet .row{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.zypet button{display:flex;align-items:center;gap:5px;background:#2b2236;color:#fbf7ef;border:2px solid #5b4a72;border-radius:10px;padding:3px 8px;font:800 12px Nunito,sans-serif;cursor:pointer}
+.zypet button[aria-pressed=true]{border-color:#9be15d;background:#33452a}.zypet img{width:26px;height:26px;object-fit:contain}
+.zywk{display:flex;gap:12px;align-items:center;background:linear-gradient(90deg,#2b1838,#4a1f2e);border:3px solid #f2b630;border-radius:14px;padding:10px 14px;margin:0 0 10px;color:#fbf7ef}
+.zywk img{width:64px;height:64px;object-fit:contain}.zywk div{flex:1}.zywk b{font:400 20px/1 "Luckiest Guy",var(--display,sans-serif);color:#f2b630;display:block}
+.zywk small{display:block;font:700 12.5px/1.3 Nunito,sans-serif;opacity:.9}.zywk .tiers{display:flex;gap:6px;margin-top:4px}.zywk .tiers span{font:800 11px Nunito,sans-serif;padding:1px 7px;border-radius:999px;background:#3b3248}.zywk .tiers span.got{background:#f2b630;color:#17121f}
+.zyoff{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 18px);transform:translateX(-50%);z-index:320;display:flex;gap:10px;align-items:center;max-width:min(560px,92vw);background:#fbf7ef;color:#17121f;border:3px solid #17121f;border-radius:16px;padding:10px 12px;box-shadow:4px 4px 0 #17121f;font:700 14px/1.35 Nunito,sans-serif;animation:zyIn .25s ease-out}
+.zyoff img{width:54px;height:54px;object-fit:contain;flex:none}.zyoff .bt{display:flex;flex-direction:column;gap:5px;flex:none}.zyoff .go{white-space:nowrap}
+@keyframes zyIn{from{transform:translate(-50%,30px);opacity:0}}
+.zyfc{display:block;margin-top:2px;font:800 11px Nunito,sans-serif;color:#f2b630}
+`;document.head.appendChild(css);
+
+/* =================================================================================================
+   6. ODD JOBS IN THE STORY
+   ================================================================================================= */
+OJ_JOBS.zy_fish={t:"Ghost Cat's Fish Run",w:'Rotgut Docks',st:1,h:1/3,need:2,max:1,cost:0,story:1,solo:1,gold:[40,60],xp:0,gx:15,shards:15,
+  blurb:"Ghost Cat is out of fish. He'll nip down to the docks himself: no Guildie needed. Twenty minutes, or one fight, whichever comes first.",
+  pc:["Ghost Cat found a fish. The fish found Ghost Cat first.",['Let him handle it','+odds'],['Tell him to bring the big one','−odds, more loot']]};
+OJ_JOBS.zy_night={t:'The Night Shift',w:'Anywhere dark',st:1,h:8,need:2,max:1,cost:0,story:1,solo:1,night:1,gold:[150,240],xp:0,gx:60,shards:30,
+  blurb:"While you sleep, Ghost Cat runs the guild's night shift. Back in 8 hours with a crate of whatever fell off the Collector's trucks.",
+  pc:["Ghost Cat is sitting on a truck. The truck is moving.",['Stay on the truck','+odds'],['Jump to the next truck','−odds, a bigger crate']]};
+{const av0=ojAvail;ojAvail=function(){const L=av0.apply(this,arguments);return L.filter(id=>!OJ_JOBS[id].story)}}
+const zyStoryJobs=()=>{if(!on('oj')||!prog||!prog.me)return [];const z=zy(),n=(prog.built||[]).length,o=oj(),L=[];
+  if(n>=2&&!z.fishDone)L.push('zy_fish');
+  if(n>=2&&(z.fishDone||o.active.zy_fish)&&z.nightDay!==new Date().toDateString())L.push('zy_night');
+  return L};
+{const rf0=ojRefill;ojRefill=function(){const r=rf0.apply(this,arguments);try{const o=oj();for(const id of zyStoryJobs())if(!o.board.includes(id))o.board.unshift(id);
+  for(const id of Object.keys(o.active))if(OJ_JOBS[id]&&OJ_JOBS[id].story&&!o.board.includes(id))o.board.unshift(id)}catch(e){console.warn('zy oj',e)}return r}}
+{const op0=ojOpen;ojOpen=function(){return op0.apply(this,arguments)||!!(on('oj')&&prog&&prog.me&&(prog.built||[]).length>=2)}}
+{const od0=ojOdds;ojOdds=function(J,crew){if(J&&J.solo)return {f:4,ok:66,gr:30,why:['<b>Ghost Cat</b> never really fails. He just naps on the job.'],bd:null};return od0.apply(this,arguments)}}
+const zySend=function(id){const J=OJ_JOBS[id],o=oj();if(!J||o.active[id])return false;const now=Date.now(),d=J.h*ojHour();o.active[id]={crew:[],cat:1,start:now,end:now+d,pc:'a',mod:6};
+  if(J.night)zy().nightDay=new Date().toDateString();ojRefill();save();zlog('oj send',id);return true};
+ZY.send=zySend;
+{const pk0=ojPick;ojPick=function(id){const J=OJ_JOBS[id];if(J&&J.solo&&on('oj')){if(zySend(id)){ojClose();renderHall();toast2(`Ghost Cat headed out. Back in ${ojFmt(J.h*ojHour())}.`)}return}return pk0.apply(this,arguments)}}
+{const cl0=ojClaim;ojClaim=function(id){const J=OJ_JOBS[id];const r=cl0.apply(this,arguments);try{if(J&&J.story){const z=zy();if(id==='zy_fish')z.fishDone=1;
+    {const o=oj();if(o.souv&&o.souv.undefined){(o.souv.me=o.souv.me||[]).push(...o.souv.undefined);delete o.souv.undefined}}
+    prog.shards=(prog.shards||0)+(J.shards||0);let extra=`<div><b>+${J.shards} Foil Shards</b>Ghost Cat's cut, generously shared</div>`;
+    if(J.night){const pool=LOOT.filter(g=>!prog.gear.includes(g));if(pool.length){const g=pool[Math.floor(Math.random()*pool.length)];prog.gear.push(g);extra+=`<div class="rare"><img src="assets/${GEAR[g].icon}.webp" alt=""><b>In the crate: ${GEAR[g].name}</b>New gear for the rack</div>`}else{prog.gold+=120;extra+=`<div><b>+120 gold</b>The crate was mostly coins</div>`}}
+    save();const L=document.querySelector('.ojsheet .ojloot');if(L){L.querySelectorAll(':scope>div').forEach(d=>{if(/^\+0 XP/.test(d.textContent))d.remove();d.innerHTML=d.innerHTML.replace("undefined's room",'your room')});L.insertAdjacentHTML('beforeend',extra)}zlog('oj claim',id)}}catch(e){console.warn('zy claim',e)}return r}}
+
+{const sh0=ojSheet;ojSheet=function(view){const r=sh0.apply(this,arguments);try{const o=oj();document.querySelectorAll('.ojsheet .ojjob').forEach(a=>{const b=a.querySelector('[data-claim],[data-ojbar]');const id=b&&(b.dataset.claim||b.dataset.ojbar);if(id&&o.active[id]&&o.active[id].cat){const f=a.querySelector('.ojfaces');if(f&&!f.children.length)f.innerHTML='<img src="assets/cat.webp" alt="Ghost Cat">'}})}catch(e){}return r}}
+/* the offers: Fish Run right after rescue 2, Night Shift when the session winds down */
+const SESS={t0:Date.now(),fights:0};ZY.sess=SESS;
+const offer=function(key,img,html,yes,no,act){if(document.querySelector('.zyoff'))return;const n=el(`<div class="zyoff" role="dialog" aria-label="Ghost Cat"><img src="${img}" alt=""><div>${html}</div><div class="bt"><button type="button" class="go sm" data-y>${yes}</button><button type="button" class="go alt sm" data-n>${no}</button></div></div>`);
+  document.documentElement.appendChild(n);const close=()=>n.remove();n.querySelector('[data-n]').addEventListener('click',()=>{sfx('ui');close()});n.querySelector('[data-y]').addEventListener('click',()=>{close();act()});try{sfx('mrrp')}catch(e){}zlog('offer',key);return n};
+ZY.offer=offer;
+const modalUp=()=>!![...document.querySelectorAll('[role=dialog],[aria-modal],.rpop,.ojsheet,.zyoff,#coach,.atnov')].find(n=>n.id!=='hallOv'&&!n.hidden&&n.getClientRects().length&&getComputedStyle(n).visibility!=='hidden');
+ZY.modalUp=modalUp;
+const hallOffers=function(){if(!on('oj')||!prog||!prog.me||S&&!S.over)return;if((typeof CO!=='undefined'&&CO)||modalUp())return;{const ho=document.getElementById('hallOv');if(!ho||ho.hidden||[...document.querySelectorAll('.ov')].some(o=>o!==ho&&!o.hidden))return}if(tab!=='hall'&&tab!=='rooms')return;const z=zy(),o=oj(),n=(prog.built||[]).length;
+  if(n>=2&&!z.fishOffered&&!z.fishDone&&!o.active.zy_fish){z.fishOffered=1;save();
+    return offer('fish','assets/cat.webp',`<b>Ghost Cat:</b> "I'm off to the docks for fish. Back in <b>20 minutes</b>, or after your next fight. I'll bring you a cut." Odd Jobs live at the castle gate.`,'Send Ghost Cat','Not now',()=>{if(zySend('zy_fish')){sfx('whoosh');toast2('Ghost Cat headed for the docks. Your next fight brings him home.')}})}
+  const ready=ojReady().filter(id=>OJ_JOBS[id]&&OJ_JOBS[id].story);
+  if(ready.length&&!z.backOffer){z.backOffer=1;return offer('back','assets/cat.webp','<b>Ghost Cat is back</b> with a little something for you.','See the haul','Later',()=>{tab='rooms';renderHall();setTimeout(()=>{ojSheet()},250)})}
+  if(!ready.length)z.backOffer=0;
+  const mins=(Date.now()-SESS.t0)/60000;
+  if(n>=2&&(SESS.fights>=5||mins>=25)&&!o.active.zy_night&&z.nightDay!==new Date().toDateString()&&!SESS.nightAsked){SESS.nightAsked=1;
+    return offer('night','assets/cat.webp',`<b>Calling it a night?</b> Ghost Cat can run the <b>Night Shift</b>: back in 8 hours with a crate of loot, gold and Foil Shards.`,'Start the Night Shift','Keep playing',()=>{if(zySend('zy_night')){sfx('whoosh');toast2('Night Shift started. Come back in the morning for the crate.')}})}};
+ZY.hallOffers=hallOffers;
+{const rh0=renderHall;renderHall=function(){const r=rh0.apply(this,arguments);try{setTimeout(hallOffers,700)}catch(e){}return r}}
+{const eb0=endBattle;endBattle=function(win){const was=!S||S.over;const r=eb0.apply(this,arguments);try{if(!was&&S&&S.over)SESS.fights++}catch(e){}return r}}
+try{document.addEventListener('visibilitychange',()=>{if(document.hidden)SESS.nightAsked=SESS.nightAsked||0})}catch(e){}
+
+/* =================================================================================================
+   7. RESULTS CARD CARROT + GUILD ROAD
+   ================================================================================================= */
+const ROAD=[{n:5,t:'gold',v:100},{n:10,t:'shards',v:20},{n:15,t:'gxp',v:80},{n:22,t:'gear'},{n:30,t:'shards',v:40},{n:40,t:'gold',v:300},{n:52,t:'gear'},{n:66,t:'gxp',v:200},{n:82,t:'shards',v:80},{n:100,t:'gold',v:600}];
+const roadPts=()=>{let a=0,b=0;try{a=starTot()}catch(e){}try{b=codexN()}catch(e){}return a+b};
+const roadLbl=s=>s.t==='gold'?`${s.v} gold`:s.t==='shards'?`${s.v} Foil Shards`:s.t==='gxp'?`${s.v} Guild XP`:'a piece of gear';
+const roadGive=function(s){if(s.t==='gold')prog.gold+=s.v;else if(s.t==='shards')prog.shards=(prog.shards||0)+s.v;else if(s.t==='gxp'){try{giveGXP(s.v)}catch(e){}}
+  else{const pool=LOOT.filter(g=>!prog.gear.includes(g));if(pool.length){const g=pool[Math.floor(Math.random()*pool.length)];prog.gear.push(g);return GEAR[g].name}prog.gold+=250;return '250 gold'}return roadLbl(s)};
+const roadClaim=function(){const z=zy();z.road=z.road||0;const p=roadPts(),got=[];while(z.road<ROAD.length&&p>=ROAD[z.road].n){got.push(roadGive(ROAD[z.road]));z.road++}if(got.length)save();return got};
+ZY.road={pts:roadPts,claim:roadClaim,steps:ROAD};
+const fightsToRescue=function(){try{const n=nextRescue();if(!n)return null;if(n.k==='curator')return {n:1,g:null,boss:1};
+  const r=ROOM_ORDER.find(k=>!prog.built.includes(k));if(n.cold){const N=NODES.peaks||[];return {n:N.filter(x=>!nodeDone(x.k)).length||1,g:'valkyrie'}}
+  if(!r)return null;const L=nodeLoc(r);if(!L)return {n:1,g:ROOMS[r].g};let c=0;for(let j=0;j<=L.i;j++)if(!nodeDone(NODES[L.id][j].k))c++;return {n:Math.max(1,c),g:ROOMS[r].g}}catch(e){return null}};
+ZY.fightsToRescue=fightsToRescue;
+{const vs0=vicScreen;vicScreen=function(o){
+  if(on('wk')&&QKEY==='zy_wk'&&S&&S.zyWk){const W=S.zyWk;o=Object.assign({},o,{title:'WEEKLY BOSS · '+Math.round(W.dmg)+' DMG',dm:W.msg||''})}
+  const r=vs0.apply(this,arguments);
+  try{if(on('wk')&&QKEY==='zy_wk'&&S&&S.zyWk){const T=document.querySelector('#seq .vzttl')||document.querySelector('#seq .rwttl');document.querySelectorAll('#seq .vzstars,#seq .rwstars').forEach(n=>n.style.display='none');if(T&&S.zyWk.msg)T.after(el(`<div class="zycar zywkm">${S.zyWk.msg}</div>`))}}catch(e){}
+  try{if(on('road')&&prog&&prog.me&&QKEY!=='zy_wk'){const got=roadClaim(),z=zy(),p=roadPts(),nx=ROAD[z.road];const rescue=o&&o.ctx&&o.ctx.rescue;const fr=rescue?null:fightsToRescue();
+    const T=document.querySelector('#seq .rwstars')||document.querySelector('#seq .vzttl');if(T){const pips=ROAD.map((s,i)=>`<i class="${i<z.road?'on':''}"></i>`).join('');
+      const car=el(`<div class="zycar">${fr?`<span class="zynx">${fr.g?`<img src="assets/gu_${fr.g}.webp" alt="">`:`<img src="assets/collector.webp" alt="">`}<span><b>${fr.n} fight${fr.n>1?'s':''}</b> to ${fr.boss?'the Collector':'the next rescue'}</span></span>`:''}
+        <span class="zyroad ${got.length?'got':''}" title="Guild Road: stars and Codex finds"><span class="pips">${pips.slice(0,0)}${ROAD.slice(Math.max(0,z.road-2),Math.max(0,z.road-2)+5).map((s,i)=>`<i class="${Math.max(0,z.road-2)+i<z.road?'on':''}"></i>`).join('')}</span><span>GUILD ROAD <b>${p}</b>${nx?`<small> · ${nx.n-p} more ★ or combos: ${roadLbl(nx)}</small>`:'<small> · complete!</small>'}</span></span></div>`);
+      T.after(car)}
+    if(got.length)setTimeout(()=>{try{toast2(`<strong>Guild Road!</strong> You got ${got.join(', ')}.`);stinger('collect')}catch(e){}},1600)}}catch(e){console.warn('zy road',e)}
+  return r}}
+
+/* =================================================================================================
+   8. COMBOS CHANGE THE FIGHT  +  11. MASTERY, CODEX MILESTONES, FEATURED COMBO
+   ================================================================================================= */
+let lastSrc=null;
+{const ch0=comboHit;comboHit=function(src,t,o){lastSrc=src;const c=ch0.apply(this,arguments);if(c&&!c.crack&&on('mast')){const rk=mRank(c.i);if(rk)return Object.assign({},c,{mult:(c.mult||1.5)+rk*.05})}return c}}
+const MR=[3,10,25],MRN=['','BRONZE','SILVER','GOLD'];
+const mRank=i=>{const n=((zy().cm||{})[i])||0;return n>=25?3:n>=10?2:n>=3?1:0};
+ZY.mRank=mRank;
+const CDX=[{n:5,t:'shards',v:25},{n:10,t:'gold',v:200},{n:15,t:'shards',v:50},{n:20,t:'gear'},{n:30,t:'gold',v:500},{n:40,t:'shards',v:100}];
+const near=(t,r,f)=>S.units.filter(u=>u.team==='e'&&alive(u)&&u!==t&&Math.hypot(u.x-t.x,(u.y-t.y)*1.4)<r&&(!f||f(u)));
+const goo=[];
+const cfx=function(c,t){if(!on('cfx')||!S||!t)return;const s=lastSrc,base=Math.max(10,((s&&s.dmg)||12)*1.6);
+  switch(c.st){
+   case 'freeze':{const L=near(t,120);for(const f of L){hit(null,f,base,{big:true});f.st.slow=Math.max(f.st.slow||0,1.5);burst(f.x,f.y-30,'#bff4ff',6,140)}
+     burst(t.x,t.y-30,'#e8fbff',18,260);S.fx.push({type:'ring',x:t.x,y:t.y-20,r:120,t:0,life:.4,col:'#59d6ff'});float(t.x,t.y-120,'SHATTER!','#bff4ff',24);sfx('glass');break}
+   case 'stun':{if(!t.boss&&!t.big){const dir=s&&t.x<s.x?-1:1;knock(s||{x:t.x-dir,y:t.y},t,130)}const L=near(t,150);let n=0;for(const f of L){if(n++>=3)break;hit(null,f,base*.7,{});f.st.stun=Math.max(f.st.stun||0,.6);knock(t,f,50)}
+     float(t.x,t.y-120,n?'LAUNCHED! x'+(n+1):'LAUNCHED!','#ffd27a',24);shake(8);sfx('stomp');break}
+   case 'bleed':{const d=Math.min(60,t.maxHp*.08);hit(null,t,d,{big:true});burst(t.x,t.y-30,'#c0262d',20,240);
+     for(const g of heroes())if(g.kind!=='pet'&&Math.hypot(g.x-t.x,g.y-t.y)<220){heal(null,g,Math.round(g.maxHp*.07));burst(g.x,g.y-40,'#7dffa0',6,90)}
+     float(t.x,t.y-120,'BLOOD BURST!','#ff5a6a',24);sfx('splat');break}
+   case 'toad':{goo.push({x:t.x,y:t.y,r:80,t:0,life:4});S.fx.push({type:'splat',x:t.x,y:t.y,col:'#7fcf4f',r:70,t:0,life:4.5});for(const f of near(t,90))hit(null,f,base*.6,{});
+     burst(t.x,t.y-20,'#9be15d',22,260);float(t.x,t.y-110,'GOO POP!','#9be15d',24);sfx('splat');break}
+   case 'burn':{let n=0;for(const f of near(t,140)){if(n++>=2)break;f.st.burn=Math.max(f.st.burn||0,3);burst(f.x,f.y-30,'#ff9a3a',8,160)}float(t.x,t.y-120,'FLARE-UP!','#ff9a3a',22);sfx('fire');break}
+   default:{S.fx.push({type:'ring',x:t.x,y:t.y-20,r:90,t:0,life:.35,col:'#f2b630'})}}
+  zlog('cfx',c.st,c.n)};
+TICKS.push(dt=>{for(let i=goo.length-1;i>=0;i--){const g=goo[i];g.t+=dt;if(g.t>g.life){goo.splice(i,1);continue}for(const f of S.units)if(f.team==='e'&&alive(f)&&Math.hypot(f.x-g.x,(f.y-g.y)*1.6)<g.r)f.st.slow=Math.max(f.st.slow||0,.4)}});
+{const cf0=comboFire;comboFire=function(c,t){const fresh=!(prog.codex&&prog.codex[c.i]);const r=cf0.apply(this,arguments);
+  try{cfx(c,t)}catch(e){console.warn('zy cfx',e)}
+  try{if(on('mast')){const z=zy();z.cm=z.cm||{};const b=mRank(c.i);z.cm[c.i]=(z.cm[c.i]||0)+1;const a=mRank(c.i);
+      if(a>b){float(t.x,t.y-150,'MASTERY: '+MRN[a]+'!','#f2b630',22);setTimeout(()=>S&&!S.over&&toast(`🏅 ${c.n} is ${MRN[a]} now: +${a*5}% combo damage.`,3),700);sfx('shing')}
+      if(fresh){z.cdx=z.cdx||0;const n=codexN();while(z.cdx<CDX.length&&n>=CDX[z.cdx].n){const s=CDX[z.cdx];const what=roadGive(s);z.cdx++;setTimeout(()=>S&&toast(`📖 Codex milestone: ${s.n} combos found! +${what}.`,3.2),1500)}}
+      const f=fcombo();if(f&&f.ci===c.i&&!f.done&&f.have<f.goal){f.have++;if(f.have>=f.goal)float(W/2,120,'CONTRACT DONE: FEATURED COMBO','#f2b630',22)}
+      save()}}catch(e){console.warn('zy mast',e)}
+  return r}}
+/* daily featured combo: one the guild can land with what it owns */
+const fcombo=function(){if(!on('mast')||!prog||!prog.me)return null;try{if(!guildOfficial())return null}catch(e){return null}const day=new Date().toDateString();prog.ct=prog.ct||{};
+  if(!prog.ct.f||prog.ct.f.day!==day){const have=new Set([...(prog.gear||[]),...prog.owned.map(k=>{try{return gdef(k).power}catch(e){return null}}).filter(Boolean)]);
+    const L=COMBOS.filter(c=>have.has(c.s)&&have.has(c.p));if(!L.length)return null;const r=seedR(day+'fc'+(prog.me.name||''));const c=L[Math.floor(r()*L.length)];
+    prog.ct.f={day,k:'fcombo',ci:c.i,n:'Featured Combo',d:`Land ${c.n.replace(/!$/,'')} 3 times`,goal:3,have:0,xp:90,gold:40,done:false}}
+  return prog.ct.f};
+ZY.fcombo=fcombo;
+{const ct0=contracts;contracts=function(){const L=ct0.apply(this,arguments);try{const f=fcombo();if(f)return [...L,f]}catch(e){}return L}}
+
+/* =================================================================================================
+   9. ELITE LESSONS, RETALIATE, JUST IN TIME!
+   ================================================================================================= */
+const ELT={SHELL:['zy_shell','<strong>Shelled!</strong> Hits from the front bounce off. <strong>Stun it</strong>, or drag a Guildie <strong>behind</strong> it.'],
+  KITER:['zy_kiter','<strong>A Sniper!</strong> It hops away from melee. Drag your <strong>shooter</strong> onto it, or catch it with a dash.'],
+  SPLIT:['zy_split','<strong>This one splits</strong> into pieces when it dies. Save an <strong>area power</strong> for the pieces.']};
+TICKS.push(()=>{if(!on('elite')||S.over)return;for(const u of S.units){if(u.team!=='e'||!alive(u)||u.entering||!u._cl||u._cl.split)continue;const L=ELT[u._cl.arch];if(!L||seen(L[0])||(S.zyEl=S.zyEl||{})[L[0]])continue;S.zyEl[L[0]]=1;
+  if(u.x<F.x0-10||u.x>F.x1+10)continue;liveTip(L[0],{text:L[1],target:()=>unitRect(u)});zlog('elite tip',u._cl.arch);break}});
+/* SPLIT payoff: three pieces gone in half a second */
+{const d0=die;die=function(t,src){const was=t&&!t.dead;const r=d0.apply(this,arguments);try{if(was&&t.dead&&t.team==='e'&&S){
+    if(on('elite')&&t._cbMini){S.zySw=(S.zySw||[]).filter(x=>S.time-x<.6);S.zySw.push(S.time);if(S.zySw.length>=3&&!(S.zySwT>S.time-1.5)){S.zySwT=S.time;float(t.x,t.y-120,'CLEAN SWEEP!','#9be15d',26);sfx('shing');shake(6);zlog('sweep')}}
+    if(on('death'))famDeath(t)}}catch(e){console.warn('zy die',e)}return r}}
+/* retaliate + effect bookkeeping on hit */
+{const h0=hit;hit=function(src,t,amt,o){o=o||{};
+  if(on('gear')&&src&&src.team==='g'&&src.kind!=='pet'&&PAYK&&src.gear===PAYK&&t&&t.team==='e'){const lv=gUp(PAYK);if(lv>=1)amt*=1.2;if(lv>=2)twist(src,t,PAYK)}
+  const r=h0.call(this,src,t,amt,o);
+  try{if(on('ret')&&src&&src.team==='g'&&src.kind!=='pet'&&!src.ranged&&t&&t.team==='e'&&alive(t)&&!t.boss&&src.cmdT===t&&t.target!==src&&!(t.st&&t.st.taunt>0)){
+      if(!t.zyRet||t.zyRet.g!==src){if(!t.zyRetF||S.time-t.zyRetF>4){t.zyRetF=S.time;float(t.x,t.y-100,'HEY!','#ff9a8a',16)}zlog('retaliate',t.kind)}t.zyRet={g:src,until:S.time+3};t.target=src}}catch(e){}
+  return r}}
+TICKS.push(()=>{if(!on('ret'))return;for(const u of S.units){const R=u.zyRet;if(!R||u.team!=='e'||!alive(u))continue;if(S.time>R.until||!alive(R.g)){u.zyRet=null;continue}if(u.st&&u.st.taunt>0)continue;if(u.target!==R.g)u.target=R.g}});
+/* JUST IN TIME!: inside a red circle in its last 0.6 s, outside when it lands */
+const inTele=(tl,u)=>Math.hypot(u.x-tl.x,(u.y-tl.y)/.55)<tl.r+(u.r||14)*.5;
+const jit=function(u,why){if(!alive(u))return;float(u.x,u.y-GH-30,'JUST IN TIME!','#7dffa0',22);sfx('shing');try{if(u.cds){u.cds.power=Math.max(0,(u.cds.power||0)-2);u.cds.gear=Math.max(0,(u.cds.gear||0)-2)}}catch(e){}
+  S.zyJit=(S.zyJit||0)+1;zlog('jit',why);if(!seen('zy_jit')){markSeen('zy_jit');setTimeout(()=>S&&!S.over&&toast('Just in time! Last-second saves knock 2 s off that Guildie\'s cooldowns.',3),500)}};
+ZY.jit=jit;
+TICKS.push(()=>{if(!on('jit')||S.over)return;for(const tl of S.teles){if(tl.zyW)continue;tl.zyW=1;tl.zyIn=new Set();const on0=tl.on;
+    tl.on=function(){try{if(tl.zyIn.size)for(const u of tl.zyIn)if(alive(u)&&!inTele(tl,u))jit(u,'tele')}catch(e){}return on0.apply(this,arguments)}}
+  for(const tl of S.teles){if(tl.life-tl.t<=.6)for(const u of heroes())if(u.kind!=='pet'&&inTele(tl,u))tl.zyIn.add(u)}});
+{const fl0=float;float=function(x,y,txt){if(txt==='POUNCE!'&&S&&on('jit')){let b=null,bd=1e9;for(const u of S.units)if(u.team==='e'&&alive(u)){const d=Math.hypot(u.x-x,u.y-(y+120));if(d<bd){bd=d;b=u}}if(b)S.zyPounce={u:b,t:S.time}}
+  if(on('budget')&&S&&isPhone()&&typeof txt==='string'&&!/^[+\-]?\d/.test(txt)){const live=S.floats.filter(f=>!f.num&&f.t<(f.life||1)*.7).length;if(live>=4&&!/!$/.test(txt))return}
+  return fl0.apply(this,arguments)}}
+{const cm0=command;command=function(u,p,pv){const r=cm0.apply(this,arguments);try{const P=S&&S.zyPounce;if(on('jit')&&P&&S.time-P.t<1.3&&alive(P.u)){const tgt=u.cmdT===P.u||(u.guard&&P.u.target===u.guard);
+    if(tgt){S.zyPounce=null;const c=P.u._cl;if(c){c.pinUntil=S.time+4;c.pcd=Math.max(c.pcd||0,4)}P.u.st.stun=Math.max(P.u.st.stun||0,.5);float(P.u.x,P.u.y-120,'CAUGHT THE DIVER!','#ffd27a',20);jit(u,'diver')}}}catch(e){}return r}}
+
+/* =================================================================================================
+   10. EFFECT BUDGET ON PHONES
+   ================================================================================================= */
+{const b0=burst;burst=function(x,y,col,n=8,sp=140){if(on('budget')&&isPhone())n=Math.max(2,Math.ceil(n*.55));return b0.call(this,x,y,col,n,sp)}}
+ZY.peak={parts:0,fx:0,fxl:0};
+TICKS.push(()=>{const ph=isPhone();const P=S.parts||[];ZY.peak.parts=Math.max(ZY.peak.parts,P.length);ZY.peak.fx=Math.max(ZY.peak.fx,(S.fx||[]).length);
+  if(!on('budget'))return;const cap=ph?110:220;if(P.length>cap)P.splice(0,P.length-cap);
+  try{const L=window.FXL&&window.FXL.fx;if(L){ZY.peak.fxl=Math.max(ZY.peak.fxl,L.length);const c2=ph?4:8;if(L.length>c2)L.splice(0,L.length-c2)}}catch(e){}
+  const fx=S.fx||[];if(fx.length>(ph?40:70)){let drop=fx.length-(ph?40:70);for(let i=0;i<fx.length&&drop>0;i++){const t=fx[i].type;if(t==='ring'||t==='spark'||t==='puff'||t==='zyd'){fx.splice(i,1);i--;drop--}}}});
+
+/* =================================================================================================
+   12. FAMILY DEATHS
+   ================================================================================================= */
+const FAM={};
+'snotling sludge bile gummy gumdrop toad leech blackhead whitehead pimplegolem popper sucker larry scab poregob bloat hiccup'.split(' ').forEach(k=>FAM[k]='slime');
+'rivet forklift clock boiler kiln qc9000 protobg digger mannequin giftmimic organ'.split(' ').forEach(k=>FAM[k]='machine');
+'banshee ghoul coffin stitchling'.split(' ').forEach(k=>FAM[k]='ghost');
+'bat iciclebat seagull'.split(' ').forEach(k=>FAM[k]='flier');
+const FAMW={slime:['SPLAT!','SPLORCH!','BLURP!'],machine:['SPROING!','BOINK-K-K!','CLANK!'],ghost:['POOF!','FWOOP!','BOO-BYE!'],flier:['FLUMP!','PFFT!','SQUAWK—']};
+const famDeath=function(t){const f=FAM[t.kind];if(!f||t.boss||t.big)return;S.zyFam=(S.zyFam||0)+1;const w=FAMW[f][S.zyFam%3];
+  S.fx.push({type:'zyd',f,x:t.x,y:t.y,t:0,life:f==='slime'?1.6:1.1,s:(t.scale||1),seed:Math.random()*9,col:(fluidOf(t)||{}).c||'#9be15d'});
+  if(S.zyFam%2===0||!ctClean())float(t.x,t.y-80,w,f==='machine'?'#d8d0b8':f==='ghost'?'#e8e0ff':f==='flier'?'#ffe0b0':'#9be15d',18,-30)};
+ZY.FAM=FAM;
+DRAWS.push(c=>{if(!on('death'))return;for(const e of S.fx){if(e.type!=='zyd')continue;const k=Math.min(1,e.t/e.life),x=e.x,y=e.y,s=e.s;c.save();c.globalAlpha=1-k*k;
+  if(e.f==='slime'){c.fillStyle=e.col;c.beginPath();c.ellipse(x,y,(26+40*Math.min(1,k*3))*s,(10+6*(1-k))*s,0,0,Math.PI*2);c.fill();
+    for(let i=0;i<6;i++){const a=e.seed+i*1.05,d=(30+60*k)*s;c.beginPath();c.arc(x+Math.cos(a)*d,y-20*s+Math.sin(a)*d*.5-40*k*(1-k)*s,(5-3*k)*s,0,Math.PI*2);c.fill()}}
+  else if(e.f==='machine'){c.strokeStyle='#d8d0b8';c.lineWidth=2.5;c.fillStyle='#8a8070';for(let i=0;i<4;i++){const a=-Math.PI/2+(i-1.5)*.55,d=110*k*s,px=x+Math.cos(a)*d,py=y-40*s+Math.sin(a)*d+160*k*k*s;
+      c.save();c.translate(px,py);c.rotate(k*8+i);if(i%2){c.beginPath();for(let j=0;j<=12;j++){const yy=-12+j*2;c.lineTo((j%2?5:-5),yy)}c.stroke()}else{c.beginPath();c.arc(0,0,5,0,Math.PI*2);c.fill();c.stroke()}c.restore()}}
+  else if(e.f==='ghost'){c.fillStyle='rgba(240,236,255,.85)';for(let i=0;i<5;i++){const a=e.seed+i*1.26,d=30*k*s;c.beginPath();c.arc(x+Math.cos(a)*d,y-50*s+Math.sin(a)*d-30*k*s,(14+16*k)*s,0,Math.PI*2);c.fill()}}
+  else if(e.f==='flier'){c.fillStyle='#4a3a52';for(let i=0;i<5;i++){const a=e.seed+i*1.3,px=x+Math.cos(a)*40*k*s+Math.sin(k*9+i)*8,py=y-60*s+60*k*s+i*4;c.save();c.translate(px,py);c.rotate(Math.sin(k*7+i));c.beginPath();c.ellipse(0,0,9*s,3.5*s,0,0,Math.PI*2);c.fill();c.restore()}}
+  c.restore()}});
+
+/* =================================================================================================
+   13. GEAR UPGRADES (+1, +2 with a twist) AND PETS IN THEIR OWN SLOT
+   ================================================================================================= */
+const gUp=g=>((zy().up||{})[g])||0;ZY.gUp=gUp;
+const UPC=[{gold:120,sh:0},{gold:300,sh:30}];
+const TWG={stun:['chair','mace','nunchucks','helm','tentacles','roboclaw','spear'],slow:['frostfire','spellbook','wand','gas'],heal:['bat','redrum','cleaver','potionpurple','mic'],dot:['stars','board','fieryeye','parrot','bodyparts','khopesh']};
+const twOf=g=>{for(const k in TWG)if(TWG[k].includes(g))return k;return 'splash'};
+const TWT={stun:'Twist: its hits stun for an extra half second.',slow:'Twist: its hits slow the target for 2 s.',heal:'Twist: its hits heal the wearer a little.',dot:'Twist: its hits make bleeds and burns last 2 s longer.',splash:'Twist: 25% of each hit splashes onto the nearest other foe.'};
+const twist=function(src,t,g){const k=twOf(g);if(S.zyTw&&S.zyTw.t===t&&S.time-S.zyTw.at<.25)return;S.zyTw={t,at:S.time};
+  if(k==='stun')t.st.stun=Math.max(t.st.stun||0,.5);else if(k==='slow')t.st.slow=Math.max(t.st.slow||0,2);else if(k==='heal'){try{heal(null,src,Math.round(src.maxHp*.03))}catch(e){}}
+  else if(k==='dot'){if(t.st.bleed>0)t.st.bleed+=2;if(t.st.burn>0)t.st.burn+=2}
+  else{const n=near(t,140)[0];if(n)setTimeout(()=>{if(S&&alive(n))h0x(src,n)},60)}};
+const h0x=(src,n)=>{try{const prev=PAYK;PAYK=null;hit(src,n,Math.max(4,(src.dmg||10)*.6),{});PAYK=prev}catch(e){}};
+const zyPet=k=>((zy().pet||{})[k])||null;ZY.pet=zyPet;
+const PETS=['bat','parrot'];
+{const rk0=amRackHTML;amRackHTML=function(k,C){let h=rk0.apply(this,arguments);try{const g=amGear&&GEAR[amGear]&&prog.gear.includes(amGear)?amGear:(prog.load[k]||null);let add='';
+    if(on('gear')&&g){const lv=gUp(g),c=UPC[lv];add+=`<div class="zyup"><div class="zyl"><span>UPGRADE</span><b>${GEAR[g].name} +${lv}</b></div>
+      <p>${lv>=1?'+1: hits deal 20% more damage.':'+1 makes its hits deal 20% more damage.'}<br>${lv>=2?TWT[twOf(g)]:'+2 adds a '+TWT[twOf(g)].charAt(0).toLowerCase()+TWT[twOf(g)].slice(1)}</p>
+      ${c?`<button type="button" class="go sm" data-zyup="${g}" ${prog.gold<c.gold||(prog.shards||0)<c.sh?'disabled':''}>Upgrade to +${lv+1} · ${c.gold}g${c.sh?' + '+c.sh+' shards':''}</button>`:'<p><b>Fully upgraded.</b></p>'}</div>`}
+    const owned=PETS.filter(p=>prog.gear.includes(p));
+    if(on('pets')&&owned.length&&!NOGEAR.has(k)){const cur=zyPet(k);add+=`<div class="zypet"><div class="zyl"><span>PET SLOT · ${kbEsc(amNm(k))}</span></div><p style="margin:2px 0;font:700 12px Nunito,sans-serif">Pets fight on their own and don't use the gear button.</p><div class="row">
+      ${owned.map(p=>{const who=Object.keys(zy().pet||{}).find(x=>zy().pet[x]===p&&x!==k);return `<button type="button" data-zypet="${p}" data-k="${k}" aria-pressed="${cur===p}"><img src="assets/${GEAR[p].icon}.webp" alt="">${GEAR[p].name.split(' ')[0]}${who?` <small>(${esc(gName(who))})</small>`:''}</button>`}).join('')}
+      <button type="button" data-zypet="" data-k="${k}" aria-pressed="${!cur}">No pet</button></div></div>`}
+    if(add)h=h.replace('</div>','</div><div class="zyam">'+add+'</div>')}catch(e){console.warn('zy rack',e)}return h}}
+document.addEventListener('click',e=>{const u=e.target.closest&&e.target.closest('[data-zyup]');if(u&&!u.disabled){e.stopPropagation();const g=u.dataset.zyup,z=zy();z.up=z.up||{};const lv=gUp(g),c=UPC[lv];if(!c||prog.gold<c.gold||(prog.shards||0)<c.sh)return;
+    prog.gold-=c.gold;prog.shards=(prog.shards||0)-c.sh;z.up[g]=lv+1;save();try{stinger('levelup')}catch(_){}toast2(`<strong>${GEAR[g].name} +${lv+1}!</strong> ${lv+1===1?'Its hits deal 20% more damage.':TWT[twOf(g)]}`);zlog('upgrade',g,lv+1);renderHall();return}
+  const p=e.target.closest&&e.target.closest('[data-zypet]');if(p){e.stopPropagation();const k=p.dataset.k,pet=p.dataset.zypet||null,z=zy();z.pet=z.pet||{};
+    for(const x in z.pet)if(z.pet[x]===pet)delete z.pet[x];if(pet){z.pet[k]=pet;for(const x in prog.load)if(prog.load[x]===pet)prog.load[x]=null}else delete z.pet[k];
+    save();sfx('pickup');toast2(pet?`${GEAR[pet].name} rides with ${esc(gName(k))} now.`:`${esc(gName(k))} goes without a pet.`);zlog('pet',k,pet);renderHall()}},true);
+/* in battle: Gerald follows his pet owner; Shirley pecks the owner's target every 16 s */
+{const gt0=geraldTick;geraldTick=function(u,dt){if(on('pets')&&u&&u.kind!=='pet'&&u.zyPet==='bat'&&u.gear!=='bat'){const g=u.gear;u.gear='bat';try{return gt0.apply(this,arguments)}finally{u.gear=g}}return gt0.apply(this,arguments)}}
+{const sb0=startBattle;startBattle=function(qk,opt){try{if(on('pets')&&prog&&prog.load){const z=zy();for(const x in z.pet||{})if(prog.load[x]===z.pet[x])delete z.pet[x]}}catch(e){}return sb0.apply(this,arguments)}}
+/* first frame of every fight: pets ride along, the weekly boss gets its scoreboard */
+TICKS.unshift(()=>{if(S.zyInit)return;S.zyInit=1;
+  try{if(on('pets'))for(const g of S.guildies){if(g.kind==='pet')continue;const p=zyPet(g.kind);if(!p||g.gear===p)continue;g.zyPet=p;if(p==='bat'&&!geraldOf(g))spawnGerald(g,true);if(p==='parrot')g.zyPk=6}}catch(e){console.warn('zy pets',e)}
+  if(QKEY==='zy_wk'&&on('wk'))S.zyWk={dmg:0,t0:S.time,boss:null,last:0,dur:60}});
+TICKS.push(dt=>{if(!on('pets')||S.over)return;for(const g of heroes()){if(g.zyPet!=='parrot'||!alive(g))continue;g.zyPk-=dt;if(g.zyPk>0)continue;const t=alive(g.target)?g.target:foes().sort((a,b)=>dist(a,g)-dist(b,g))[0];if(!t)continue;g.zyPk=16;
+  const p={id:uid++,team:'g',kind:'pet',owner:g,pimg:'bp_parrot',pecks:true,def:{name:'Shirley'},x:g.x+20,y:g.y-10,r:12,hp:60,maxHp:60,dmg:5,atkInt:.55,speed:190,range:26,atkCd:0,target:t,st:{},face:1,squash:0,flash:0,walk:0,dead:false,life:12,cds:{}};
+  S.units.push(p);burst(p.x,p.y-30,'#e2483f',8,120);float(g.x,g.y-GH-30,'SQUAWK!','#ffd27a',15);zlog('shirley')}});
+
+/* =================================================================================================
+   14. WEEKLY COLLECTOR BOSS
+   ================================================================================================= */
+const WKT=[{n:'Bronze',d:1500,t:'gold',v:150},{n:'Silver',d:4000,t:'shards',v:40},{n:'Gold',d:8000,t:'gear'}];
+const WKQ={name:"The Collector's Stand-In",repeat:true,quest:'One minute against the Collector\'s cardboard stand-in. He can\'t lose, but he can be dented. Score as much damage as you can.',
+  waves:[{n:'Weekly Boss: The Stand-In',s:[['boss',1,'R'],['goon',2,'B']]},{n:'Security',s:[['docent',2,'B']]},{n:'More Security',s:[['imp',2,'B'],['mannequin',1,'L']]},{n:'Even More Security',s:[['goon',2,'B'],['popper',1,'R']]}]};
+ZY.WKQ=WKQ;
+const wk=()=>{const z=zy(),k=weekKey();if(!z.wk||z.wk.k!==k)z.wk={k,best:0,got:{}};return z.wk};
+const wkOpen=()=>on('wk')&&prog&&prog.me&&(prog.built||[]).length>=4;
+ZY.wk=wk;ZY.wkOpen=wkOpen;
+{const q0=questOf;questOf=function(k){if(k==='zy_wk')return WKQ;return q0.apply(this,arguments)}}
+{const sb1=startBattle;startBattle=function(qk,opt){if(qk==='zy_wk')opt=Object.assign({noComic:1},opt||{});return sb1.call(this,qk,opt)}}
+TICKS.push(dt=>{const W=S.zyWk;if(!W||S.over)return;if(!W.boss){W.boss=S.units.find(u=>u.team==='e'&&u.kind==='boss'&&!u.dead)||null;if(W.boss){W.boss.maxHp=W.boss.hp=Math.max(W.boss.maxHp,20000);W.last=W.boss.hp;W.boss.dmg*=.55}}
+  const b=W.boss;if(b){if(b.dead){b.dead=false}const d=W.last-b.hp;if(d>0)W.dmg+=d;if(b.hp<b.maxHp*.5)b.hp=b.maxHp*.98;W.last=b.hp}
+  const left=W.dur-(S.time-W.t0);
+  /* keep the security coming so the fight never ends early */
+  if(b&&S.wave>=0&&!S.units.some(u=>u.team==='e'&&alive(u)&&u!==b)&&(!W.sp||S.time-W.sp>4)){W.sp=S.time;for(let i=0;i<2;i++){const m=mkFoe(pickOne(['goon','docent','imp','popper']),i?'L':'R');m.noMat=true;S.units.push(m)}}
+  if(left<=0){wkEnd(W);for(const u of S.units)if(u.team==='e'&&!u.dead){u.dead=true;u.hp=0}try{if(S.mat)S.mat.have=S.mat.need}catch(e){}endBattle(true)}});
+const wkEnd=function(W){if(W.done)return;W.done=true;const z=wk();const best=Math.max(z.best||0,Math.round(W.dmg));const nb=W.dmg>(z.best||0);z.best=best;const got=[];
+    for(const T of WKT)if(W.dmg>=T.d&&!z.got[T.n]){z.got[T.n]=1;got.push(T.n+': '+roadGive(T))}
+    W.msg=`${W.wiped?'Bottled, but the damage counts. ':''}${nb?'<b>New weekly best!</b> ':''}You dented the Stand-In for <b>${Math.round(W.dmg)}</b> damage. Best this week: ${best}.${got.length?' Rewards: '+got.join(', ')+'.':''} ${WKT.filter(T=>!z.got[T.n]).map(T=>T.n+' at '+T.d).join(' · ')}`;
+    save();zlog('wk end',Math.round(W.dmg))};
+{const eb1=endBattle;endBattle=function(win){try{if(S&&S.zyWk&&!S.over&&!win&&on('wk')){/* a weekly run never 'fails': a wipe ends the run and banks the score */S.zyWk.wiped=1;wkEnd(S.zyWk);for(const u of S.units)if(u.team==='e'&&!u.dead){u.dead=true;u.hp=0}try{if(S.mat)S.mat.have=S.mat.need}catch(e){}return eb1.call(this,true)}}catch(e){console.warn('zy wk end',e)}return eb1.apply(this,arguments)}}
+DRAWS.push(c=>{const W=S.zyWk;if(!W||S.over)return;const left=Math.max(0,W.dur-(S.time-W.t0));c.save();c.setTransform(1,0,0,1,0,0);const cw=c.canvas.width,sc=cw/960;c.textAlign='center';
+  c.font=`bold ${Math.round(22*sc)}px "Luckiest Guy",sans-serif`;c.lineWidth=5*sc;c.strokeStyle='#17121f';const t1=`${Math.ceil(left)}s · ${Math.round(W.dmg)} DMG`;c.strokeText(t1,cw/2,46*sc);c.fillStyle=left<10?'#ff9a8a':'#f2b630';c.fillText(t1,cw/2,46*sc);c.restore()});
+{const qt0=questTab;questTab=function(B){const r=qt0.apply(this,arguments);try{if(wkOpen()){const z=wk();const dl=Math.max(1,7-((new Date().getDay()+6)%7));
+    const n=el(`<div class="zywk"><img src="assets/collector.webp" alt=""><div><b>WEEKLY BOSS: THE STAND-IN</b><small>60 seconds. Score as much damage as you can. Resets in ${dl} day${dl>1?'s':''}. Best this week: <strong>${z.best||0}</strong></small>
+      <div class="tiers">${WKT.map(T=>`<span class="${z.got[T.n]?'got':''}">${T.n} ${T.d}: ${roadLbl(T)}</span>`).join('')}</div></div><button type="button" class="go" data-zywk>Fight!</button></div>`);
+    n.querySelector('[data-zywk]').addEventListener('click',()=>{sfx('ui');if(!prog.squad.length){toast2('Pick a squad first.');return}startBattle('zy_wk',{noComic:1})});B.insertBefore(n,B.firstChild)}}catch(e){console.warn('zy wk',e)}return r}}
+
+{const as0=awardStars;awardStars=function(){const r=as0.apply(this,arguments);try{if(QKEY==='zy_wk'&&prog.stars){prog.shards=Math.max(0,(prog.shards||0)-(S.starSh||0));S.starSh=0;S.newStars=0;delete prog.stars.zy_wk}}catch(e){}return r}}
+zlog('zy loaded');
+}
+/* ===== end v84z99zy ===== */
+
 })();
 
 /* Force landscape on mobile: try a real lock (works in fullscreen on Android); the overlay covers everyone else */
