@@ -1,0 +1,6 @@
+.ilvov{position:fixed;inset:0;z-index:130;background:#000;overflow:hidden}
+.ilvbox{position:absolute;left:50%;top:50%;width:1280px;height:720px;transform-origin:50% 50%}
+.ilvfr{width:1280px;height:720px;border:0;display:block;background:#17121f;pointer-events:none}
+.ilvvid{width:1280px;height:720px;display:block;background:#000}
+.ilvskip{position:absolute;right:max(16px,env(safe-area-inset-right,0px));top:max(12px,env(safe-area-inset-top,0px));z-index:3;font:900 14px Nunito,system-ui,sans-serif;background:#fbf7ef;color:#17121f;border:3px solid #17121f;border-radius:12px;padding:7px 14px;cursor:pointer;box-shadow:0 3px 0 #17121f}
+.ilvsnd{position:absolute;left:50%;bottom:max(16px,env(safe-area-inset-bottom,0px));translate:-50% 0;z-index:3;font:900 14px Nunito,system-ui,sans-serif;background:#f2b630;color:#17121f;border:3px solid #17121f;border-radius:12px;padding:8px 16px;cursor:pointer}
