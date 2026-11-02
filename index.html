@@ -419,7 +419,7 @@ body:has(#seq.rx) #app>header{visibility:hidden}
 <script src="assets/cshop/cshop_pack.js"></script>
 <link rel="preload" as="image" href="assets/bg_forest.webp?v=84x" fetchpriority="high">
 <script src="assets/introlive/intro_live.js"></script>
-<title>Guildies Preview v84z99zw</title>
+<title>Guildies Preview v84z99zx</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Jolly+Lodger&family=Grandstander:wght@500;600;700;800;900&family=Nunito:wght@600;800;900&family=Press+Start+2P&family=Comic+Neue:wght@700&family=IM+Fell+English+SC&family=Permanent+Marker&family=Nosifer&display=swap">
@@ -4825,7 +4825,7 @@ html.reduce .vzs,html.reduce .vzlrw,html.reduce .vztally.in,html.reduce .vzsb.n2
     <div id="jkList"></div>
     <div class="jkctl"><button type="button" class="go sm" id="jkClose">Close</button></div></div></div>
   <div class="tcorner l">© 2026 KENNETH BENEDICT</div>
-  <div class="tcorner r">PICKY GAMES · PREVIEW v84z99zw</div>
+  <div class="tcorner r">PICKY GAMES · PREVIEW v84z99zx</div>
 </div>
 
 <!-- CREATE-A-GUILDIE (FTUE): Mirror Booth on a comic page + character sheet -->
@@ -15072,6 +15072,83 @@ const _ch=comboHit;comboHit=function(src,t,o){const c=_ch.apply(this,arguments);
 })();
 
 /* ===== end zw-audio ===== */
+/* ===== v84z99zx FIRST HOUR FIXES (bot first-hour review, Kenneth approved 2026-11-02) =====
+   1 overtime: no fight drags on. After 150 s of fight time the enemies tire and take more and more damage (story fights only; not Arena or Gauntlet).
+     Pier Patrol (Rotgut Docks tier I) enemy health 4.5x -> 2.8x. The Frostfang Cold Case keys stay on the trail (Kenneth v84z78: Valkyrie is the 5th rescue).
+   2 Samurai Dojo: enemy health x0.7, King Pustulus x0.85, and the ready check names the counter (see 5)
+   3 map opens on the NEXT region every time you enter it; bounty reward cards make "Next fight" the big button until Rescue #6
+   4 one-time "spend your Gold" nudge on Guild HQ after Rescue #5 when Gold piles up
+   5 ready check: when the stage is weak to an element your squad lacks and you own a Guildie with it, a one-tap "Swap in" line
+   6 Frostfang boss (Brain Freeze) health x1.1 -> x0.8 */
+{
+  const FH={on:true,cap:150,ramp:30};window.__FH=FH;
+  /* tuning (live config of the combat curve) */
+  try{const C=window.__CB&&window.__CB.cfg;if(C){C.nodeAdj.S_docks=2.8;C.nodeAdj.dojo=.7;C.bossAdj.pustulus=.85;C.bossAdj.brainfreeze=.8}}catch(e){console.warn('fh tune',e)}
+
+  /* 1 overtime */
+  const _hitFH=hit;
+  hit=function(src,t,amt,o){
+    try{if(FH.on&&S&&!S.over&&!S.arena&&QKEY!=='gauntlet'&&t&&t.team==='e'&&S.time>FH.cap){
+      const k=1+(S.time-FH.cap)/FH.ramp;amt=amt*k;
+      if(!S.fhOT){S.fhOT=1;try{banner('OVERTIME! THE MONSTERS ARE TIRING',3)}catch(e){}}}}catch(e){}
+    return _hitFH.call(this,src,t,amt,o)};
+
+  /* 3a map opens on the NEXT region */
+  let fhLastTab=null;
+  const _rhFH=renderHall;
+  renderHall=function(){
+    try{if(FH.on&&tab==='map'&&fhLastTab!=='map'){const n=nextRescue();if(n&&n.st&&STAGES.find(s=>s.id===n.st.id)&&stageStatus(n.st)!=='locked'){mapSel=n.st.id;mapSelPrev=null}}}catch(e){}
+    fhLastTab=tab;
+    const r=_rhFH.apply(this,arguments);
+    try{fhSpend()}catch(e){}
+    return r};
+
+  /* 3b bounty reward cards: "Next fight" is the big button while the story is young */
+  const _rnbFH=rwNextBtns;
+  rwNextBtns=function(k,fast,small){try{if(FH.on&&fast&&prog.built.length<6&&nextRescue())fast=false}catch(e){}return _rnbFH.call(this,k,fast,small)};
+
+  /* 4 spend nudge (once) */
+  function fhSpend(){
+    if(!FH.on||tab!=='hall'||S||prog.fhSpend||prog.built.length<5||(prog.gold||0)<1500)return;
+    if(document.querySelector('.rpop,.fhsp'))return;
+    prog.fhSpend=1;save();
+    setTimeout(()=>{if(tab!=='hall'||S||document.querySelector('.rpop'))return;
+      const P=document.createElement('div');P.className='rpop fhsp';P.setAttribute('role','dialog');P.setAttribute('aria-label','Spend your Gold');
+      P.innerHTML=`<div class="rpcard"><button class="rpx" type="button" aria-label="Close">×</button><h3>Your purse is bursting</h3><p>You have <b>${(prog.gold||0).toLocaleString()} Gold</b>. Spend some before the next rescue: new gear and looks make the tougher fights ahead easier.</p><div class="row"><button class="go sm ghost" type="button" data-fh="later">Later</button><button class="go sm" type="button" data-fh="squad">Armory</button><button class="go" type="button" data-fh="shop">Shop</button></div></div>`;
+      document.body.appendChild(P);
+      const close=()=>P.remove();
+      P.querySelector('.rpx').addEventListener('click',close);
+      P.querySelectorAll('[data-fh]').forEach(b=>b.addEventListener('click',()=>{const a=b.dataset.fh;close();try{sfx('ui')}catch(e){}if(a!=='later')toHall(a)}));
+      P.addEventListener('click',e=>{if(e.target===P)close()})},900)}
+
+  /* 5 ready check: swap in the counter */
+  const _rcFH=readyCheck;
+  readyCheck=function(k){const r=_rcFH.apply(this,arguments);
+    try{if(!FH.on)return r;const P=document.querySelector('.rpop.rcheck .rpcard');const w=weakOf(k);
+      if(P&&w&&!squadCounters(k)&&!P.querySelector('.fhsw')){
+        const sq=prog.squad||[];
+        const cand=prog.owned.filter(g=>ELEM[g]===w.el&&!sq.includes(g));
+        if(cand.length){cand.sort((a,b)=>lvl(b)-lvl(a));const g=cand[0],nm=(GUILDIES[g]&&GUILDIES[g].name)||g;
+          /* only offer a swap that doesn't weaken the squad: the counter must be within 1 level of the Guildie it replaces */
+          const s0=(prog.squad||[]).slice();let out=-1;for(let j=s0.length-1;j>=0;j--){if(s0[j]!=='me'&&s0[j]!=='witch'){out=j;break}}
+          const fair=out<0?s0.length<(prog.slots||3):lvl(g)>=lvl(s0[out])-1;
+          const n=document.createElement('div');n.className='fhsw';n.style.setProperty('--ec',EL_COL[w.el]||'#8fe3ff');
+          n.innerHTML=`<img src="${por(g)}" alt=""><span><b>Weak to ${w.el}.</b> ${esc(w.why||'')} ${fair?`The ${esc(nm)} has it.`:`The ${esc(nm)} has it, but is only Lv${lvl(g)}. Level them up first.`}</span>${fair?`<button class="go sm" type="button" aria-label="Swap in the ${esc(nm)}">Swap in</button>`:''}`;
+          const at=P.querySelector('.rcsq')||P.querySelector('.rcwitch')||P.firstChild;at.after(n);
+          const sb=n.querySelector('button');if(sb)sb.addEventListener('click',()=>{
+            const s=(prog.squad||[]).slice();let i=-1;
+            for(let j=s.length-1;j>=0;j--){if(s[j]!=='me'&&s[j]!=='witch'){i=j;break}}
+            if(i<0)for(let j=s.length-1;j>=0;j--){if(s[j]!=='me'){i=j;break}}
+            if(i<0){if(s.length<(prog.slots||3))s.push(g);else return}else s[i]=g;
+            prog.squad=s;save();try{sfx('pop')}catch(e){}readyCheck(k)})}}}catch(e){console.warn('fh swap',e)}
+    return r};
+
+  const st=document.createElement('style');st.id='fh-v84z99zx';
+  st.textContent=`.fhsw{display:flex;align-items:center;gap:10px;margin:8px 0;padding:8px 10px 8px 12px;border:3px solid var(--ink);border-radius:12px;background:#eef9ff;color:var(--ink);font:700 14px/1.3 var(--body);box-shadow:inset 6px 0 0 var(--ec)}
+.fhsw img{width:40px;height:40px;object-fit:contain;flex:none}.fhsw span{flex:1;min-width:0}.fhsw b{color:#1f5f8f}.fhsw .go{flex:none}
+.fhsp .rpcard{max-width:440px}.fhsp h3{margin:0 0 6px;font:400 24px/1.1 var(--display)}.fhsp p{margin:0 0 12px;font:700 15px/1.35 var(--body)}`;
+  document.head.appendChild(st);
+}
 })();
 
 /* Force landscape on mobile: try a real lock (works in fullscreen on Android); the overlay covers everyone else */
