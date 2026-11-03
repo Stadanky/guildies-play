@@ -419,7 +419,7 @@ body:has(#seq.rx) #app>header{visibility:hidden}
 <script src="assets/cshop/cshop_pack.js"></script>
 <link rel="preload" as="image" href="assets/bg_forest.webp?v=84x" fetchpriority="high">
 <script src="assets/introlive/intro_live.js"></script>
-<title>Guildies Preview v84z99zza</title>
+<title>Guildies Preview v84z99zzb</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Jolly+Lodger&family=Grandstander:wght@500;600;700;800;900&family=Nunito:wght@600;800;900&family=Press+Start+2P&family=Comic+Neue:wght@700&family=IM+Fell+English+SC&family=Permanent+Marker&family=Nosifer&display=swap">
@@ -4825,7 +4825,7 @@ html.reduce .vzs,html.reduce .vzlrw,html.reduce .vztally.in,html.reduce .vzsb.n2
     <div id="jkList"></div>
     <div class="jkctl"><button type="button" class="go sm" id="jkClose">Close</button></div></div></div>
   <div class="tcorner l">© 2026 KENNETH BENEDICT</div>
-  <div class="tcorner r">PICKY GAMES · PREVIEW v84z99zza</div>
+  <div class="tcorner r">PICKY GAMES · PREVIEW v84z99zzb</div>
 </div>
 
 <!-- CREATE-A-GUILDIE (FTUE): Mirror Booth on a comic page + character sheet -->
@@ -15495,7 +15495,7 @@ zlog('zy loaded');
 /* ===== end v84z99zy ===== */
 
 
-/* ===== v84z99zza PITCH MODE: THE VERTICAL SLICE (Kenneth 2026-11-03, benchmark doc "Guildies: benchmark and vertical slice") =====
+/* ===== v84z99zza PITCH MODE (+ v84z99zzb all 16 Guildies): THE VERTICAL SLICE (Kenneth 2026-11-03, benchmark doc "Guildies: benchmark and vertical slice") =====
    Every add and cut from the benchmark, each behind its own switch. Nothing is deleted: turn Pitch Mode off in the Slice Lab
    (Settings > Slice Lab, or open the game with #slicelab) and the game is v84z99zz again after a reload.
    CUTS  c1 Gold + Shards only on the HUD (no Guild Level crest)      c2 4 stages + the Collector finale, 7 Guildies
@@ -15507,11 +15507,12 @@ zlog('zy loaded');
          cold open before Create      a4 power cut-ins, victory gags, voice barks      a5 Collector finale: rip a shelved Guildie free
          a6 Collector's Ledger season pass (mock, no payment)    a7 Codex as a sticker album    a8 a pet companion in every fight
          a9 a friend's Guildie as a guest (share codes)    a10 sound: rescue fanfare ladder, toy foley, enemy family deaths
+   ZZB   a11 all 16 Guildies: every elite and boss in the 4 slice stages (and the Collector) frees one or two Guildies.
    Save: prog.pm. Settings: localStorage guildies.pm (JSON of switches). Kill switch: window.__PM.on=false + reload. */
 {
 const PM_ITEMS=[
  ['c1','Cut','Gold + Shards only','Hide the Guild Level crest; Shards sit next to Gold'],
- ['c2','Cut','4 stages, 7 Guildies','Mangewood, Cavity Kingdom, Mucus Marsh, Mount Zitsuvius, then the Collector'],
+ ['c2','Cut','5 stages','Mangewood, Cavity Kingdom, Mucus Marsh, Mount Zitsuvius, the Rotting Plots, then the Collector'],
  ['c3','Cut','No late or stub modes','Arena, Gauntlet, Cold Cases, Night Shift, Lost Places, Coming soon'],
  ['c4','Cut','Thin progression','No pet slot, combo mastery or gear +2'],
  ['c5','Cut','No retention pop-ups','Daily Roll, spend nudge, shop reminder'],
@@ -15529,7 +15530,8 @@ const PM_ITEMS=[
  ['a7','Add','Sticker album','The Combo Codex as album pages with page rewards'],
  ['a8','Add','Pet companion','Gerald tags along in every fight and does a gag'],
  ['a9','Add','Guest Guildie','Friend codes: borrow a friend\'s Guildie for one fight'],
- ['a10','Add','Sound gaps','Rescue fanfare ladder, toy squeaks, enemy family deaths']];
+ ['a10','Add','Sound gaps','Rescue fanfare ladder, toy squeaks, enemy family deaths'],
+ ['a11','Add','All 16 Guildies','Every elite and boss in the slice frees a Guildie (needs the 4-stage cut)']];
 const PM={on:true,log:[]};PM_ITEMS.forEach(([k])=>PM[k]=true);
 try{const s=JSON.parse(localStorage.getItem('guildies.pm')||'null');if(s)Object.assign(PM,s)}catch(e){}
 window.__PM=PM;PM.items=PM_ITEMS;
@@ -15539,7 +15541,10 @@ const pp=()=>{prog.pm=prog.pm||{};const p=prog.pm;p.fin=p.fin||{};p.tok=p.tok||{
 const plog=(...a)=>{PM.log.push(a.join(' '));if(PM.log.length>200)PM.log.shift()};
 const today=()=>new Date().toDateString();
 const gnm=k=>k==='me'?((prog.me&&prog.me.name)||'You'):((GUILDIES[k]&&GUILDIES[k].name)||k);
-const SLICE=['forest','candy','bog','volcano','museum'];
+/* zzb (Kenneth): the Rotting Plots join the slice right before the Museum. SLICE_N picks how many stages come before the Museum. */
+const SLICE_N=4;
+const SLICE_SETS={3:['forest','candy','graveyard'],4:['forest','candy','volcano','graveyard'],5:['forest','candy','bog','volcano','graveyard']};
+const SLICE=[...SLICE_SETS[SLICE_N],'museum'];
 
 const css=document.createElement('style');css.id='pm-css';css.textContent=`
 html.pm-c1 #hCrest{display:none!important}
@@ -15589,6 +15594,10 @@ html.pm-c3 .poster.soon,html.pm-c3 [data-q="gauntlet"],html.pm-c3 .ojjob.pmlost{
 .pmsel .pmbox{width:120px;flex:none;cursor:default}
 .pmsel .fins{flex:1 1 260px;display:flex;flex-direction:column;gap:6px}
 .pmsel .fins .row{display:flex;gap:6px;flex-wrap:wrap}
+.pmcrw{display:flex;gap:10px;justify-content:center}.pmcrw span{display:flex;flex-direction:column;align-items:center;width:110px;padding:8px 6px;border-radius:14px;border:3px solid #17121f;background:linear-gradient(160deg,var(--gc),#241a33);animation:pm16in .5s cubic-bezier(.3,1.6,.5,1) backwards}.pmcrw span:nth-child(2){animation-delay:.15s}.pmcrw span:nth-child(3){animation-delay:.3s}.pmcrw img{height:96px;filter:drop-shadow(2px 3px 0 #0008)}.pmcrw b{font:400 17px var(--display,'Luckiest Guy');color:#fff3c8}.pmcrw em{font:800 10.5px Nunito,sans-serif;font-style:normal;color:#e6dcf5}body:has(.bjov) .pm16{display:none}@media (max-height:520px){.pmcrew .bjin{gap:6px}.pmcrw span{width:96px;padding:5px}.pmcrw img{height:60px}.pmcrw b{font-size:15px}.pmcrew h2{font-size:22px!important}.pmcrew .bjq{font-size:13px}.pmcrew .bjnote{font-size:11.5px}}
+.pmkit{margin:0;font:800 14px Nunito,sans-serif;color:#ffe39a}.pmkit b{color:#fff}.bjov.pmdbl .bjbub{width:210px}.bjov.pmdbl .bjbub img{height:150px;margin:0 -18px}.bjov.pmdbl .bjbub img.pm2{transform:scaleX(-1)}.bjov.pmdbl .bjcard{width:250px}.bjov.pmdbl .bjcard b{font-size:20px}
+.pm16{position:fixed;top:max(8px,env(safe-area-inset-top,0px));left:50%;translate:-50% 0;z-index:95;pointer-events:none;width:max-content;max-width:calc(100vw - 32px);display:flex;align-items:center;gap:10px;box-shadow:0 6px 18px #000a;background:linear-gradient(90deg,#3d2f18,#2b2236);border:2px solid #f2b630;border-radius:12px;padding:6px 12px;color:#fbf7ef;font:800 13px Nunito,sans-serif;animation:pm16in .5s cubic-bezier(.3,1.6,.5,1)}.pm16 span{display:flex}.pm16 img{width:40px;height:40px;object-fit:contain;margin-right:-6px;filter:brightness(0) drop-shadow(0 0 2px #f2b630)}.pm16 b{flex:1;line-height:1.15}.pm16 small{display:block;font-weight:700;opacity:.8;font-size:11px}@keyframes pm16in{from{transform:scale(.6);opacity:0}}.pm16.out{transition:opacity .5s;opacity:0}
+@media (max-height:520px){html.pm-a11 .bjov.ripped .bjin{width:min(780px,100%);display:grid;grid-template-columns:auto 1fr;column-gap:18px;align-items:center}html.pm-a11 .bjov.ripped .bjsrc{grid-column:1/-1}html.pm-a11 .bjov.ripped .bjpack{grid-row:2;grid-column:1;margin:-84px -56px}html.pm-a11 .bjov.ripped .bjcard{transform:scale(.5) rotate(-3deg)}html.pm-a11 .bjov.ripped .bjinfo{grid-row:2;grid-column:2;min-width:0}html.pm-a11 .bjov .bjinfo:not([hidden]){display:flex;flex-direction:column;align-items:center;gap:8px}html.pm-a11 .bjov .bjin h2{font-size:24px}}
 .pmfin{display:flex;flex-direction:column;align-items:center;gap:2px;background:#2b2236;border:2px solid #5b4a72;border-radius:10px;padding:5px 8px;color:#fbf7ef;font:800 12px Nunito,sans-serif;cursor:pointer;min-width:78px}
 .pmfin[aria-pressed=true]{border-color:#f2b630;background:#3d2f18}.pmfin small{font-weight:700;opacity:.8}
 .pmend{text-align:center;margin:0 0 8px;padding:10px;border-radius:12px;background:linear-gradient(90deg,#4a1f2e,#2b1838);border:3px solid #f2b630}
@@ -15722,12 +15731,23 @@ const FAM=k=>/slime|goo|gum|gummy|snot|mucus|bog|blob|booger|zit|pus|bloat|sucke
 /* c2: the slice is 4 stages + the finale. Removed stages are covered with map fog; rescues 7-8 and bonus rooms are out. */
 PM.cut={stages:[],order:[]};
 /* STAGES stays whole (lots of code looks stages up by id); cut stages are only lifted out while the map draws */
-if(pon('c2')){PM.cut.stages=STAGES.filter(s=>!SLICE.includes(s.id));STORY_NEED.splice(0,STORY_NEED.length,'forest','candy','bog','volcano');PM.cut.order=ROOM_ORDER.splice(6)}
+if(pon('c2')){PM.cut.stages=STAGES.filter(s=>!SLICE.includes(s.id));STORY_NEED.splice(0,STORY_NEED.length,...SLICE_SETS[SLICE_N]);{const rs={};Object.keys(NODES).forEach(st=>(NODES[st]||[]).forEach(n=>{if(ROOMS[n.k])rs[n.k]=st}));const keep=ROOM_ORDER.filter(k=>SLICE.includes(rs[k]));PM.cut.order=ROOM_ORDER.filter(k=>!keep.includes(k));ROOM_ORDER.splice(0,ROOM_ORDER.length,...keep)}}
 else if(pon('c3'))PM.cut.stages=STAGES.filter(s=>s.arena||s.id==='peaks');
 const mapLift=f=>function(){if(!PM.cut.stages.length)return f.apply(this,arguments);const keep=STAGES.slice();for(let i=STAGES.length-1;i>=0;i--)if(PM.cut.stages.includes(STAGES[i]))STAGES.splice(i,1);
   try{if(typeof mapSel!=='undefined'&&PM.cut.stages.some(s=>s.id===mapSel))mapSel=null}catch(e){}try{return f.apply(this,arguments)}finally{STAGES.splice(0,STAGES.length,...keep)}};
 mapTab=mapLift(mapTab);mapNodesHTML=mapLift(mapNodesHTML);
-const SLICE_G=()=>['me',...ROOM_ORDER.map(k=>ROOMS[k]&&ROOMS[k].g).filter(Boolean)];
+/* a11 (v84z99zzb, Kenneth): all 16 Guildies in the slice. The 6 room rescues stay; every elite and boss frees the other 10. */
+/* zzb (Kenneth): the Rotting Plots are stage 5, so every stage frees 3 and the Museum frees Stitches */
+const FREE_SETS={
+ 3:{b_forest:['barbarian','ninja'],L_forest:['wrestler','valkyrie'],b_candy:['inventor','clown'],L_candy:['steampunk','wizard'],b_graveyard:['zombie','undawata'],L_graveyard:['pirate','samurai'],curator:['stitches']},
+ 4:{b_forest:['barbarian'],L_forest:['undawata'],b_candy:['inventor'],L_candy:['ninja'],b_volcano:['valkyrie'],b_graveyard:['zombie'],L_graveyard:['pirate'],curator:['stitches']},
+ 5:{b_forest:['barbarian'],L_forest:['ninja'],b_candy:['inventor'],L_candy:['steampunk'],b_bog:['undawata'],b_volcano:['valkyrie'],b_graveyard:['zombie'],L_graveyard:['pirate'],curator:['stitches']}};
+const FREE16=FREE_SETS[SLICE_N];
+const A11=()=>pon('a11')&&pon('c2');PM.free16=FREE16;
+const F16=()=>Object.values(FREE16).flat();
+/* zzb (Kenneth): a starter crew of 3 joins after fight 1, so every fight after that frees exactly one Guildie */
+const CREW=['wrestler','clown','steampunk'];
+const SLICE_G=()=>['me',...ROOM_ORDER.map(k=>ROOMS[k]&&ROOMS[k].g).filter(Boolean),...(A11()?[...CREW,...F16()]:[])];
 PM.sliceG=SLICE_G;
 if(pon('c2')){try{const b0=bonusPanel;bonusPanel=function(){return document.createElement('div')}}catch(e){}}
 /* c3: Night Shift off, Lost Places off */
@@ -15804,7 +15824,7 @@ function openShelf(opt){document.querySelectorAll('.pmov').forEach(n=>n.remove()
   const wire=()=>ov.querySelectorAll('.pmshelf .pmbox:not(.empty)').forEach(b=>{if(b._w)return;b._w=1;b.addEventListener('click',()=>{sfx('ui');babble(b.dataset.k,'sel');pick(b.dataset.k)})});wire();
   if(opt&&opt.k)pick(opt.k);plog('shelf')}
 PM.openShelf=openShelf;
-function endCard(){if(!pon('a1')||!prog||!prog.bossDone)return;const p=pp();if(p.endShown)return;const h=$('#hallOv');if(!h||h.hidden||S&&!S.over)return;
+function endCard(){if(!pon('a1')||!prog||!prog.bossDone)return;if(A11()&&(bx().pend.length||document.querySelector('.bjov')))return;const p=pp();if(p.endShown)return;const h=$('#hallOv');if(!h||h.hidden||S&&!S.over)return;
   if(document.querySelector('.pmov,.rpop,.vzov,#seq:not([hidden])'))return;p.endShown=1;save();openShelf({end:1})}
 
 /* =================================================================================================
@@ -16000,11 +16020,15 @@ function guestDone(){if(S&&S.pmGuest&&prog.pm){delete prog.pm.guest;save()}}
    ================================================================================================= */
 const SEEN_ALL={aim:1,arenaBeat:1,bn1:1,boss:1,bty0:1,c1:1,c2:1,cb1:1,char1:1,comicPost:1,gcHq1:1,gcIntro:1,gp1:1,gx1:1,hall2:1,heal:1,holdUsed:1,inside1:1,map1:1,oj1:1,pk1:1,qb:1,rit1:1,rxFlip:1,shop:1,skip:1,sqTut:1,squad:1,tele:1,up:1,zrhot:1,atn1:1,atnIntro:1,ripTut:1,sealPick:1,bigpan:1,hold:1};
 function backup(){try{if(!localStorage.getItem('guildies.pm.backup')){const s=localStorage.getItem(KEY);localStorage.setItem('guildies.pm.backup',s||'__empty')}}catch(e){}}
+const stNeed=st=>{const ix=(NODES[st]||[]).map(x=>ROOM_ORDER.indexOf(x.k)).filter(i=>i>=0);return ix.length?Math.max(...ix)+1:99};
 function seed(n,extra){backup();const me=prog&&prog.me?prog.me:{name:'Grumbo',eyes:0,mouth:0,power:'punch'};const keepCos=prog&&prog.cos;
   prog=freshProg();prog.me=me;if(keepCos)prog.cos=keepCos;prog.seen=Object.assign({},SEEN_ALL);prog.tut=false;prog.tutHall=true;
   const order=ROOM_ORDER.slice(0,n);prog.built=order;prog.owned=['me',...order.map(k=>ROOMS[k].g)];prog.squad=prog.owned.slice(0,Math.min(3,prog.owned.length));prog.slots=Math.min(3,prog.owned.length);
   prog.load={};prog.squad.forEach(k=>prog.load[k]=null);prog.gear=[];prog.levels={};prog.owned.forEach(k=>prog.levels[k]=Math.min(4,1+Math.floor(n/2)));prog.gold=300+n*150;prog.shards=40+n*15;prog.ffGo=1;prog.gname=prog.gname||'Picky Guild';
-  try{prog.nb=nbFresh()}catch(e){}Object.assign(prog,extra||{});try{fixSquad()}catch(e){}try{composeMe()}catch(e){}realSave()}
+  try{prog.nb=nbFresh()}catch(e){}if(A11()){const nodes=Object.keys(FREE16).filter(q=>q==='curator'?extra&&extra.bossDone:n>=stNeed((BOUNTIES[q]||{}).stage));prog.bdone=prog.bdone||{};
+    nodes.forEach(q=>{if(q!=='curator')prog.bdone[q]=1;FREE16[q].forEach(k=>{if(!prog.owned.includes(k))prog.owned.push(k);prog.levels[k]=Math.min(4,1+Math.floor(n/2));try{kitGrant(k)}catch(e){}})})}
+  if(A11()&&n>=1){CREW.forEach(k=>{if(!prog.owned.includes(k))prog.owned.push(k);prog.levels[k]=Math.min(4,1+Math.floor(n/2));try{kitGrant(k)}catch(e){}});pp().crew=1}
+  Object.assign(prog,extra||{});try{fixSquad()}catch(e){}try{composeMe()}catch(e){}realSave()}
 const closeAll=()=>{document.querySelectorAll('.pmov,.setov,.rpop').forEach(n=>n.remove());try{if(S&&!S.over)S.over=true}catch(e){}S=null};
 const BEATS=[
  ['0:00','Heist cold open','Drag, power, shrink-wrapped',()=>{closeAll();backup();prog=freshProg();realSave();PM.forceHeist=1;openCreate(false)}],
@@ -16012,10 +16036,10 @@ const BEATS=[
  ['2:00','Fight 1','Hold your spot, drag to target',()=>{closeAll();seed(0,{ffGo:0});questGo(ROOM_ORDER[0])}],
  ['4:00','First rescue','Rip the box, the reveal',()=>{closeAll();seed(0);location.hash='#rescue-demo';location.reload()}],
  ['5:30','Squad up','Swap, equip, combo lines',()=>{closeAll();seed(3,{gear:['wand','bat','roboclaw','chair','mic']});toHall('squad')}],
- ['6:30','Elite fight','Shell, Kiter or Split lesson',()=>{closeAll();seed(2);const N=(NODES.bog||NODES.candy||[]).find(n=>n.t===2)||(NODES.candy||[])[1];if(N)startBattle(N.k,{noComic:1});else toHall('map')}],
+ ['6:30','Elite fight','Shell, Kiter or Split lesson',()=>{closeAll();seed(2);const N=(NODES.candy||[]).find(n=>n.t===2)||(NODES.candy||[])[1];if(N)startBattle(N.k,{noComic:1});else toHall('map')}],
  ['7:30','Castle, shop, Ledger','Odd Jobs, cosmetics, season pass',()=>{closeAll();seed(4,{gold:1600});tab='rooms';toHall('rooms')}],
- ['8:30','Collector finale','He shelves a Guildie: RIP! it free',()=>{closeAll();seed(6);prog.squad=prog.owned.filter(k=>k!=='me').slice(-2).concat('me');prog.slots=3;fixSquad&&fixSquad();realSave();startBattle('curator',{noComic:1,from:3})}],
- ['9:45','End card','The shelf, a holo box, Season 2',()=>{closeAll();seed(6,{bossDone:true});const p=pp();p.fin.witch='holo';p.own={'witch:holo':1};realSave();toHall('hall');setTimeout(()=>openShelf({end:1}),600)}]];
+ ['8:30','Collector finale','He shelves a Guildie: RIP! it free',()=>{closeAll();seed(ROOM_ORDER.length);prog.squad=prog.owned.filter(k=>k!=='me').slice(-2).concat('me');prog.slots=3;fixSquad&&fixSquad();realSave();startBattle('curator',{noComic:1,from:3})}],
+ ['9:45','End card','The shelf, a holo box, Season 2',()=>{closeAll();seed(ROOM_ORDER.length,{bossDone:true});const p=pp();p.fin.witch='holo';p.own={'witch:holo':1};realSave();toHall('hall');setTimeout(()=>openShelf({end:1}),600)}]];
 function openLab(){document.querySelectorAll('.pmov,.setov').forEach(n=>n.remove());let dirty=false;let bk=null;try{bk=localStorage.getItem('guildies.pm.backup')}catch(e){}
   const ov=el(`<div class="pmov" role="dialog" aria-label="Slice Lab"><div class="pmcard"><button class="pmx" type="button" aria-label="Close">×</button>
     <h2>Slice Lab</h2><p class="sub">Pitch Mode is the vertical slice from the benchmark. Flip any switch, then reload to try the game with or without it. Presenter jumps load a demo save at each beat of the 10-minute script.</p>
@@ -16039,8 +16063,89 @@ PM.openLab=openLab;PM.beats=BEATS;
 {const os0=openSettings;openSettings=function(){const r=os0.apply(this,arguments);try{const c=document.querySelector('.setov .rpcard');if(c){const b=el('<button type="button" class="pmbtn pmset">Slice Lab · Pitch Mode '+(PM.on?'ON':'OFF')+'</button>');
   const h=c.querySelector('h2');(h?h.nextSibling:null)?c.insertBefore(b,h.nextSibling):c.appendChild(b);b.addEventListener('click',()=>{sfx('tab');openLab()})}
   if(pon('a9')&&prog&&prog.me&&c){const b2=el('<button type="button" class="pmbtn alt pmset">Friend codes</button>');b.after(b2);b2.addEventListener('click',()=>{sfx('tab');openFriends()})}}catch(e){console.warn('pm set',e)}return r}}
+if(A11()){
+  const BN=q=>q==='curator'?'The Collector':(BOUNTIES[q]&&BOUNTIES[q].name)||q,BW=q=>q==='curator'?'the Showroom':BIOME_NAME[(BOUNTIES[q]||{}).biome]||'the map';
+  Object.keys(FREE16).forEach(q=>FREE16[q].forEach(k=>{BONUS_HOW[k]={src:q==='curator'?'THE FINALE':/^L_/.test(q)?'STAGE BOSS':'ELITE',hint:`Beat ${BN(q)} in ${BW(q)}.`}}));
+  PM.free16Node=k=>Object.keys(FREE16).find(q=>FREE16[q].includes(k));
+  /* first win over a mapped elite/boss queues its Guildie(s); the Guild HQ pops the blister-pack rip for each, one at a time */
+  {const ow0=onWin;onWin=function(){const q=QKEY,fr=!HEIST&&FREE16[q]?FREE16[q].filter(k=>!prog.owned.includes(k)):[];const r=ow0.apply(this,arguments);
+    if(fr.length){fr.forEach(k=>bonusQueue(k));plog('free16',q,fr.join('+'));
+      setTimeout(()=>{try{if(document.querySelector('.pm16'))return;const b=el(`<div class="pm16"><span>${fr.map(k=>`<img src="assets/gu_${k}.webp" alt="">`).join('')}</span><b>${fr.length>1?'TWO GUILDIES':'A GUILDIE'} FELL OUT OF ${BN(q).toUpperCase()}'S LOOT!<small>Rip ${fr.length>1?'them':'it'} free back at the Guild HQ</small></b></div>`);document.body.appendChild(b);setTimeout(()=>b.classList.add('out'),5200);setTimeout(()=>b.remove(),5700);try{sfx('clang')}catch(e){}}catch(e){}},900)}
+    return r}}
+  /* the rip reveal reads as a rescue here, not a "bonus"; freed Guildies catch up to the squad's level */
+  {const br0=bonusReveal;bonusReveal=function(k){const r=br0.apply(this,arguments);try{const q=PM.free16Node(k);if(!q)return r;const o=document.querySelector('.bjov');if(!o)return r;
+      const n=SLICE_G().filter(x=>x!=='me'&&(prog.owned.includes(x)||x===k)).length;const s=o.querySelector('.bjsrc');if(s)s.textContent='RESCUED · '+BONUS_HOW[k].src+' · '+BN(q).toUpperCase()+' · '+n+' OF 16 FREED';
+      const nt=o.querySelector('.bjnote');if(nt){nt.textContent=`${n} of 16 Guildies freed.${n<16?' Keep hunting elites and bosses.':' The whole guild is home!'}`}
+      /* zzb quick rips: a double comes in ONE pack, and the kit is one line, not a list */
+      const k2=(bx().pend||[]).find(x=>x!==k&&FREE16[q].includes(x)&&!prog.owned.includes(x));
+      const kitN=x=>(KIT[x]||[]).length+(GUILDIES[x].gear?1:0);
+      o.querySelectorAll('.kitrow').forEach(e=>e.remove());
+      const info=o.querySelector('.bjinfo');const ln=el(`<p class="pmkit">+${kitN(k)+(k2?kitN(k2):0)} items sent to the <b>Armory</b></p>`);const nt2=o.querySelector('.bjnote');if(nt2)nt2.before(ln);else if(info)info.appendChild(ln);
+      if(k2){o.classList.add('pmdbl');const d2=GUILDIES[k2];const bub=o.querySelector('.bjbub');if(bub)bub.insertAdjacentHTML('beforeend',`<img class="pm2" src="assets/gu_${k2}.webp" alt="">`);
+        const nm=o.querySelector('.bjcard b');if(nm)nm.textContent=(GUILDIES[k].name+' + '+d2.name).toUpperCase();
+        const sc=o.querySelector('.bjsrc');if(sc)sc.textContent=sc.textContent.replace(/· (\d+) OF 16/,(m,n)=>'· DOUBLE PACK · '+(+n+1)+' OF 16');
+        const h2=o.querySelector('.bjinfo h2');if(h2)h2.textContent=GUILDIES[k].name+' and '+d2.name+' joined the guild!';
+        const q2=o.querySelector('.bjq');if(q2){const F2=FILE[k2]||{};q2.insertAdjacentHTML('afterend',`<p class="bjq">“${F2.q||'Thanks for the rescue.'}”</p>`)}
+        const ok=o.querySelector('.bjok');if(ok)ok.textContent='See them in the Armory';
+        o.querySelector('.bjpack').addEventListener('click',()=>{try{bonusJoin(k2)}catch(e){}},{once:true})}
+      o.querySelector('.bjpack').addEventListener('click',()=>{try{ladder(Math.min(6,Math.floor(SLICE_G().filter(x=>x!=='me'&&prog.owned.includes(x)).length/3)))}catch(e){}},{once:true})}catch(e){console.warn('pm free16',e)}return r}}
+  {const bj0=bonusJoin;bonusJoin=function(k){const had=prog.owned.includes(k);const r=bj0.apply(this,arguments);try{if(!had&&PM.free16Node(k)){const L=(prog.squad||[]).filter(x=>x!=='me').map(x=>lvl(x));const avg=L.length?Math.round(L.reduce((a,b)=>a+b,0)/L.length):1;prog.levels[k]=Math.max(prog.levels[k]||1,avg-1,1);save()}}catch(e){}return r}}
+  {const pb0=popBusy;popBusy=function(){return pb0.apply(this,arguments)||!!document.querySelector('.pmov,.rpop,.pmheist')}}
+}
+/* zzb: Mucus Marsh is cut in the 4-stage slice, so King Pustulus (Mount Zitsuvius boss) drops the Guild Seal instead of Mother Mucus */
+if(pon('c2')&&!SLICE.includes('bog')){
+  try{const T=TR.pustulus=TR.pustulus||{},d0=T.die;T.die=function(u,src){const r=d0?d0.apply(this,arguments):undefined;if(!prog.gseal){prog.gseal=1;save();setTimeout(()=>{if(S)banner('THE GUILD SEAL IS YOURS!',3);toast('King Pustulus dropped the Guild Seal. Back at the Hall, it unlocks a 2nd Guild Power pick.',4)},600)}return r}}catch(e){console.warn('pm seal',e)}
+  const SEALTX=t=>typeof t==='string'?t.replace(/Mother Mucus wears it in her crown, at the end of Mucus Marsh/g,'King Pustulus wears it in his crown, at the top of Mount Zitsuvius').replace(/Earn the Guild Seal \(beat Mother Mucus\)/g,'Earn the Guild Seal (beat King Pustulus)'):t;
+  {const t0=toast2;toast2=function(t,...a){return t0.call(this,SEALTX(t),...a)}}
+  {const b0=bnReqTxt;bnReqTxt=function(){return SEALTX(b0.apply(this,arguments))}}
+  const SEALR=[[/Mother Mucus wears( it)? in her crown,? at the end of Mucus Marsh/g,'King Pustulus wears$1 in his crown at the top of Mount Zitsuvius'],[/Mother Mucus wore it in her crown\. It still smells like her\./g,'King Pustulus wore it in his crown. It still smells like zit cream.'],[/Mother Mucus Seal/g,'Pustulus Seal'],[/\(beat Mother Mucus\)/g,'(beat King Pustulus)']];
+  const sealFix=root=>{const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode()){if(n.nodeValue.indexOf('Mother Mucus')<0)continue;let v=n.nodeValue;SEALR.forEach(([a,b])=>v=v.replace(a,b));if(v!==n.nodeValue)n.nodeValue=v}};
+  new MutationObserver(ms=>{for(const m of ms)m.addedNodes.forEach(x=>{if(x.nodeType===1)sealFix(x);else if(x.nodeType===3&&x.parentNode)sealFix(x.parentNode)})}).observe(document.body,{childList:true,subtree:true});
+}
+/* zzb (Kenneth approved the stage doc's suggestions):
+   1 each slice stage's boss (Tier III) opens the next stage, and all four open the Museum, so all 16 is the normal path
+   2 King Pustulus is WEAK (double damage) for 3 s after each eruption: the punish window Mother Mucus used to teach
+   3 Barkley's Den is weak to BLUNT (the Barbarian, freed by the elite right before it): the first element lesson */
+if(A11()){
+  const SL=SLICE_SETS[SLICE_N];
+  const bossDoneSt=id=>{const t3=(NODES[id]||[]).find(n=>n.t===3);return t3?nodeDone(t3.k):true};
+  const gateOK=id=>{const i=SL.indexOf(id);return i<=0||bossDoneSt(SL[i-1])};
+  PM.gate={SL,bossDoneSt,gateOK};
+  {const ss0=stageStatus;stageStatus=function(st){const r=ss0.apply(this,arguments);try{if(prog&&!prog.bossDone&&st){if(st.final&&r==='open'&&!SL.every(bossDoneSt))return 'locked';if(SL.includes(st.id)&&r!=='locked'&&!gateOK(st.id))return 'locked'}}catch(e){}return r}}
+  {const ns0=nodeState;nodeState=function(id,i){const r=ns0.apply(this,arguments);try{if(r!=='done'&&prog&&!prog.bossDone&&SL.includes(id)&&!gateOK(id))return 'locked'}catch(e){}return r}}
+  {const ng0=nodeGate;nodeGate=function(k){const r=ng0.apply(this,arguments);if(r)return r;try{if(prog&&!prog.bossDone){const L=nodeLoc(k);const id=L?L.id:(k==='curator'?'museum':null);if(id&&(id==='museum'||SL.includes(id))){const i=id==='museum'?SL.length:SL.indexOf(id);for(let j=0;j<i;j++){const nd=(NODES[SL[j]]||[]).find(x=>!nodeDone(x.k));if(nd)return nd}}}}catch(e){}return r}}
+  const gateNext=()=>{try{const n=nextRescue();return n&&n.gate&&!n.cold&&BOUNTIES[n.k]?n:null}catch(e){return null}};
+  const gateTitle=n=>{const B=BOUNTIES[n.k];return {B,tag:(n.gate.t===3?'STAGE BOSS':'ELITE')+' · '+n.st.name.toUpperCase(),frees:(FREE16[n.k]||[]).filter(k=>!prog.owned.includes(k))}};
+  {const qb0=questBanner;questBanner=function(){const n=gateNext();if(!n)return qb0.apply(this,arguments);const {B,tag,frees}=gateTitle(n);
+    return `<div class="qban"><span class="qrope l"></span><span class="qrope r"></span><img class="qbp" src="assets/${B.img}.webp" alt=""><div class="qbt"><small>NEXT · ${tag}</small><b>${B.name}</b><span>${frees.length?'Frees '+frees.length+' Guildie'+(frees.length>1?'s':''):''}</span></div><button class="go qgo" type="button" data-k="${n.k}" aria-label="Go fight ${B.name}">GO!</button></div>`}}
+  {const qs0=questScroll;questScroll=function(){const n=gateNext();if(!n)return qs0.apply(this,arguments);const {B,tag,frees}=gateTitle(n);
+    const e=el(`<div class="qscroll boss"><img class="qsil boss" src="assets/${B.img}.webp" alt="${B.name}"><div class="qtx"><small>NEXT · ${tag}</small><b>${B.name}</b><p>${B.f}${frees.length?` Somebody is shrink-wrapped in the loot: ${frees.length} Guildie${frees.length>1?'s':''} to free.`:''}</p></div><div class="qrw"><button class="go qgo" type="button" data-k="${n.k}">GO! ▶︎</button></div></div>`);
+    e.querySelector('.qgo').addEventListener('click',ev=>{ev.stopPropagation();questGo(n.k)});return e}}
+  {const mo0=museumOpen;museumOpen=function(){return !!prog.bossDone||(mo0.apply(this,arguments)&&SL.every(bossDoneSt))}}
+  {const nr0=nextRescue;nextRescue=function(){const n=nr0.apply(this,arguments);try{if(!prog||prog.bossDone)return n;for(const id of SL){const nd=(NODES[id]||[]).find(x=>!nodeDone(x.k));if(!nd)continue;const st=STAGES.find(s=>s.id===id);if(n&&n.k===nd.k)return Object.assign({},n,{st});
+      return ROOMS[nd.k]&&!BOUNTIES[nd.k]?Object.assign({},n||{},{k:nd.k,st,g:ROOMS[nd.k].g}):{k:nd.k,st,g:null,gate:nd}}}catch(e){console.warn('pm gate',e)}return n}}
+}
+if(pon('c2')){
+  try{const T=TR.pustulus,t0=T&&T.tick;if(t0)T.tick=function(u,dt){const b=u.swell;const r=t0.apply(this,arguments);try{if(b>=95&&u.swell<=30){u.st.vuln=Math.max(u.st.vuln||0,3);shout(u,'DRAINED! Hit him NOW!','#ffe14a');float(u.x,u.y-230,'WEAK 3s: DOUBLE DAMAGE','#ffe14a',20)}}catch(e){}return r}}catch(e){console.warn('pm pustulus',e)}
+  try{const C=window.__CB&&window.__CB.cfg;if(C&&C.nodeAdj)C.nodeAdj.b_graveyard=.7}catch(e){}/* zzb: Gus walled a squad with no BLUNT */
+  const DEN={el:'BLUNT',g:'barbarian',gear:'chair',why:'A heavy hit knocks the huff right out of him.',pain:'His huff blows your squad around.'};
+  {const w0=weakOf;weakOf=function(qk){if(qk==='L_forest')return DEN;return w0.apply(this,arguments)}}
+}
+/* the crew: after the first rescue, at the Guild HQ, three Guildies wriggle out of the shrink-wrap, then the Armory lesson */
+function crewCheck(){if(!A11()||!prog||!prog.me||HEIST)return;const p=pp();if(p.crew||!(prog.built||[]).length)return;const h=$('#hallOv');if(!h||h.hidden||(S&&!S.over))return;
+  if(document.querySelector('.bjov,.pmov,.rpop,.vzov,.pmcrew')||popBusy())return setTimeout(crewCheck,1200);
+  p.crew=1;const L=Math.max(1,...(prog.squad||[]).filter(k=>k!=='me').map(k=>lvl(k)));CREW.forEach(k=>{try{bonusJoin(k)}catch(e){}prog.levels[k]=L});prog.slots=Math.max(prog.slots||1,3);save();
+  const o=el(`<div class="bjov pmcrew" role="dialog" aria-label="Your crew"><div class="bjin"><small class="bjsrc">YOUR STARTING CREW · ${SLICE_G().filter(x=>x!=='me'&&prog.owned.includes(x)).length} OF 16 FREED</small>
+    <div class="pmcrw">${CREW.map(k=>`<span style="--gc:${GCOL[k]||'#7b57b8'}"><img src="assets/gu_${k}.webp" alt=""><b>${GUILDIES[k].name}</b><em>${POWERS[GUILDIES[k].power].name}</em></span>`).join('')}</div>
+    <h2>The crew wriggled free!</h2><p class="bjq">While the Collector gloated over his new shelf, three Guildies chewed through the shrink-wrap and followed you home.</p>
+    <p class="bjnote">You can bring 3 Guildies into every fight. Pick your squad in the Armory.</p>
+    <div class="bjbtns"><button type="button" class="go bjok">Pick my squad ▶︎</button></div></div></div>`);
+  document.body.appendChild(o);try{sfx('fanfare');ladder(2)}catch(e){}
+  o.querySelector('.bjok').addEventListener('click',()=>{o.remove();tab='squad';renderHall();setTimeout(()=>{try{toast2('<b>Your Armory.</b> Tap a Guildie to put them in or take them out of your squad. Mix a tank, a hitter and a ranged Guildie.')}catch(e){}},700)})}
+PM.crewCheck=crewCheck;
+{const rh1=renderHall;renderHall=function(){const r=rh1.apply(this,arguments);try{setTimeout(crewCheck,1300)}catch(e){}return r}}
 const hashLab=()=>{if(/^#(slicelab|pitch)$/.test(location.hash))setTimeout(openLab,1200)};hashLab();addEventListener('hashchange',hashLab);
-window.__G.pm=PM;PM.openCreate=e=>openCreate(e);PM.codex=()=>codexOpen();PM.use=(u,s)=>usePower(u,s);PM.S=()=>S;PM.endBattle=w=>endBattle(w);PM.setTab=t=>{tab=t;renderHall()};PM.startBattle=(q,o)=>startBattle(q,o);PM.toHall=t=>toHall(t);PM.renderHall=()=>renderHall();PM.openSettings=()=>openSettings();
+window.__G.pm=PM;PM.openCreate=e=>openCreate(e);PM.codex=()=>codexOpen();PM.use=(u,s)=>usePower(u,s);PM.S=()=>S;PM.endBattle=w=>endBattle(w);PM.setTab=t=>{tab=t;renderHall()};PM.startBattle=(q,o)=>startBattle(q,o);PM.toHall=t=>toHall(t);PM.renderHall=()=>renderHall();PM.openSettings=()=>openSettings();PM.seed=(n,x)=>seed(n,x);PM.peek=src=>eval(src);PM.prog=()=>prog;PM.save=()=>save();
 }
 /* ===== end v84z99zza PITCH MODE ===== */
 
