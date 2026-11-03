@@ -419,7 +419,7 @@ body:has(#seq.rx) #app>header{visibility:hidden}
 <script src="assets/cshop/cshop_pack.js"></script>
 <link rel="preload" as="image" href="assets/bg_forest.webp?v=84x" fetchpriority="high">
 <script src="assets/introlive/intro_live.js"></script>
-<title>Guildies Preview v84z99zz</title>
+<title>Guildies Preview v84z99zza</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Jolly+Lodger&family=Grandstander:wght@500;600;700;800;900&family=Nunito:wght@600;800;900&family=Press+Start+2P&family=Comic+Neue:wght@700&family=IM+Fell+English+SC&family=Permanent+Marker&family=Nosifer&display=swap">
@@ -4825,7 +4825,7 @@ html.reduce .vzs,html.reduce .vzlrw,html.reduce .vztally.in,html.reduce .vzsb.n2
     <div id="jkList"></div>
     <div class="jkctl"><button type="button" class="go sm" id="jkClose">Close</button></div></div></div>
   <div class="tcorner l">© 2026 KENNETH BENEDICT</div>
-  <div class="tcorner r">PICKY GAMES · PREVIEW v84z99zz</div>
+  <div class="tcorner r">PICKY GAMES · PREVIEW v84z99zza</div>
 </div>
 
 <!-- CREATE-A-GUILDIE (FTUE): Mirror Booth on a comic page + character sheet -->
@@ -15493,6 +15493,556 @@ DRAWS.push(c=>{const W=S.zyWk;if(!W||S.over)return;const left=Math.max(0,W.dur-(
 zlog('zy loaded');
 }
 /* ===== end v84z99zy ===== */
+
+
+/* ===== v84z99zza PITCH MODE: THE VERTICAL SLICE (Kenneth 2026-11-03, benchmark doc "Guildies: benchmark and vertical slice") =====
+   Every add and cut from the benchmark, each behind its own switch. Nothing is deleted: turn Pitch Mode off in the Slice Lab
+   (Settings > Slice Lab, or open the game with #slicelab) and the game is v84z99zz again after a reload.
+   CUTS  c1 Gold + Shards only on the HUD (no Guild Level crest)      c2 4 stages + the Collector finale, 7 Guildies
+         c3 no Arena, Gauntlet, Cold Cases, Night Shift, Lost Places, "Coming soon"   c4 level + gear (+1) + combos: no pet slot,
+         no combo mastery, no gear +2       c5 no Daily Roll, spend nudge or shop reminders     c6 three tabs: Guild HQ, Map, Armory
+         c7 no daily contracts on the Bounty Board    c8 studio boot only on the first launch, 2-panel comic    c9 shop trimmed to
+         3 sections and 30 items       c10 Curio Cabinet folded into the Display Shelf
+   ADDS  a1 Display Shelf with box finishes (Standard, Holo, Glow, First Edition)    a2 box-art share card     a3 playable heist
+         cold open before Create      a4 power cut-ins, victory gags, voice barks      a5 Collector finale: rip a shelved Guildie free
+         a6 Collector's Ledger season pass (mock, no payment)    a7 Codex as a sticker album    a8 a pet companion in every fight
+         a9 a friend's Guildie as a guest (share codes)    a10 sound: rescue fanfare ladder, toy foley, enemy family deaths
+   Save: prog.pm. Settings: localStorage guildies.pm (JSON of switches). Kill switch: window.__PM.on=false + reload. */
+{
+const PM_ITEMS=[
+ ['c1','Cut','Gold + Shards only','Hide the Guild Level crest; Shards sit next to Gold'],
+ ['c2','Cut','4 stages, 7 Guildies','Mangewood, Cavity Kingdom, Mucus Marsh, Mount Zitsuvius, then the Collector'],
+ ['c3','Cut','No late or stub modes','Arena, Gauntlet, Cold Cases, Night Shift, Lost Places, Coming soon'],
+ ['c4','Cut','Thin progression','No pet slot, combo mastery or gear +2'],
+ ['c5','Cut','No retention pop-ups','Daily Roll, spend nudge, shop reminder'],
+ ['c6','Cut','Three tabs','Guild HQ, Map, Armory (Castle and Shop live in Guild HQ)'],
+ ['c7','Cut','No daily contracts','Bounty Board keeps the hunts only'],
+ ['c8','Cut','Shorter front door','Studio boot on first launch only; comic trimmed to 2 panels'],
+ ['c9','Cut','Smaller shop','3 sections, 30 items'],
+ ['c10','Cut','Curio Cabinet folded in','The castle sign opens the Display Shelf'],
+ ['a1','Add','Display Shelf','Rescued Guildies in their boxes, with Holo, Glow and First Edition finishes'],
+ ['a2','Add','Box-art share card','Your Guildie as a boxed toy, ready to save and share'],
+ ['a3','Add','Heist cold open','30 playable seconds in the Collector\'s Museum before Create'],
+ ['a4','Add','Personality','Power cut-ins, victory gags, gibberish voices'],
+ ['a5','Add','Collector finale','Tap RIP! to free a Guildie he puts on display'],
+ ['a6','Add','Collector\'s Ledger','Season pass mock with free and premium tracks'],
+ ['a7','Add','Sticker album','The Combo Codex as album pages with page rewards'],
+ ['a8','Add','Pet companion','Gerald tags along in every fight and does a gag'],
+ ['a9','Add','Guest Guildie','Friend codes: borrow a friend\'s Guildie for one fight'],
+ ['a10','Add','Sound gaps','Rescue fanfare ladder, toy squeaks, enemy family deaths']];
+const PM={on:true,log:[]};PM_ITEMS.forEach(([k])=>PM[k]=true);
+try{const s=JSON.parse(localStorage.getItem('guildies.pm')||'null');if(s)Object.assign(PM,s)}catch(e){}
+window.__PM=PM;PM.items=PM_ITEMS;
+const pon=f=>PM.on&&PM[f];
+const pmSave=()=>{try{const o={on:PM.on};PM_ITEMS.forEach(([k])=>o[k]=!!PM[k]);localStorage.setItem('guildies.pm',JSON.stringify(o))}catch(e){}};
+const pp=()=>{prog.pm=prog.pm||{};const p=prog.pm;p.fin=p.fin||{};p.tok=p.tok||{};p.lc=p.lc||[];p.ac=p.ac||[];return p};
+const plog=(...a)=>{PM.log.push(a.join(' '));if(PM.log.length>200)PM.log.shift()};
+const today=()=>new Date().toDateString();
+const gnm=k=>k==='me'?((prog.me&&prog.me.name)||'You'):((GUILDIES[k]&&GUILDIES[k].name)||k);
+const SLICE=['forest','candy','bog','volcano','museum'];
+
+const css=document.createElement('style');css.id='pm-css';css.textContent=`
+html.pm-c1 #hCrest{display:none!important}
+.pmsh{margin-left:6px}
+html.pm-c9 #cshop [data-nav=specials],html.pm-c9 #cshop [data-nav=pass],html.pm-c9 #cshop [data-nav=vip],html.pm-c9 #cs-shop-specials,html.pm-c9 #cs-shop-pass,html.pm-c9 #cs-shop-vip{display:none!important}
+html.pm-c3 .poster.soon,html.pm-c3 [data-q="gauntlet"],html.pm-c3 .ojjob.pmlost{display:none!important}
+.pmfog{position:absolute;transform:translate(-50%,-50%);width:21%;aspect-ratio:1.3;border-radius:50%;pointer-events:none;z-index:3;
+  background:radial-gradient(closest-side,rgba(244,236,220,.97),rgba(244,236,220,.9) 55%,rgba(244,236,220,0));filter:blur(1px)}
+.pmhq{position:absolute;left:10px;top:10px;display:flex;flex-direction:column;gap:6px;z-index:6}
+.pmhq button{display:flex;align-items:center;gap:6px;background:#fbf7ef;color:#17121f;border:3px solid #17121f;border-radius:12px;box-shadow:2px 2px 0 #17121f;
+  padding:3px 12px 3px 4px;font:400 clamp(13px,3.6vh,18px)/1 "Luckiest Guy",sans-serif;cursor:pointer;letter-spacing:.02em}
+.pmhq button img{width:clamp(24px,8vh,36px);height:clamp(24px,8vh,36px);object-fit:contain}
+.pmhq button .dot{width:9px;height:9px;border-radius:50%;background:#e2483f;border:2px solid #17121f;margin-left:2px}
+/* overlays */
+.pmov{position:fixed;inset:0;z-index:400;background:rgba(17,12,26,.82);display:flex;align-items:center;justify-content:center;padding:max(8px,env(safe-area-inset-top)) max(10px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left));animation:pmFade .2s ease-out}
+@keyframes pmFade{from{opacity:0}}
+.pmcard{position:relative;width:min(980px,100%);max-height:100%;overflow:auto;background:#2a1f38;color:#fbf7ef;border:3px solid #17121f;border-radius:18px;box-shadow:0 0 0 3px #f2b630,6px 6px 0 #17121f;padding:12px 14px;font:700 14px/1.35 Nunito,sans-serif}
+.pmcard h2{margin:0 40px 2px 0;font:400 clamp(20px,5vh,30px)/1.05 "Luckiest Guy",sans-serif;color:#f2b630;letter-spacing:.02em}
+.pmcard .sub{margin:0 40px 8px 0;opacity:.85;font-size:13px}
+.pmx{position:absolute;right:8px;top:8px;width:36px;height:36px;border-radius:50%;border:3px solid #17121f;background:#fbf7ef;color:#17121f;font:900 22px/1 Nunito,sans-serif;cursor:pointer;z-index:2}
+.pmbtn{background:#f2b630;color:#17121f;border:3px solid #17121f;border-radius:12px;box-shadow:2px 2px 0 #17121f;font:400 16px/1 "Luckiest Guy",sans-serif;padding:7px 12px;cursor:pointer;letter-spacing:.03em}
+.pmbtn.alt{background:#fbf7ef}.pmbtn[disabled]{opacity:.45;cursor:default}.pmbtn.sm{font-size:13px;padding:5px 9px}
+/* shelf */
+.pmshelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:10px 8px;padding:10px 6px 14px;border-radius:12px;
+  background:linear-gradient(#5a3a22,#4a2f1b) bottom/100% 14px no-repeat,repeating-linear-gradient(#3a2747 0 152px,#5a3a22 152px 166px)}
+.pmbox{position:relative;aspect-ratio:.72;border:3px solid #17121f;border-radius:12px 12px 8px 8px;background:linear-gradient(160deg,#8a4fd8,#4b2a86);box-shadow:2px 3px 0 #17121f;cursor:pointer;overflow:hidden;padding:0;color:#fbf7ef;transition:transform .15s}
+.pmbox:active{transform:scale(.97)}
+.pmbox .hang{position:absolute;left:50%;top:4px;width:26px;height:8px;margin-left:-13px;border-radius:6px;background:#17121f}
+.pmbox .lg{position:absolute;left:8%;right:8%;top:9%;height:13%;object-fit:contain;filter:drop-shadow(1px 1px 0 #17121f)}
+.pmbox .bub{position:absolute;left:12%;right:12%;top:24%;bottom:19%;border-radius:40% 40% 18% 18%/30% 30% 14% 14%;background:radial-gradient(120% 80% at 30% 15%,rgba(255,255,255,.55),rgba(255,255,255,.12) 40%,rgba(255,255,255,.05));border:2px solid rgba(255,255,255,.65);overflow:hidden}
+.pmbox .bub img{position:absolute;left:4%;right:4%;bottom:2%;width:92%;height:92%;object-fit:contain}
+.pmbox .bub::after{content:"";position:absolute;left:10%;top:6%;width:22%;height:40%;border-radius:50%;background:rgba(255,255,255,.35);transform:rotate(18deg)}
+.pmbox .nm{position:absolute;left:0;right:0;bottom:4%;text-align:center;font:400 clamp(11px,2.4vh,15px)/1 "Luckiest Guy",sans-serif;text-shadow:1px 1px 0 #17121f;padding:0 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pmbox .no{position:absolute;right:6px;top:13%;font:900 10px Nunito,sans-serif;background:#17121f;border-radius:6px;padding:1px 4px}
+.pmbox.empty{background:#2b2236;border-style:dashed;box-shadow:none;cursor:default}.pmbox.empty .bub{border-style:dashed;background:none}
+.pmbox.empty .bub img{filter:brightness(0) opacity(.45)}
+.pmbox.holo::before{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;mix-blend-mode:color-dodge;opacity:.55;
+  background:linear-gradient(115deg,#ff4fd8,#ffd23a 20%,#59ffa0 40%,#59d6ff 60%,#c77dff 80%,#ff4fd8);background-size:300% 300%;animation:pmHolo 4s linear infinite}
+@keyframes pmHolo{to{background-position:300% 300%}}
+.pmbox.holo{background:linear-gradient(160deg,#b9c3d6,#6b7896)}
+.pmbox.glow{background:linear-gradient(160deg,#1a2c22,#0b130f);box-shadow:2px 3px 0 #17121f,0 0 16px 2px rgba(125,255,160,.65)}
+.pmbox.glow .bub img{filter:drop-shadow(0 0 6px #7dffa0) drop-shadow(0 0 2px #7dffa0)}
+.pmbox.glow .bub{border-color:#7dffa0}
+.pmbox.first{background:linear-gradient(160deg,#f2b630,#a8641a)}
+.pmbox .stamp{position:absolute;z-index:4;left:-26%;bottom:17%;width:84%;font-size:8px!important;transform:rotate(45deg);transform-origin:center;text-align:center;background:#e2483f;color:#fff;font:900 9px/1.6 Nunito,sans-serif;letter-spacing:.12em;border-top:2px solid #17121f;border-bottom:2px solid #17121f}
+.pmsel{display:flex;gap:12px;align-items:stretch;flex-wrap:wrap;margin-top:10px;padding:10px;background:#17121f;border-radius:12px}
+.pmsel .pmbox{width:120px;flex:none;cursor:default}
+.pmsel .fins{flex:1 1 260px;display:flex;flex-direction:column;gap:6px}
+.pmsel .fins .row{display:flex;gap:6px;flex-wrap:wrap}
+.pmfin{display:flex;flex-direction:column;align-items:center;gap:2px;background:#2b2236;border:2px solid #5b4a72;border-radius:10px;padding:5px 8px;color:#fbf7ef;font:800 12px Nunito,sans-serif;cursor:pointer;min-width:78px}
+.pmfin[aria-pressed=true]{border-color:#f2b630;background:#3d2f18}.pmfin small{font-weight:700;opacity:.8}
+.pmend{text-align:center;margin:0 0 8px;padding:10px;border-radius:12px;background:linear-gradient(90deg,#4a1f2e,#2b1838);border:3px solid #f2b630}
+.pmend b{display:block;font:400 clamp(20px,5vh,30px)/1.05 "Luckiest Guy",sans-serif;color:#f2b630}
+/* share card */
+.pmshare{display:flex;gap:14px;align-items:center;flex-wrap:wrap;justify-content:center}
+.pmshare img{max-height:min(62vh,520px);max-width:100%;border-radius:12px;border:3px solid #17121f;box-shadow:4px 4px 0 #17121f;background:#fff}
+.pmshare .side{flex:1 1 220px;max-width:340px;display:flex;flex-direction:column;gap:8px}
+/* cut-in */
+.pmcut{position:fixed;left:0;right:0;top:22%;height:clamp(70px,22vh,150px);z-index:300;pointer-events:none;overflow:hidden}
+.pmcut .band{position:absolute;inset:0;background:linear-gradient(90deg,var(--c1),var(--c2));transform:skewY(-4deg) translateX(-105%);border-top:4px solid #17121f;border-bottom:4px solid #17121f;animation:pmBand .72s cubic-bezier(.2,.9,.3,1) forwards}
+.pmcut .band::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(100deg,rgba(255,255,255,.14) 0 6px,transparent 6px 26px);animation:pmLines .3s linear infinite}
+@keyframes pmLines{to{background-position:26px 0}}
+.pmcut img{position:absolute;left:6%;bottom:-6%;height:130%;transform:translateX(-160%);filter:drop-shadow(4px 4px 0 #17121f);animation:pmPor .72s cubic-bezier(.2,.9,.3,1) forwards}
+.pmcut b{position:absolute;left:30%;top:50%;transform:translate(60vw,-50%) rotate(-4deg);font:400 clamp(22px,7vh,52px)/1 "Luckiest Guy",sans-serif;color:#fff;-webkit-text-stroke:2px #17121f;text-shadow:3px 3px 0 #17121f;white-space:nowrap;animation:pmTxt .72s cubic-bezier(.2,.9,.3,1) forwards}
+.pmcut small{position:absolute;left:31%;top:14%;font:900 clamp(10px,2.4vh,16px)/1 Nunito,sans-serif;color:#17121f;background:#fbf7ef;border:2px solid #17121f;border-radius:6px;padding:2px 6px;opacity:0;animation:pmSm .72s ease forwards}
+@keyframes pmBand{0%{transform:skewY(-4deg) translateX(-105%)}22%{transform:skewY(-4deg) translateX(0)}80%{transform:skewY(-4deg) translateX(0);opacity:1}100%{transform:skewY(-4deg) translateX(0);opacity:0}}
+@keyframes pmPor{0%{transform:translateX(-160%)}28%{transform:translateX(0)}82%{transform:translateX(12%);opacity:1}100%{transform:translateX(30%);opacity:0}}
+@keyframes pmTxt{0%{transform:translate(60vw,-50%) rotate(-4deg)}30%{transform:translate(0,-50%) rotate(-4deg)}82%{transform:translate(-3vw,-50%) rotate(-4deg);opacity:1}100%{opacity:0}}
+@keyframes pmSm{25%{opacity:0}40%,85%{opacity:1}100%{opacity:0}}
+html.reduce .pmcut{display:none}
+/* rip button */
+#pmRip{position:fixed;left:max(14px,env(safe-area-inset-left));top:34%;z-index:260;display:flex;align-items:center;gap:10px;background:#e2483f;color:#fff;border:4px solid #17121f;border-radius:18px;box-shadow:4px 4px 0 #17121f;padding:8px 18px 8px 8px;font:400 clamp(15px,4.4vh,26px)/1 "Luckiest Guy",sans-serif;cursor:pointer;animation:pmPulse .5s ease-in-out infinite alternate;touch-action:manipulation}
+#pmRip img{width:clamp(34px,9vh,58px);height:clamp(34px,9vh,58px);object-fit:contain;background:rgba(255,255,255,.35);border-radius:10px;border:2px solid #fff}
+#pmRip small{display:block;font:900 12px Nunito,sans-serif;opacity:.95}
+#pmRip i{display:block;height:6px;margin-top:4px;border-radius:4px;background:rgba(0,0,0,.35);overflow:hidden}#pmRip i span{display:block;height:100%;background:#fff;width:var(--p,0%)}
+#pmRip.rt{left:auto;right:max(14px,env(safe-area-inset-right))}
+@keyframes pmPulse{to{transform:scale(1.06)}}
+/* heist */
+.pmheist{position:fixed;inset:0;z-index:420;background:#100b18;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:#fbf7ef;text-align:center;overflow:hidden}
+.pmheist .coll{height:56vh;max-height:420px;filter:drop-shadow(6px 6px 0 #000);animation:pmColl 1.4s cubic-bezier(.2,.9,.3,1) both}
+@keyframes pmColl{from{transform:translateY(40%) scale(.7);opacity:0}}
+.pmheist .boxes{display:flex;gap:14px;justify-content:center}
+.pmheist .boxes .pmbox{width:clamp(90px,24vh,150px);animation:pmDrop .5s cubic-bezier(.3,1.4,.5,1) both}
+@keyframes pmDrop{from{transform:translateY(-80vh) rotate(-12deg)}}
+.pmheist .pmsay{font:400 clamp(22px,6vh,44px)/1.05 "Luckiest Guy",sans-serif;color:#f2b630;-webkit-text-stroke:1.5px #17121f;text-shadow:3px 3px 0 #000;max-width:90vw;animation:pmFade .4s both}
+.pmheist .pmsay.big{font-size:clamp(34px,11vh,84px);color:#fff}
+.pmheist .tap{font:800 14px Nunito,sans-serif;opacity:.7}
+.pmheist .flash{position:absolute;inset:0;background:#fff;animation:pmFl .5s ease-out forwards;pointer-events:none}@keyframes pmFl{to{opacity:0}}
+.pmskip{position:fixed;right:max(12px,env(safe-area-inset-right));top:max(10px,env(safe-area-inset-top));z-index:430;background:rgba(251,247,239,.92);color:#17121f;border:3px solid #17121f;border-radius:999px;padding:5px 14px;font:900 13px Nunito,sans-serif;cursor:pointer}
+.pmhint{position:fixed;left:50%;top:max(56px,12vh);transform:translateX(-50%);z-index:250;background:#fbf7ef;color:#17121f;border:3px solid #17121f;border-radius:14px;box-shadow:3px 3px 0 #17121f;padding:6px 14px;font:400 clamp(14px,3.6vh,22px)/1.1 "Luckiest Guy",sans-serif;pointer-events:none;text-align:center;white-space:nowrap}
+.pmhint small{display:block;font:800 12px Nunito,sans-serif}
+/* ledger */
+.pmled{display:grid;grid-template-columns:auto repeat(10,minmax(74px,1fr));gap:6px;overflow-x:auto;padding-bottom:6px;align-items:stretch}
+.pmled .lab{display:flex;align-items:center;font:400 14px/1 "Luckiest Guy",sans-serif;color:#f2b630;padding-right:4px;white-space:nowrap}
+.pmled .tier{text-align:center;font:900 11px Nunito,sans-serif;opacity:.8;align-self:end}
+.pmrw{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:76px;background:#3b3248;border:2px solid #5b4a72;border-radius:10px;padding:4px;font:800 11px/1.15 Nunito,sans-serif;text-align:center;color:#fbf7ef;cursor:default}
+.pmrw.prem{background:#3d2f18;border-color:#a8641a}
+.pmrw .ico{font:400 20px/1 "Luckiest Guy",sans-serif}
+.pmrw.ok{border-color:#9be15d;cursor:pointer;box-shadow:0 0 0 2px rgba(155,225,93,.35);animation:pmOk 1s ease-in-out infinite alternate}@keyframes pmOk{to{box-shadow:0 0 0 5px rgba(155,225,93,.15)}}
+.pmrw.got{opacity:.55}.pmrw.got::after{content:"✓ CLAIMED";font:900 10px Nunito,sans-serif;color:#9be15d}
+.pmrw.lock::after{content:"🔒";font-size:12px}
+.pmbar{height:12px;border-radius:8px;background:#17121f;border:2px solid #5b4a72;overflow:hidden;margin:4px 0 10px}.pmbar span{display:block;height:100%;background:linear-gradient(90deg,#9be15d,#f2b630)}
+/* album */
+.pmalb{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pmpage{background:#f4ecdc;color:#17121f;border:3px solid #17121f;border-radius:10px;padding:8px;box-shadow:3px 3px 0 #17121f;position:relative}
+.pmpage h3{margin:0 0 6px;font:400 16px/1 "Luckiest Guy",sans-serif;display:flex;justify-content:space-between;gap:6px;align-items:center}
+.pmpage h3 small{font:900 11px Nunito,sans-serif}
+.pmstk{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.pmst{aspect-ratio:1;border:2px dashed #b8a98d;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;font:800 9px/1.05 Nunito,sans-serif;text-align:center;padding:2px;color:#8a7c64}
+.pmst .ic{display:flex;align-items:center;gap:1px}.pmst img{width:clamp(16px,4.5vh,28px);height:clamp(16px,4.5vh,28px);object-fit:contain}
+.pmst.got{border:3px solid #fff;background:#fbf7ef;box-shadow:0 0 0 2px #17121f,2px 3px 0 2px #17121f;color:#17121f;transform:rotate(var(--r,0deg))}
+.pmst:not(.got) img{filter:brightness(0) opacity(.25)}
+@media (max-width:640px),(max-height:430px){.pmalb{grid-template-columns:1fr 1fr}.pmstk{grid-template-columns:repeat(4,1fr)}}
+/* lab */
+.pmlab{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px}
+.pmsw{display:flex;align-items:center;gap:8px;background:#3b3248;border-radius:10px;padding:5px 8px;cursor:pointer}
+.pmsw input{width:20px;height:20px;accent-color:#f2b630;flex:none}
+.pmsw b{display:block;font:800 13px/1.15 Nunito,sans-serif}.pmsw small{display:block;font:700 11px/1.2 Nunito,sans-serif;opacity:.75}
+.pmsw .tg{font:900 9px Nunito,sans-serif;padding:1px 5px;border-radius:6px;background:#5b4a72;flex:none}.pmsw .tg.Add{background:#2f6b3a}
+.pmbeats{display:flex;flex-direction:column;gap:5px}
+.pmbeat{display:flex;align-items:center;gap:8px;background:#3b3248;border-radius:10px;padding:5px 8px;text-align:left;color:#fbf7ef;border:2px solid transparent;cursor:pointer;font:700 13px/1.2 Nunito,sans-serif}
+.pmbeat:hover{border-color:#f2b630}.pmbeat .t{font:900 12px Nunito,sans-serif;color:#f2b630;width:38px;flex:none}.pmbeat b{font-weight:900}
+.pmcols{display:grid;grid-template-columns:1.25fr 1fr;gap:12px}
+.pmcols h3{margin:6px 0 6px;font:400 17px/1 "Luckiest Guy",sans-serif;color:#f2b630}
+@media (max-width:700px){.pmcols{grid-template-columns:1fr}.pmlab{grid-template-columns:1fr}}
+.pmrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.pmfr{display:flex;gap:8px;flex-wrap:wrap;align-items:center;background:#17121f;border-radius:10px;padding:8px;margin-top:6px}
+.pmfr code{background:#3b3248;border-radius:6px;padding:4px 8px;font:800 14px/1.2 ui-monospace,monospace;letter-spacing:.05em;user-select:all;word-break:break-all}
+.pmfr input{flex:1 1 160px;min-width:0;background:#fbf7ef;border:2px solid #17121f;border-radius:8px;padding:6px 8px;font:800 14px ui-monospace,monospace}
+.setov .pmset{margin-top:8px;width:100%}
+`;document.head.appendChild(css);
+const syncHtml=()=>{const R=document.documentElement;PM_ITEMS.forEach(([k])=>R.classList.toggle('pm-'+k,!!pon(k)))};syncHtml();
+
+/* ---------- shared per-frame hooks ---------- */
+const TICKS=[],DRAWS=[];
+{const CB=window.__CB;if(CB){const t0=CB.tick;CB.tick=function(dt){const r=t0?t0.apply(this,arguments):undefined;if(PM.on&&S)for(const f of TICKS)try{f(dt)}catch(e){console.warn('pm tick',e)}return r};
+  const d0=CB.draw;CB.draw=function(c){const r=d0?d0.apply(this,arguments):undefined;if(PM.on&&S)for(const f of DRAWS)try{f(c)}catch(e){console.warn('pm draw',e)}return r}}}
+
+/* =================================================================================================
+   SYNTH: voices, toy foley, family deaths, fanfare ladder (all Web Audio, no files)
+   ================================================================================================= */
+const VOICE={me:1,wizard:.8,witch:1.15,ninja:1.25,wrestler:.62,clown:1.4,samurai:.85,tombking:.55,robot:.9,barbarian:.6,valkyrie:1.1,pirate:.7,undawata:1.3,stitches:.95,zombie:.58,inventor:1.2,steampunk:1};
+const AX=()=>AU&&AU.ctx&&AU.on&&AU.master?AU.ctx:null;
+const vol=v=>v*(AU.sv==null?.8:AU.sv);
+let lastBab=0;
+function babble(k,mood){if(!pon('a4'))return;const a=AX();if(!a)return;const now=performance.now();if(now-lastBab<260)return;lastBab=now;
+  const base=(k==='me'?((prog.me&&prog.me.name||'').length%5)*.08+.9:VOICE[k]||1)*(k==='robot'?150:230),n=mood==='win'?5:mood==='pow'?3:2,t0=a.currentTime+.01,robo=k==='robot'||k==='steampunk';
+  const out=a.createGain();out.gain.value=vol(.32);out.connect(AU.master);
+  for(let i=0;i<n;i++){const t=t0+i*(mood==='win'?.1:.085),d=.075+Math.random()*.04;
+    const o=a.createOscillator(),f=a.createBiquadFilter(),g=a.createGain();o.type=robo?'square':'sawtooth';
+    const p=base*(1+(Math.random()-.5)*.35)*(mood==='win'?1+i*.06:1)*(mood==='pow'&&i===n-1?1.35:1);o.frequency.setValueAtTime(p,t);o.frequency.exponentialRampToValueAtTime(p*(Math.random()<.5?1.25:.8),t+d);
+    f.type='bandpass';f.frequency.setValueAtTime(600+Math.random()*1400,t);f.Q.value=robo?2:5;
+    g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(1,t+.012);g.gain.exponentialRampToValueAtTime(.001,t+d);
+    o.connect(f);f.connect(g);g.connect(out);o.start(t);o.stop(t+d+.02)}}
+function noise(a,d){const b=a.createBuffer(1,Math.ceil(a.sampleRate*d),a.sampleRate),c=b.getChannelData(0);for(let i=0;i<c.length;i++)c[i]=Math.random()*2-1;const s=a.createBufferSource();s.buffer=b;return s}
+function toy(kind){if(!pon('a10'))return;const a=AX();if(!a)return;const t=a.currentTime+.005,g=a.createGain();g.connect(AU.master);
+  if(kind==='squeak'){const o=a.createOscillator();o.type='triangle';const f=900+Math.random()*500;o.frequency.setValueAtTime(f,t);o.frequency.exponentialRampToValueAtTime(f*1.6,t+.05);o.frequency.exponentialRampToValueAtTime(f*1.1,t+.11);
+    g.gain.setValueAtTime(vol(.12),t);g.gain.exponentialRampToValueAtTime(.001,t+.13);o.connect(g);o.start(t);o.stop(t+.14)}
+  else if(kind==='clack'){const s=noise(a,.05),f=a.createBiquadFilter();f.type='bandpass';f.frequency.value=2600;f.Q.value=3;g.gain.setValueAtTime(vol(.25),t);g.gain.exponentialRampToValueAtTime(.001,t+.05);s.connect(f);f.connect(g);s.start(t)}
+  else if(kind==='splat'){const s=noise(a,.25),f=a.createBiquadFilter();f.type='lowpass';f.frequency.setValueAtTime(1400,t);f.frequency.exponentialRampToValueAtTime(180,t+.22);g.gain.setValueAtTime(vol(.4),t);g.gain.exponentialRampToValueAtTime(.001,t+.24);s.connect(f);f.connect(g);s.start(t)}
+  else if(kind==='boing'){const o=a.createOscillator();o.type='sine';o.frequency.setValueAtTime(180,t);o.frequency.exponentialRampToValueAtTime(620,t+.08);o.frequency.exponentialRampToValueAtTime(260,t+.32);
+    const l=a.createOscillator(),lg=a.createGain();l.frequency.value=22;lg.gain.value=40;l.connect(lg);lg.connect(o.frequency);g.gain.setValueAtTime(vol(.22),t);g.gain.exponentialRampToValueAtTime(.001,t+.34);o.connect(g);o.start(t);l.start(t);o.stop(t+.35);l.stop(t+.35)}
+  else if(kind==='poof'){const s=noise(a,.35),f=a.createBiquadFilter();f.type='highpass';f.frequency.setValueAtTime(600,t);f.frequency.exponentialRampToValueAtTime(3500,t+.3);g.gain.setValueAtTime(.001,t);g.gain.linearRampToValueAtTime(vol(.22),t+.06);g.gain.exponentialRampToValueAtTime(.001,t+.34);s.connect(f);f.connect(g);s.start(t)}
+  else if(kind==='flap'){for(let i=0;i<3;i++){const s=noise(a,.05),f=a.createBiquadFilter(),gg=a.createGain();f.type='bandpass';f.frequency.value=900;gg.gain.setValueAtTime(vol(.2),t+i*.06);gg.gain.exponentialRampToValueAtTime(.001,t+i*.06+.05);s.connect(f);f.connect(gg);gg.connect(AU.master);s.start(t+i*.06)}}
+  else if(kind==='rip'){const s=noise(a,.18),f=a.createBiquadFilter();f.type='bandpass';f.frequency.setValueAtTime(1800,t);f.frequency.linearRampToValueAtTime(4200,t+.16);f.Q.value=1.5;g.gain.setValueAtTime(vol(.4),t);g.gain.exponentialRampToValueAtTime(.001,t+.18);s.connect(f);f.connect(g);s.start(t)}}
+function ladder(step){if(!pon('a10'))return;const a=AX();if(!a)return;const t0=a.currentTime+.02,N=[0,4,7,12,16,19,24].slice(0,3+Math.min(4,step)),root=392*Math.pow(2,Math.min(step,6)/12);
+  N.forEach((s,i)=>{const t=t0+i*.075,o=a.createOscillator(),o2=a.createOscillator(),g=a.createGain();o.type='square';o2.type='triangle';const f=root*Math.pow(2,s/12);o.frequency.value=f;o2.frequency.value=f*2;
+    g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol(.09),t+.01);g.gain.exponentialRampToValueAtTime(.001,t+.32+(i===N.length-1?.5:0));o.connect(g);o2.connect(g);g.connect(AU.master);o.start(t);o2.start(t);o.stop(t+.9);o2.stop(t+.9)});
+  const s=noise(a,.6),f=a.createBiquadFilter(),g=a.createGain();f.type='highpass';f.frequency.value=6000;const tc=t0+N.length*.075;g.gain.setValueAtTime(vol(.12),tc);g.gain.exponentialRampToValueAtTime(.001,tc+.6);s.connect(f);f.connect(g);g.connect(AU.master);s.start(tc)}
+PM.babble=babble;PM.toy=toy;PM.ladder=ladder;
+const FAM=k=>/slime|goo|gum|gummy|snot|mucus|bog|blob|booger|zit|pus|bloat|sucker|drip/i.test(k)?'splat':/robot|bot|gear|cog|mech|cart|clock|tin|drone|saw/i.test(k)?'boing':/ghost|spirit|wisp|phantom|spook|wraith/i.test(k)?'poof':/bat|gull|bird|crow|wing|fly|moth|harp/i.test(k)?'flap':'clack';
+{const d0=die;die=function(t,src){const was=t&&!t.dead;const r=d0.apply(this,arguments);try{if(was&&t.dead&&t.team==='e'&&!(S&&S.pmHeist&&S.pmHeist.done))toy(FAM(t.kind||''))}catch(e){}return r}}
+{const c0=command;command=function(u,p){const r=c0.apply(this,arguments);try{if(u&&u.team==='g')toy('squeak')}catch(e){}return r}}
+{const s0=select;select=function(g){const was=S&&S.sel;const r=s0.apply(this,arguments);try{if(S&&S.sel===g&&was!==g)babble(g.kind,'sel')}catch(e){}return r}}
+{const rv0=rxReveal;rxReveal=function(){const r=rv0.apply(this,arguments);try{const n=(prog.built||[]).length;setTimeout(()=>ladder(n),350)}catch(e){}return r}}
+
+/* =================================================================================================
+   CUTS
+   ================================================================================================= */
+/* c2: the slice is 4 stages + the finale. Removed stages are covered with map fog; rescues 7-8 and bonus rooms are out. */
+PM.cut={stages:[],order:[]};
+/* STAGES stays whole (lots of code looks stages up by id); cut stages are only lifted out while the map draws */
+if(pon('c2')){PM.cut.stages=STAGES.filter(s=>!SLICE.includes(s.id));STORY_NEED.splice(0,STORY_NEED.length,'forest','candy','bog','volcano');PM.cut.order=ROOM_ORDER.splice(6)}
+else if(pon('c3'))PM.cut.stages=STAGES.filter(s=>s.arena||s.id==='peaks');
+const mapLift=f=>function(){if(!PM.cut.stages.length)return f.apply(this,arguments);const keep=STAGES.slice();for(let i=STAGES.length-1;i>=0;i--)if(PM.cut.stages.includes(STAGES[i]))STAGES.splice(i,1);
+  try{if(typeof mapSel!=='undefined'&&PM.cut.stages.some(s=>s.id===mapSel))mapSel=null}catch(e){}try{return f.apply(this,arguments)}finally{STAGES.splice(0,STAGES.length,...keep)}};
+mapTab=mapLift(mapTab);mapNodesHTML=mapLift(mapNodesHTML);
+const SLICE_G=()=>['me',...ROOM_ORDER.map(k=>ROOMS[k]&&ROOMS[k].g).filter(Boolean)];
+PM.sliceG=SLICE_G;
+if(pon('c2')){try{const b0=bonusPanel;bonusPanel=function(){return document.createElement('div')}}catch(e){}}
+/* c3: Night Shift off, Lost Places off */
+if(pon('c3')){try{const av0=ojAvail;ojAvail=function(){return av0.apply(this,arguments).filter(id=>!(OJ_JOBS[id]&&(OJ_JOBS[id].exp||OJ_JOBS[id].night)))}}catch(e){}}
+/* c4: no pet slot, no combo mastery (gear +2 is capped in the Armory below) */
+if(pon('c4')&&window.__ZY){__ZY.pets=false;__ZY.mast=false}
+/* c5: no Daily Roll pop-ups (the shop's own daily gift stays) */
+if(pon('c5')){d20Check=function(){};d20Badge=function(){document.querySelectorAll('.ddbadge').forEach(n=>n.remove())}}
+/* c8: the studio boot plays on the very first launch only */
+if(pon('c8')){try{if(localStorage.getItem('guildies.pm.boot'))localStorage.setItem('guildies.studio',new Date().toDateString().replace(/ /g,' '));localStorage.setItem('guildies.pm.boot','1')}catch(e){}}
+/* c9: 30 items in the shop (6 outfits, 24 wearables) */
+if(pon('c9')&&window.CS_PACK&&CS_PACK.catalog){try{const C=CS_PACK.catalog,own=new Set((prog.cos&&prog.cos.owned)||[]),keep=[];let o=0,w=0;
+  for(const a of C){if(own.has(a.id)){keep.push(a);continue}if(a.kind){if(o<6){keep.push(a);o++}}else if(w<24){keep.push(a);w++}}PM.cut.shop=C.length-keep.length;C.splice(0,C.length,...keep)}catch(e){console.warn('pm shop',e)}}
+/* per-render tidy */
+function quiet(){if(!prog||!prog.me)return;const p=pp();
+  if(pon('c3')){prog.seen=prog.seen||{};prog.seen.arenaBeat=1}if(pon('c3')&&window.__ZY&&__ZY.sess){__ZY.sess.nightAsked=1;prog.zy=prog.zy||{};prog.zy.nightDay=today()}
+  if(pon('c5')){prog.fhSpend=1;try{const C=csC();C.remindedOn=today()}catch(e){}}}
+
+/* c6: three tabs */
+{const tb0=tabBar;tabBar=function(){const r=tb0.apply(this,arguments);try{if(!pon('c6')&&!pon('c1'))return r;const d=document.querySelector('.tabbar');if(!d)return r;
+  if(pon('c6')){d.querySelectorAll('[data-t="rooms"],[data-t="shop"]').forEach(b=>b.remove());if(['rooms','shop'].includes(tab)){const h=d.querySelector('[data-t="hall"]');if(h){h.classList.add('on');h.setAttribute('aria-current','page')}}
+    /* one badge at a time, the map first */const bs=[...d.querySelectorAll('button')].filter(b=>b.querySelector('.nbt'));bs.sort((a,b)=>(a.dataset.t==='map'?0:1)-(b.dataset.t==='map'?0:1));bs.slice(1).forEach(b=>b.querySelectorAll('.nbt').forEach(n=>n.remove()))}}catch(e){console.warn('pm tabs',e)}return r}}
+
+function hqButtons(B){if(!pon('c6')&&!pon('a1')&&!pon('a6'))return;const yard=B.querySelector('.cstage')||B.querySelector('.cbox')||B.firstElementChild;if(!yard)return;
+  const L=[];if(pon('c6')){L.push(['rooms','assets/cat.webp','Castle & Odd Jobs',(typeof ojReady==='function'&&ojReady().length)?1:0]);if(shopOpen())L.push(['shop','assets/merchant_g1.webp','Shop',0])}
+  if(pon('a1')&&prog.built.length)L.push(['shelf',`assets/gu_${(ROOMS[prog.built[prog.built.length-1]]||{}).g||'witch'}.webp`,'Display Shelf',0]);
+  if(pon('a6')&&prog.built.length>=2)L.push(['ledger','assets/collector.webp','Ledger',ledgerClaimable()?1:0]);
+  if(!L.length)return;const n=el(`<div class="pmhq">${L.map(([k,img,t,d])=>`<button type="button" data-pm="${k}"><img src="${img}" alt="">${t}${d?'<span class="dot"></span>':''}</button>`).join('')}</div>`);
+  if(getComputedStyle(yard).position==='static')yard.style.position='relative';yard.appendChild(n);
+  n.querySelectorAll('button').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();sfx('tab');const k=b.dataset.pm;if(k==='shelf')return openShelf();if(k==='ledger')return openLedger();tab=k;renderHall()}))}
+
+function tidy(){const B=$('#hallBody');if(!B)return;quiet();
+  if(pon('c1')){const g=$('#hGold');if(g&&!document.getElementById('pmSh')){g.insertAdjacentHTML('afterend',`<span class="gold pmsh" id="pmSh" title="Foil Shards" aria-label="${prog.shards||0} Foil Shards">◆ ${prog.shards||0}</span>`)}else{const s=document.getElementById('pmSh');if(s){s.textContent='◆ '+(prog.shards||0)}}}
+  if(tab==='hall')hqButtons(B);
+  if(tab==='map'&&pon('c2')){const art=B.querySelector('.mapart');if(art){for(const st of PM.cut.stages){const N=NODES[st.id];let x=st.x,y=st.y;if(N&&N.length){x=N.reduce((a,n)=>a+n.x,0)/N.length;y=N.reduce((a,n)=>a+n.y,0)/N.length-36}art.appendChild(el(`<div class="pmfog" style="left:${x/960*100}%;top:${y/540*100}%"></div>`))}
+      const bar=art.querySelector('.mbar span:last-child');if(bar){const n=SLICE_G().filter(k=>k!=='me'&&prog.owned.includes(k)).length;bar.textContent=`FREED ${n} / ${SLICE_G().length-1}`}}}
+  if(tab==='rooms'){B.querySelectorAll('*').forEach(n=>{if(pon('c2')&&n.children.length<=2&&/^\+\d+ more rooms$/i.test((n.textContent||'').trim())){const t=n.closest('.rtile,[class*="tile"],button,div');if(t)t.style.display='none'}});
+    const cab=B.querySelector('#ojCab');if(cab&&pon('c10')){if(pon('a1')){cab.innerHTML='Display<br>Shelf<small>'+prog.built.length+' boxed</small>';cab.setAttribute('aria-label','Display Shelf');
+      cab.addEventListener('click',e=>{e.stopImmediatePropagation();e.preventDefault();sfx('tab');openShelf()},true)}else cab.style.display='none'}
+    if(pon('c3'))B.querySelectorAll('.ojjob').forEach(j=>{if(/Lost Place|Night Shift/.test(j.textContent))j.classList.add('pmlost')})}
+  if(tab==='quests'&&pon('c7')){B.querySelectorAll('h2,h3,h4,b,strong,div,span').forEach(h=>{if(!h.children.length&&/^(guild contracts|daily contracts|featured combo)$/i.test(h.textContent.trim())){const box=h.closest('section')||h.parentElement;if(box&&box!==B&&box.offsetHeight<420)box.style.display='none'}})}
+  if(tab==='squad'&&pon('c4')){B.querySelectorAll('.zyup button,.zyam button').forEach(b=>{if(/\+2/.test(b.textContent)){b.disabled=true;b.textContent='Max for the slice'}})}}
+{const rh0=renderHall;renderHall=function(){const r=rh0.apply(this,arguments);try{if(PM.on)tidy()}catch(e){console.warn('pm tidy',e)}try{if(PM.on)setTimeout(endCard,900)}catch(e){}return r}}
+/* hall overlay: also tidy the castle sheet when Odd Jobs re-render */
+try{const sh0=ojSheet;ojSheet=function(){const r=sh0.apply(this,arguments);try{if(pon('c3'))document.querySelectorAll('.ojsheet .ojjob').forEach(j=>{if(/Lost Place|Night Shift|Expedition/.test(j.textContent))j.classList.add('pmlost')})}catch(e){}return r}}catch(e){}
+
+/* =================================================================================================
+   a1 DISPLAY SHELF + BOX FINISHES
+   ================================================================================================= */
+const FINS=[['std','Standard','The box it came in',0],['first','First Edition','Your first 3 rescues',0],['glow','Glow in the Dark','40 Foil Shards',40],['holo','Holo Foil','60 Foil Shards',60]];
+const finOf=k=>pp().fin[k]||(firstEd(k)?'first':'std');
+const firstEd=k=>{const p=pp();if(!p.fe){p.fe=(prog.built||[]).slice(0,3).map(r=>ROOMS[r]&&ROOMS[r].g).filter(Boolean)}return k==='me'||p.fe.includes(k)};
+const ownFin=(k,f)=>f==='std'||(f==='first'&&firstEd(k))||((pp().own||{})[k+':'+f]);
+function boxHTML(k,i,fin,empty){const img=k==='me'?por('me'):(DRESS&&DRESS['px_'+k]&&DRESS['px_'+k].url)||`assets/gu_${k}.webp`;
+  return `<button type="button" class="pmbox ${empty?'empty':fin}" data-k="${k}" ${empty?'tabindex="-1" aria-label="Still trapped"':`aria-label="${esc(gnm(k))}, ${FINS.find(f=>f[0]===fin)[1]} box"`}>
+    <span class="hang"></span><img class="lg" src="assets/logo_full_w.webp" alt=""><span class="no">#${String(i+1).padStart(2,'0')}</span>
+    <span class="bub"><img src="${img}" alt=""></span><span class="nm">${empty?'? ? ?':esc(gnm(k))}</span>${!empty&&fin==='first'?'<span class="stamp">1ST ED.</span>':''}</button>`}
+function openShelf(opt){document.querySelectorAll('.pmov').forEach(n=>n.remove());const p=pp();
+  const all=pon('c2')?SLICE_G():['me',...ROSTER];const own=all.filter(k=>k==='me'||prog.owned.includes(k));
+  const ov=el(`<div class="pmov" role="dialog" aria-label="Display Shelf"><div class="pmcard"><button class="pmx" type="button" aria-label="Close">×</button>
+    ${opt&&opt.end?`<div class="pmend"><b>SEASON 1 COMPLETE</b>The Collector is the one in a box now. Season 2: <b style="display:inline;font-size:inherit">The Collector's Museum</b> opens its back rooms.</div>`:''}
+    <h2>Display Shelf</h2><p class="sub">${own.length} of ${all.length} boxed. Tap a box to change its finish or make a share card. Finishes are cosmetic: bought directly, never random.</p>
+    <div class="pmshelf">${all.map((k,i)=>boxHTML(k,i,finOf(k),!own.includes(k))).join('')}</div><div class="pmsel" hidden></div></div></div>`);
+  document.body.appendChild(ov);const close=()=>{ov.remove();sfx('ui')};ov.querySelector('.pmx').addEventListener('click',close);ov.addEventListener('click',e=>{if(e.target===ov)close()});
+  const sel=ov.querySelector('.pmsel');
+  const pick=k=>{const f=finOf(k);sel.hidden=false;sel.innerHTML=`${boxHTML(k,all.indexOf(k),f)}<div class="fins"><b style="font:400 20px 'Luckiest Guy',sans-serif;color:#f2b630">${esc(gnm(k))}</b>
+      <div class="row">${FINS.map(([id,n,how,c])=>{const own=ownFin(k,id);return `<button type="button" class="pmfin" data-f="${id}" aria-pressed="${f===id}" ${!own&&!c?'disabled':''}>${n}<small>${own?(f===id?'On display':'Owned'):how}</small></button>`}).join('')}</div>
+      <div class="row"><button type="button" class="pmbtn sm" data-share>${pon('a2')?'Make share card':''}</button><span style="opacity:.8">◆ ${prog.shards||0} Foil Shards${(p.tok.holo||p.tok.glow)?` · Ledger tokens: ${p.tok.holo?p.tok.holo+' Holo ':''}${p.tok.glow?p.tok.glow+' Glow':''}`:''}</span></div></div>`;
+    const sb=sel.querySelector('[data-share]');if(!pon('a2'))sb.remove();else sb.addEventListener('click',()=>shareCard(k));
+    sel.querySelectorAll('.pmfin').forEach(b=>b.addEventListener('click',()=>{const id=b.dataset.f,c=(FINS.find(x=>x[0]===id)||[])[3]||0;
+      if(!ownFin(k,id)){if(p.tok[id]>0){p.tok[id]--}else if((prog.shards||0)>=c){prog.shards-=c}else{toast2(`Not enough Foil Shards. Holo costs 60, Glow 40. Weekly boss runs, Odd Jobs and the Ledger pay Shards.`);return}
+        p.own=p.own||{};p.own[k+':'+id]=1;toy('rip');ladder(2)}
+      p.fin[k]=id;save();sfx('pop');const bx=ov.querySelector(`.pmshelf .pmbox[data-k="${k}"]`);if(bx)bx.outerHTML=boxHTML(k,all.indexOf(k),id);wire();pick(k);tidy()}))};
+  const wire=()=>ov.querySelectorAll('.pmshelf .pmbox:not(.empty)').forEach(b=>{if(b._w)return;b._w=1;b.addEventListener('click',()=>{sfx('ui');babble(b.dataset.k,'sel');pick(b.dataset.k)})});wire();
+  if(opt&&opt.k)pick(opt.k);plog('shelf')}
+PM.openShelf=openShelf;
+function endCard(){if(!pon('a1')||!prog||!prog.bossDone)return;const p=pp();if(p.endShown)return;const h=$('#hallOv');if(!h||h.hidden||S&&!S.over)return;
+  if(document.querySelector('.pmov,.rpop,.vzov,#seq:not([hidden])'))return;p.endShown=1;save();openShelf({end:1})}
+
+/* =================================================================================================
+   a2 SHARE CARD
+   ================================================================================================= */
+const TAGS={me:'Hand-made. Fully poseable. Refuses to stay in the box.',witch:'Batteries not included. Curses are.',robot:'Some assembly required. Some disassembly guaranteed.',wrestler:'Body slam action! Ages 6 and up.',
+  clown:'Squeaks when squeezed. Also when not.',wizard:'Spell book sold separately.',samurai:'Contains one (1) very sharp attitude.',tombking:'Vintage. Very, very vintage.',ninja:'Now you see him.',valkyrie:'Limited edition. Unlimited attitude.',
+  pirate:'Arr-ticulated joints.',undawata:'Do not submerge. Or do.',stitches:'Hand stitched. Hand stitched again.',zombie:'Smells like new. New what, nobody knows.',inventor:'Builds his own accessories.',steampunk:'Runs on tea and spite.',barbarian:'Choking hazard (for monsters).'};
+function loadImg(src){return new Promise(r=>{const i=new Image();i.crossOrigin='anonymous';i.onload=()=>r(i);i.onerror=()=>r(null);i.src=src})}
+async function shareCard(k,then){const W=900,H=1200,c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');
+  const fin=finOf(k),nm=gnm(k),img=await loadImg(k==='me'?por('me'):(DRESS&&DRESS['px_'+k]&&DRESS['px_'+k].url)||`assets/gu_${k}.webp`),logo=await loadImg('assets/logo_full_w.webp');
+  const g=x.createLinearGradient(0,0,W,H);const pal={std:['#8a4fd8','#3a1f6e'],first:['#f2b630','#8a4a12'],glow:['#1d3a2a','#08110c'],holo:['#c9d2e6','#5d6a8a']}[fin]||['#8a4fd8','#3a1f6e'];
+  x.fillStyle='#17121f';x.fillRect(0,0,W,H);g.addColorStop(0,pal[0]);g.addColorStop(1,pal[1]);
+  const rr=(X,Y,w,h,r)=>{x.beginPath();x.moveTo(X+r,Y);x.arcTo(X+w,Y,X+w,Y+h,r);x.arcTo(X+w,Y+h,X,Y+h,r);x.arcTo(X,Y+h,X,Y,r);x.arcTo(X,Y,X+w,Y,r);x.closePath()};
+  rr(40,40,W-80,H-80,48);x.fillStyle=g;x.fill();x.lineWidth=10;x.strokeStyle='#17121f';x.stroke();
+  if(fin==='holo'){const h=x.createLinearGradient(0,0,W,H);['#ff4fd8','#ffd23a','#59ffa0','#59d6ff','#c77dff'].forEach((c2,i)=>h.addColorStop(i/4,c2));x.save();x.globalAlpha=.35;x.globalCompositeOperation='overlay';rr(40,40,W-80,H-80,48);x.fillStyle=h;x.fill();x.restore()}
+  x.fillStyle='#17121f';rr(W/2-60,58,120,26,13);x.fill();
+  for(let i=0;i<14;i++){x.save();x.globalAlpha=.08;x.translate(W/2,520);x.rotate(i/14*Math.PI*2);x.fillStyle='#fff';x.beginPath();x.moveTo(0,0);x.lineTo(-60,-700);x.lineTo(60,-700);x.closePath();x.fill();x.restore()}
+  if(logo)x.drawImage(logo,W/2-260,110,520,520*logo.height/logo.width);
+  rr(130,300,W-260,640,120);const bg=x.createRadialGradient(330,360,20,W/2,620,520);bg.addColorStop(0,'rgba(255,255,255,.6)');bg.addColorStop(.4,'rgba(255,255,255,.15)');bg.addColorStop(1,'rgba(255,255,255,.06)');x.fillStyle=bg;x.fill();x.lineWidth=6;x.strokeStyle=fin==='glow'?'#7dffa0':'rgba(255,255,255,.8)';x.stroke();
+  if(img){const s=Math.min((W-320)/img.width,560/img.height);if(fin==='glow'){x.save();x.shadowColor='#7dffa0';x.shadowBlur=40}x.drawImage(img,W/2-img.width*s/2,930-img.height*s,img.width*s,img.height*s);if(fin==='glow')x.restore()}
+  x.save();x.globalAlpha=.35;x.fillStyle='#fff';x.beginPath();x.ellipse(250,420,40,110,.3,0,7);x.fill();x.restore();
+  x.textAlign='center';x.font='96px "Luckiest Guy", sans-serif';x.lineWidth=14;x.strokeStyle='#17121f';const t=nm.toUpperCase();x.strokeText(t,W/2,1050,W-140);x.fillStyle='#fff';x.fillText(t,W/2,1050,W-140);
+  x.font='800 32px Nunito, sans-serif';x.fillStyle='#fbf7ef';x.fillText(TAGS[k]||'Collect them all. Rescue them all.',W/2,1105,W-140);
+  x.font='900 22px Nunito, sans-serif';x.fillStyle='rgba(255,255,255,.75)';x.fillText(`${esc(guildName())} · RESCUED FROM THE COLLECTOR · PICKY GAMES`,W/2,1145,W-140);
+  if(fin==='first'){x.save();x.translate(170,330);x.rotate(-.5);x.fillStyle='#e2483f';x.fillRect(-170,-26,340,52);x.strokeStyle='#17121f';x.lineWidth=5;x.strokeRect(-170,-26,340,52);x.fillStyle='#fff';x.font='900 30px Nunito, sans-serif';x.fillText('1ST EDITION',0,11);x.restore()}
+  x.save();x.translate(W-150,170);x.rotate(.25);x.beginPath();for(let i=0;i<24;i++){const a=i/24*Math.PI*2,r=i%2?62:80;x.lineTo(Math.cos(a)*r,Math.sin(a)*r)}x.closePath();x.fillStyle='#e2483f';x.fill();x.lineWidth=5;x.strokeStyle='#17121f';x.stroke();
+    x.fillStyle='#fff';x.font='34px "Luckiest Guy", sans-serif';x.fillText('LV '+lvl(k),0,-2);x.font='900 16px Nunito, sans-serif';x.fillText('AGES 6+',0,24);x.restore();
+  let url=null;try{url=c.toDataURL('image/png')}catch(e){url=null}
+  document.querySelectorAll('.pmov.pmsc').forEach(n=>n.remove());
+  const ov=el(`<div class="pmov pmsc" role="dialog" aria-label="Share card"><div class="pmcard"><button class="pmx" type="button" aria-label="Close">×</button><h2>${esc(nm)}, boxed and ready</h2>
+    <div class="pmshare">${url?`<img src="${url}" alt="${esc(nm)} in a blister box">`:'<p>This browser blocked the image (open the game from the web link to save cards).</p>'}<div class="side">
+      <p>Save it, then post it. Long-press the picture on a phone, or use the button.</p>
+      ${url?`<a class="pmbtn" download="guildies-${k}.png" href="${url}" style="text-align:center;text-decoration:none">Save image</a>`:''}
+      ${navigator.share&&url?'<button class="pmbtn alt" type="button" data-sh>Share…</button>':''}
+      <button class="pmbtn ${then?'':'alt'}" type="button" data-go>${then?'Continue':'Done'}</button></div></div></div></div>`);
+  document.body.appendChild(ov);const close=()=>{ov.remove();sfx('ui');if(then){const f=then;then=null;f()}};ov.querySelector('.pmx').addEventListener('click',close);ov.querySelector('[data-go]').addEventListener('click',close);
+  const sh=ov.querySelector('[data-sh]');if(sh)sh.addEventListener('click',async()=>{try{const b=await (await fetch(url)).blob();await navigator.share({files:[new File([b],`guildies-${k}.png`,{type:'image/png'})],title:'Guildies',text:`Meet ${nm}.`})}catch(e){}});
+  toy('rip');ladder(1);plog('share',k)}
+PM.shareCard=shareCard;
+
+/* =================================================================================================
+   a3 HEIST COLD OPEN (before Create) + c8 trimmed comic
+   ================================================================================================= */
+let HEIST=null;
+const realSave=save;save=function(){if(HEIST)return;return realSave.apply(this,arguments)};
+function heist(then){if(HEIST)return;const keep=prog;plog('heist start');
+  HEIST={keep,then,t0:performance.now()};
+  prog=freshProg();prog.me={name:'Grumbo',eyes:0,mouth:0,power:'punch'};prog.owned=['ninja','samurai','wizard'];prog.squad=['ninja','samurai','wizard'];prog.slots=3;prog.levels={ninja:4,samurai:4,wizard:4};
+  prog.load={ninja:null,samurai:null,wizard:null};prog.seen={skip:1,c1:1,c2:1,heal:1,gp1:1,gx1:1,aim:1,tele:1,cb1:1,holdUsed:1,zrhot:1,boss:1,atn1:1};prog.tut=false;
+  try{startBattle('curator',{noComic:1,from:3})}catch(e){console.warn('heist',e);return heistEnd(true)}
+  if(!S){return heistEnd(true)}S.pmHeist={t:0};try{TQ.length=0;toastQ=null;const t=$('#toast');if(t)t.style.opacity='0'}catch(e){}
+  const sk=el('<button type="button" class="pmskip">Skip intro ›</button>');document.body.appendChild(sk);sk.addEventListener('click',()=>heistEnd(true));HEIST.sk=sk;
+  const h=el('<div class="pmhint">THE LAST FREE GUILDIES BREAK IN!<small>Drag a Guildie onto the Collector</small></div>');h.hidden=true;document.body.appendChild(h);HEIST.hint=h;setTimeout(()=>{h.hidden=false},3200);setTimeout(()=>h.remove(),8000);
+  try{music('x_collector')}catch(e){}}
+TICKS.push(dt=>{if(!HEIST||!S||!S.pmHeist)return;const H=S.pmHeist;H.t+=dt;
+  for(const g of S.guildies)if(!g.dead&&g.hp<g.maxHp*.4)g.hp=g.maxHp*.4;
+  if(!H.used&&H.t>3){H.used=1;const w=S.guildies.find(g=>g.kind==='wizard'&&!g.dead);if(w&&!HEIST.hint.isConnected){}}
+  if(H.t>24&&!H.done){H.done=1;heistShrink()}});
+{const eb0=endBattle;endBattle=function(win){if(HEIST&&S&&S.pmHeist){if(!S.pmHeist.done){S.pmHeist.done=1;heistShrink()}return}
+  const was=S&&!S.over;const r=eb0.apply(this,arguments);try{if(was&&win&&PM.on&&!S.arena)victoryGags()}catch(e){console.warn('pm gags',e)}try{if(was)guestDone()}catch(e){}return r}}
+function heistShrink(){if(!HEIST)return;if(S)S.over=true;const ov=el(`<div class="pmheist" role="dialog" aria-label="The Collector"><div class="flash"></div><img class="coll" src="assets/collector.webp" alt="The Collector">
+  <div class="pmsay">"Mint condition. Every last one of you."</div></div>`);document.body.appendChild(ov);HEIST.ov=ov;try{sfx('sigSnatch')}catch(e){}
+  setTimeout(()=>{if(!ov.isConnected)return;ov.innerHTML=`<div class="flash"></div><div class="pmsay big">SHHHRINK!</div><div class="boxes">${['ninja','samurai','wizard'].map((k,i)=>boxHTML(k,i,'std')).join('')}</div><div class="pmsay">The guild is all boxed up...</div>`;
+    ov.querySelectorAll('.pmbox').forEach((b,i)=>b.style.animationDelay=(i*.18)+'s');try{sfx('sigShelf');shakeDom()}catch(e){}},1600);
+  setTimeout(()=>{if(!ov.isConnected)return;ov.innerHTML=`<div class="flash"></div><div class="pmsay">...except for one Guildie he never saw coming.</div><div class="pmsay big">YOU.</div><div class="tap">Tap to make your Guildie</div>`;try{stinger('levelup')}catch(e){}
+    ov.addEventListener('pointerdown',()=>heistEnd(false),{once:true})},4200);
+  setTimeout(()=>{if(ov.isConnected)heistEnd(false)},9000)}
+function shakeDom(){const a=document.getElementById('app');if(!a||!a.animate)return;a.animate([{transform:'translate(0,0)'},{transform:'translate(-8px,4px)'},{transform:'translate(6px,-4px)'},{transform:'translate(0,0)'}],{duration:260})}
+function heistEnd(skipped){if(!HEIST)return;const H=HEIST;HEIST=null;plog('heist end',skipped?'skip':'done');
+  try{if(H.ov)H.ov.remove();if(H.sk)H.sk.remove();if(H.hint)H.hint.remove()}catch(e){}
+  try{if(S)S.over=true}catch(e){}S=null;prog=H.keep;try{localStorage.setItem('guildies.pm.heist','1')}catch(e){}try{music(null)}catch(e){}
+  document.querySelectorAll('#gpBtn,.pmhint').forEach(n=>n.remove());H.then()}
+PM.heist=()=>heist(()=>oc0(false));
+const oc0=openCreate;
+openCreate=function(edit){if(!edit&&pon('a3')&&!HEIST&&!(prog&&prog.me)){let seen=0;try{seen=localStorage.getItem('guildies.pm.heist')}catch(e){}if(!seen||PM.forceHeist){PM.forceHeist=0;return heist(()=>oc0.call(this,false))}}return oc0.apply(this,arguments)};
+/* the comic: after a heist (or with c8) only "Then a new Guildie walked in. YOU." and "Your mission" play. A share card comes first. */
+{const sc0=showComic;showComic=function(){const args=arguments,self=this;
+  const go=()=>{const r=sc0.apply(self,args);try{if(pon('c8')||pon('a3')){const P=[...document.querySelectorAll('#cpg .pnl')];if(P.length>=6){P.slice(0,4).forEach(p=>p.remove());document.querySelectorAll('#cpg .pnl').forEach(p=>p.classList.remove('on'));comicStep=0;comicNext()}}}catch(e){console.warn('pm comic',e)}return r};
+  if(pon('a2')&&prog&&prog.me&&!pp().cardMe){pp().cardMe=1;save();return shareCard('me',go)}return go()}}
+
+/* =================================================================================================
+   a4 PERSONALITY: power cut-ins, victory gags, voices
+   ================================================================================================= */
+const COL={wizard:['#3a6bff','#9ad0ff'],witch:['#5b2a86','#c77dff'],ninja:['#17121f','#5b4a72'],wrestler:['#c0262a','#f2b630'],clown:['#ff5ad0','#ffd23a'],samurai:['#8a1c1c','#e2483f'],tombking:['#a8641a','#f2d38a'],robot:['#3d4a5a','#9fb3c8'],
+  barbarian:['#7a3b12','#e08a3a'],valkyrie:['#2f6b9a','#c9e6ff'],pirate:['#1f3a5a','#e2483f'],undawata:['#0f5a6b','#59d6ff'],stitches:['#4a3a2a','#c8a07a'],zombie:['#2f5a2a','#9ef07a'],inventor:['#6b4a12','#f2b630'],steampunk:['#4a2f1b','#c8a07a'],me:['#8a4fd8','#f2b630']};
+let cutT=0;
+function cutIn(u,title,sub){if(!pon('a4'))return;const now=performance.now();if(now-cutT<1100)return;cutT=now;try{if(document.documentElement.classList.contains('reduce'))return}catch(e){}
+  const k=u?u.kind:'me',c=COL[k]||COL.me,img=k==='me'?por('me'):(DRESS&&DRESS['px_'+k]&&DRESS['px_'+k].url)||`assets/gu_${k}.webp`;
+  document.querySelectorAll('.pmcut').forEach(n=>n.remove());const n=el(`<div class="pmcut" aria-hidden="true" style="--c1:${c[0]};--c2:${c[1]}"><div class="band"></div><img src="${img}" alt=""><small>${esc(sub||'')}</small><b>${esc(title)}</b></div>`);
+  document.body.appendChild(n);setTimeout(()=>n.remove(),800);babble(k,'pow')}
+PM.cutIn=cutIn;
+{const up0=usePower;usePower=function(u,slot){const before=u&&u.cds?u.cds[slot]:0;const r=up0.apply(this,arguments);try{if(pon('a4')&&S&&!S.pmHeist&&u&&u.cds&&slot==='power'&&before<=0&&u.cds[slot]>0){S.pmCut=S.pmCut||{};if(!S.pmCut[u.id]){S.pmCut[u.id]=1;const P=slotDef(u,slot);cutIn(u,(P&&P.name||'POWER').toUpperCase()+'!',gnm(u.kind))}}}catch(e){console.warn('pm cut',e)}return r}}
+{const gp0=castGuildPower;castGuildPower=function(){const cd=S&&S.gpCd;const r=gp0.apply(this,arguments);try{if(pon('a4')&&S&&!S.pmHeist&&S.gpCd>(cd||0)){const G=GPOW[S.gpow];cutIn(S.guildies.find(g=>g.kind==='me'&&!g.dead)||S.guildies[0],(G&&G.name||'GUILD POWER').toUpperCase()+'!',esc(guildName()))}}catch(e){}return r}}
+const QUIPS={me:['Not bad for a homemade toy!','Put THAT on a shelf!','Boxed it!'],wizard:['Abraca-SMACK!','Read a book, nerds.','Ten points to me!'],witch:['Double, double, you\'re in trouble.','Hex-cellent.','Toad-ally deserved.'],
+  ninja:['...','(silent bow)','Already gone.'],wrestler:['OHHH YEAHHH!','Ding ding ding!','Three count!'],clown:['HONK HONK!','Tough crowd!','Juggle THIS!'],samurai:['Clean cut.','Honor: restored.','Sheathed.'],
+  tombking:['Bow before your king!','Mummy\'s home!','Wrap it up!'],robot:['VICTORY.EXE','BEEP BOOP. YOU LOSE.','Battery: 100%.'],barbarian:['MORE!','SMASH GOOD!','Again! AGAIN!'],valkyrie:['To glory!','Next!','Valhalla can wait.'],
+  pirate:['Yo ho HO!','Plunder time!','Walk the plank!'],undawata:['Blub blub!','Splash zone!','Wet and wild!'],stitches:['Barely a scratch. Well, one.','Sew good!','Patched up!'],zombie:['Braaaavo.','Grrrreat.','Brains: 1. Them: 0.'],
+  inventor:['Science!','It worked?!','Patent pending!'],steampunk:['Splendid!','Tea time!','Full steam!']};
+function victoryGags(){if(!pon('a4')||!S)return;const L=S.guildies.filter(g=>!g.dead&&g.kind!=='pet');L.forEach((g,i)=>{const q=QUIPS[g.kind]||QUIPS.me;setTimeout(()=>{if(!S||!g)return;try{float(g.x,g.y-GH-46,q[Math.floor(Math.random()*q.length)],'#fbf7ef',17);burst(g.x,g.y-GH-20,(COL[g.kind]||COL.me)[1],8,150);g.pmHop=.5;babble(g.kind,'win')}catch(e){}},150+i*330)})}
+TICKS.push(dt=>{for(const g of S.guildies)if(g.pmHop>0){g.pmHop=Math.max(0,g.pmHop-dt);g.pmHopY=-Math.sin((.5-g.pmHop)/.5*Math.PI)*16}});
+
+/* =================================================================================================
+   a5 COLLECTOR FINALE: tap RIP! to free a Guildie he puts on display
+   ================================================================================================= */
+let ripEl=null,ripV=null;
+function ripHide(){if(ripEl){ripEl.remove();ripEl=null;ripV=null}}
+TICKS.push(()=>{if(!pon('a5')||S.pmHeist||S.over){ripHide();return}
+  if(QKEY==='curator'&&!S.pmFin){S.pmFin=1;setTimeout(()=>{if(S&&!S.over&&!S.pmHeist)banner('THE FINALE: HIS PRIVATE GALLERY',1.8)},900)}
+  const v=S.guildies.find(g=>!g.dead&&g.st&&g.st.jar>1.6&&g.st.jar<=9.5);if(!v){ripHide();return}
+  if(ripV!==v){ripHide();ripV=v;v.pmRip=v.pmRip||0;const img=v.kind==='me'?por('me'):(DRESS&&DRESS['px_'+v.kind]&&DRESS['px_'+v.kind].url)||`assets/gu_${v.kind}.webp`;
+    ripEl=el(`<button type="button" id="pmRip"><img src="${img}" alt=""><span>RIP ${esc(gnm(v.kind)).toUpperCase()} FREE!<small>Tap tap tap!</small><i><span></span></i></span></button>`);ripEl.classList.toggle('rt',v.x>W/2);document.body.appendChild(ripEl);
+    ripEl.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();const u=ripV;if(!u||!S)return;u.pmRip++;u.st.jar=Math.max(.2,u.st.jar-1.7);toy('rip');try{sfx('pop');burst(u.x,u.y-40,'#fbf7ef',6,180);burst(u.x,u.y-40,'#f2b630',4,140)}catch(e2){}
+      const p=Math.min(100,(1-(u.st.jar-.2)/9)*100);ripEl.querySelector('i span').style.setProperty('--p',p+'%');ripEl.querySelector('i span').style.width=p+'%';
+      if(u.st.jar<=.25){u.st.jar=0;try{float(u.x,u.y-GH-40,'RIPPED FREE!','#7dffa0',26);banner('RIPPED FREE!',1.2);shake(8);burst(u.x,u.y-40,'#7dffa0',22,280);babble(u.kind,'win');ladder(1)}catch(e2){}
+        for(const c of S.fx)if(c.type==='case'&&c.full)c.t=c.life;ripHide()}})}});
+
+/* =================================================================================================
+   a6 COLLECTOR'S LEDGER (season pass mock)
+   ================================================================================================= */
+const LED=[[3,['gold',60],['tok','glow']],[6,['shards',20],['gold',150]],[10,['gold',100],['tok','holo']],[14,['shards',30],['shards',60]],[18,['tok','glow'],['gold',250]],
+  [23,['gold',150],['tok','holo']],[28,['shards',40],['shards',80]],[34,['gold',200],['tok','holo']],[40,['shards',60],['gold',400]],[48,['tok','holo'],['tok','holo']]];
+const ledPts=()=>{let a=0,b=0;try{a=starTot()}catch(e){}try{b=codexN()}catch(e){}return a+b+(prog.built||[]).length*2};
+const rwLbl=r=>r[0]==='gold'?['◈',r[1]+' gold']:r[0]==='shards'?['◆',r[1]+' Shards']:r[1]==='holo'?['✦','Holo box']:['☾','Glow box'];
+function ledgerClaimable(){if(!pon('a6')||!prog||!prog.me)return false;const p=pp(),pt=ledPts();return LED.some(([n],i)=>pt>=n&&(!p.lc.includes(i)||(p.lp&&!p.ac.includes(i))))}
+function openLedger(){document.querySelectorAll('.pmov').forEach(n=>n.remove());const p=pp(),pt=ledPts(),top=LED[LED.length-1][0];
+  const cell=(i,r,prem)=>{const [ic,t]=rwLbl(r),ok=pt>=LED[i][0],got=(prem?p.ac:p.lc).includes(i),lock=prem&&!p.lp;return `<button type="button" class="pmrw ${prem?'prem':''} ${got?'got':ok&&!lock?'ok':''} ${lock?'lock':''}" data-i="${i}" data-p="${prem?1:0}"><span class="ico">${ic}</span>${t}</button>`};
+  const ov=el(`<div class="pmov" role="dialog" aria-label="The Collector's Ledger"><div class="pmcard"><button class="pmx" type="button" aria-label="Close">×</button>
+    <h2>The Collector's Ledger · Season 1</h2><p class="sub">Every star and every Codex find fills the Ledger. Free rewards for everyone; the Gold track holds box finishes. <b>Pitch mock: no real payment.</b></p>
+    <div class="pmbar"><span style="width:${Math.min(100,pt/top*100)}%"></span></div><div style="margin:-6px 0 8px;font:900 12px Nunito,sans-serif">${pt} / ${top} Ledger points</div>
+    <div class="pmled"><span></span>${LED.map(([n])=>`<span class="tier">${n} pts</span>`).join('')}
+      <span class="lab">FREE</span>${LED.map((t,i)=>cell(i,t[1],0)).join('')}
+      <span class="lab">GOLD ★</span>${LED.map((t,i)=>cell(i,t[2],1)).join('')}</div>
+    <div class="pmrow">${p.lp?'<b style="color:#9be15d">Gold track unlocked for this demo.</b>':'<button type="button" class="pmbtn" data-buy>Unlock the Gold track · $4.99 (mock)</button>'}<span style="opacity:.8">Season pass + direct cosmetics. Heroes are never sold.</span></div></div></div>`);
+  document.body.appendChild(ov);const close=()=>{ov.remove();sfx('ui');try{renderHall()}catch(e){}};ov.querySelector('.pmx').addEventListener('click',close);ov.addEventListener('click',e=>{if(e.target===ov)close()});
+  const b=ov.querySelector('[data-buy]');if(b)b.addEventListener('click',()=>{p.lp=1;save();toast2('Pitch mock: no payment was taken. The Gold track is open for this demo.');ladder(4);openLedger()});
+  ov.querySelectorAll('.pmrw.ok').forEach(c=>c.addEventListener('click',()=>{const i=+c.dataset.i,prem=c.dataset.p==='1',r=LED[i][prem?2:1];(prem?p.ac:p.lc).push(i);
+    if(r[0]==='gold')prog.gold+=r[1];else if(r[0]==='shards')prog.shards=(prog.shards||0)+r[1];else p.tok[r[1]]=(p.tok[r[1]]||0)+1;save();sfx('coin');ladder(1);
+    try{$('#hGold').innerHTML=goldHTML(prog.gold)}catch(e){}openLedger()}));plog('ledger')}
+PM.openLedger=openLedger;
+
+/* =================================================================================================
+   a7 STICKER ALBUM (the Combo Codex)
+   ================================================================================================= */
+{const cx0=codexOpen;codexOpen=function(){if(!pon('a7'))return cx0.apply(this,arguments);document.querySelectorAll('.cdxpop,.pmov').forEach(n=>n.remove());const C=prog.codex||{},p=pp();p.pg=p.pg||[];
+  const pages=[];for(let i=0;i<COMBOS.length;i+=8)pages.push(COMBOS.slice(i,i+8));
+  const ov=el(`<div class="pmov cdxpop" role="dialog" aria-label="Combo sticker album"><div class="pmcard"><button class="pmx" type="button" aria-label="Close">×</button>
+    <h2>The Combo Sticker Album</h2><p class="sub">${codexN()} / ${COMBOS.length} stickers. Land a combo in a fight to earn its sticker. Fill a page for 40 Foil Shards.</p>
+    <div class="pmalb">${pages.map((P,pi)=>{const got=P.filter(c=>C[c.i]).length,full=got===P.length,cl=p.pg.includes(pi);
+      return `<div class="pmpage"><h3>Page ${pi+1}<small>${got}/${P.length}${full?(cl?' · ✓ claimed':` <button type="button" class="pmbtn sm" data-pg="${pi}">Claim 40 ◆</button>`):''}</small></h3><div class="pmstk">${P.map((c,j)=>{const g=!!C[c.i];
+        return `<div class="pmst ${g?'got':''}" style="--r:${((j*37)%9-4)}deg" title="${g?esc(c.n):'Not found yet'}"><span class="ic"><img src="assets/${cbIcon(c.s)}.webp" alt=""><img src="assets/${cbIcon(c.p)}.webp" alt=""></span>${g?esc(c.n):'?'}</div>`}).join('')}</div></div>`}).join('')}</div></div></div>`);
+  document.body.appendChild(ov);const close=()=>{ov.remove();sfx('ui')};ov.querySelector('.pmx').addEventListener('click',close);ov.addEventListener('click',e=>{if(e.target===ov)close()});
+  ov.querySelectorAll('[data-pg]').forEach(b=>b.addEventListener('click',()=>{p.pg.push(+b.dataset.pg);prog.shards=(prog.shards||0)+40;save();sfx('coin');ladder(3);codexOpen()}))}}
+
+/* =================================================================================================
+   a8 PET COMPANION: Gerald tags along and does a gag every ~9 s
+   ================================================================================================= */
+const petImg=new Image();petImg.src='assets/bat2.webp';
+const PET_GAGS=[['FOUND A COIN!','#f2b630',g=>{prog.gold+=2;S.gold=(S.gold||0)}],['*nibble* +HP','#7dffa0',g=>{const a=S.guildies.filter(x=>!x.dead&&x.kind!=='pet').sort((a,b)=>a.hp/a.maxHp-b.hp/b.maxHp)[0];if(a)heal(null,a,a.maxHp*.06)}],['RASPBERRY!','#ff9ad0',g=>{const e=S.units.find(x=>x.team==='e'&&!x.dead);if(e){e.st.slow=Math.max(e.st.slow||0,1.2)}}]];
+TICKS.push(dt=>{if(!pon('a8')||S.pmHeist||S.arena)return;if(S.guildies.some(g=>g.gerald))return;const lead=S.sel&&!S.sel.dead?S.sel:S.guildies.find(g=>!g.dead&&g.kind!=='pet');if(!lead)return;
+  const P=S.pmPet=S.pmPet||{x:lead.x-40,y:lead.y-60,t:4,gag:null};const tx=lead.x-58*(lead.face||1),ty=lead.y-GH*.75;P.x+=(tx-P.x)*Math.min(1,dt*3);P.y+=(ty-P.y)*Math.min(1,dt*3);P.t-=dt;
+  if(P.t<=0&&!S.over){P.t=8+Math.random()*3;const G=PET_GAGS[Math.floor(Math.random()*PET_GAGS.length)];try{G[2](lead);float(P.x,P.y-18,'GERALD: '+G[0],G[1],15);toy('squeak')}catch(e){}}});
+DRAWS.push(c=>{const P=S.pmPet;if(!P||!pon('a8')||!petImg.complete||!petImg.naturalWidth)return;const b=Math.sin(performance.now()/180)*5,w=78,h=w*petImg.naturalHeight/petImg.naturalWidth;c.save();c.translate(P.x,P.y+b);c.globalAlpha=.25;c.fillStyle='#000';c.beginPath();c.ellipse(0,GH*.75+4-b,18,5,0,0,7);c.fill();c.globalAlpha=1;c.drawImage(petImg,-w/2,-h/2,w,h);c.restore()});
+
+/* =================================================================================================
+   a9 GUEST GUILDIE: friend codes
+   ================================================================================================= */
+const enc=o=>'G-'+btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/=+$/,'').replace(/\+/g,'-').replace(/\//g,'_');
+const dec=s=>{try{s=String(s).trim().replace(/^G-/,'').replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';const o=JSON.parse(decodeURIComponent(escape(atob(s))));return o&&o.k&&GUILDIES[o.k]?o:null}catch(e){return null}};
+const myCode=()=>{const k=(prog.squad||[]).find(x=>x!=='me')||prog.owned.find(x=>x!=='me')||'witch';return enc({n:guildName(),k,l:lvl(k)})};
+const DEMO_FRIEND={n:"Picky Pals",k:'ninja',l:3};
+function openFriends(){document.querySelectorAll('.pmov').forEach(n=>n.remove());const p=pp();
+  const ov=el(`<div class="pmov" role="dialog" aria-label="Friend codes"><div class="pmcard" style="width:min(640px,100%)"><button class="pmx" type="button" aria-label="Close">×</button>
+    <h2>Bring a friend's Guildie</h2><p class="sub">Swap codes with a friend. Their Guildie joins your next fight as a guest, then heads home.</p>
+    <div><b>Your code</b> (lends your ${esc(gnm((prog.squad||[]).find(x=>x!=='me')||'witch'))})</div><div class="pmfr"><code>${myCode()}</code><button type="button" class="pmbtn sm alt" data-copy>Copy</button></div>
+    <div style="margin-top:10px"><b>Friend's code</b></div><div class="pmfr"><input type="text" placeholder="G-..." aria-label="Friend's code" autocomplete="off" spellcheck="false"><button type="button" class="pmbtn sm" data-use>Use</button></div>
+    <div class="pmrow"><button type="button" class="pmbtn sm alt" data-demo>Try a demo friend (Picky Pals' Ninja)</button></div>
+    <p class="sub" data-st style="margin-top:8px">${p.guest?`Next fight: <b>${esc(p.guest.n)}'s ${esc(gnm(p.guest.k))}</b> joins you.`:'No guest booked.'}</p></div></div>`);
+  document.body.appendChild(ov);const close=()=>{ov.remove();sfx('ui')};ov.querySelector('.pmx').addEventListener('click',close);ov.addEventListener('click',e=>{if(e.target===ov)close()});
+  const book=o=>{p.guest={n:String(o.n||'A friend').slice(0,24),k:o.k,l:Math.max(1,Math.min(5,o.l|0||1))};save();sfx('coin');ov.querySelector('[data-st]').innerHTML=`Next fight: <b>${esc(p.guest.n)}'s ${esc(gnm(p.guest.k))}</b> joins you.`;toast2(`${p.guest.n}'s ${gnm(p.guest.k)} will join your next fight.`)};
+  ov.querySelector('[data-copy]').addEventListener('click',()=>{try{navigator.clipboard.writeText(myCode());toast2('Code copied.')}catch(e){}});
+  ov.querySelector('[data-use]').addEventListener('click',()=>{const o=dec(ov.querySelector('input').value);if(!o){toast2('That code didn\'t work. Codes start with G-.');return}book(o)});
+  ov.querySelector('[data-demo]').addEventListener('click',()=>book(DEMO_FRIEND))}
+PM.openFriends=openFriends;PM.dec=dec;PM.myCode=myCode;
+{const sb0=startBattle;startBattle=function(qk,opt){const r=sb0.apply(this,arguments);try{if(pon('a9')&&S&&!S.over&&!S.pmHeist&&!S.arena&&!S.pmGuest&&prog.pm&&prog.pm.guest){const G=prog.pm.guest;
+    if(!S.guildies.some(g=>g.kind===G.k)){const lv=prog.levels[G.k];prog.levels[G.k]=G.l;const g=mkGuildie(G.k,S.guildies.length,S.guildies.length+1);if(lv==null)delete prog.levels[G.k];else prog.levels[G.k]=lv;
+      g.guest=G.n;g.x=Math.max(F.x0+40,(S.guildies[S.guildies.length-1]||{x:200}).x-60);S.units.push(g);S.guildies.push(g);S.stats[g.id]={dmg:0,heal:0,pw:0,taken:0,kills:0,crits:0};S.pmGuest=G;
+      try{buildHud()}catch(e){}setTimeout(()=>{if(S&&!S.over)float(g.x,g.y-GH-40,`${G.n.toUpperCase()}'S ${gnm(G.k).toUpperCase()} JOINS!`,'#9be15d',18);babble(G.k,'win')},700)}}}catch(e){console.warn('pm guest',e)}return r}}
+function guestDone(){if(S&&S.pmGuest&&prog.pm){delete prog.pm.guest;save()}}
+
+/* =================================================================================================
+   SLICE LAB: switches + presenter jumps (Settings > Slice Lab, or #slicelab)
+   ================================================================================================= */
+const SEEN_ALL={aim:1,arenaBeat:1,bn1:1,boss:1,bty0:1,c1:1,c2:1,cb1:1,char1:1,comicPost:1,gcHq1:1,gcIntro:1,gp1:1,gx1:1,hall2:1,heal:1,holdUsed:1,inside1:1,map1:1,oj1:1,pk1:1,qb:1,rit1:1,rxFlip:1,shop:1,skip:1,sqTut:1,squad:1,tele:1,up:1,zrhot:1,atn1:1,atnIntro:1,ripTut:1,sealPick:1,bigpan:1,hold:1};
+function backup(){try{if(!localStorage.getItem('guildies.pm.backup')){const s=localStorage.getItem(KEY);localStorage.setItem('guildies.pm.backup',s||'__empty')}}catch(e){}}
+function seed(n,extra){backup();const me=prog&&prog.me?prog.me:{name:'Grumbo',eyes:0,mouth:0,power:'punch'};const keepCos=prog&&prog.cos;
+  prog=freshProg();prog.me=me;if(keepCos)prog.cos=keepCos;prog.seen=Object.assign({},SEEN_ALL);prog.tut=false;prog.tutHall=true;
+  const order=ROOM_ORDER.slice(0,n);prog.built=order;prog.owned=['me',...order.map(k=>ROOMS[k].g)];prog.squad=prog.owned.slice(0,Math.min(3,prog.owned.length));prog.slots=Math.min(3,prog.owned.length);
+  prog.load={};prog.squad.forEach(k=>prog.load[k]=null);prog.gear=[];prog.levels={};prog.owned.forEach(k=>prog.levels[k]=Math.min(4,1+Math.floor(n/2)));prog.gold=300+n*150;prog.shards=40+n*15;prog.ffGo=1;prog.gname=prog.gname||'Picky Guild';
+  try{prog.nb=nbFresh()}catch(e){}Object.assign(prog,extra||{});try{fixSquad()}catch(e){}try{composeMe()}catch(e){}realSave()}
+const closeAll=()=>{document.querySelectorAll('.pmov,.setov,.rpop').forEach(n=>n.remove());try{if(S&&!S.over)S.over=true}catch(e){}S=null};
+const BEATS=[
+ ['0:00','Heist cold open','Drag, power, shrink-wrapped',()=>{closeAll();backup();prog=freshProg();realSave();PM.forceHeist=1;openCreate(false)}],
+ ['0:40','Create + share card','Make a Guildie, get the box art',()=>{closeAll();backup();prog=freshProg();realSave();try{localStorage.setItem('guildies.pm.heist','1')}catch(e){}openCreate(false)}],
+ ['2:00','Fight 1','Hold your spot, drag to target',()=>{closeAll();seed(0,{ffGo:0});questGo(ROOM_ORDER[0])}],
+ ['4:00','First rescue','Rip the box, the reveal',()=>{closeAll();seed(0);location.hash='#rescue-demo';location.reload()}],
+ ['5:30','Squad up','Swap, equip, combo lines',()=>{closeAll();seed(3,{gear:['wand','bat','roboclaw','chair','mic']});toHall('squad')}],
+ ['6:30','Elite fight','Shell, Kiter or Split lesson',()=>{closeAll();seed(2);const N=(NODES.bog||NODES.candy||[]).find(n=>n.t===2)||(NODES.candy||[])[1];if(N)startBattle(N.k,{noComic:1});else toHall('map')}],
+ ['7:30','Castle, shop, Ledger','Odd Jobs, cosmetics, season pass',()=>{closeAll();seed(4,{gold:1600});tab='rooms';toHall('rooms')}],
+ ['8:30','Collector finale','He shelves a Guildie: RIP! it free',()=>{closeAll();seed(6);prog.squad=prog.owned.filter(k=>k!=='me').slice(-2).concat('me');prog.slots=3;fixSquad&&fixSquad();realSave();startBattle('curator',{noComic:1,from:3})}],
+ ['9:45','End card','The shelf, a holo box, Season 2',()=>{closeAll();seed(6,{bossDone:true});const p=pp();p.fin.witch='holo';p.own={'witch:holo':1};realSave();toHall('hall');setTimeout(()=>openShelf({end:1}),600)}]];
+function openLab(){document.querySelectorAll('.pmov,.setov').forEach(n=>n.remove());let dirty=false;let bk=null;try{bk=localStorage.getItem('guildies.pm.backup')}catch(e){}
+  const ov=el(`<div class="pmov" role="dialog" aria-label="Slice Lab"><div class="pmcard"><button class="pmx" type="button" aria-label="Close">×</button>
+    <h2>Slice Lab</h2><p class="sub">Pitch Mode is the vertical slice from the benchmark. Flip any switch, then reload to try the game with or without it. Presenter jumps load a demo save at each beat of the 10-minute script.</p>
+    <label class="pmsw" style="margin-bottom:8px"><input type="checkbox" data-k="on" ${PM.on?'checked':''}><span><b>Pitch Mode</b><small>Off = the full v84z99zz game</small></span></label>
+    <div class="pmcols"><div><h3>Switches</h3><div class="pmlab">${PM_ITEMS.map(([k,t,n,d])=>`<label class="pmsw"><input type="checkbox" data-k="${k}" ${PM[k]?'checked':''}><span class="tg ${t}">${t.toUpperCase()}</span><span><b>${n}</b><small>${d}</small></span></label>`).join('')}</div>
+      <div class="pmrow"><button type="button" class="pmbtn" data-reload disabled>Reload to apply</button><button type="button" class="pmbtn alt sm" data-all>All on</button><button type="button" class="pmbtn alt sm" data-none>All off</button></div></div>
+    <div><h3>Presenter jumps</h3><div class="pmbeats">${BEATS.map(([t,n,d],i)=>`<button type="button" class="pmbeat" data-b="${i}"><span class="t">${t}</span><span><b>${n}</b><br><small>${d}</small></span></button>`).join('')}</div>
+      <div class="pmrow">${pon('a9')?'<button type="button" class="pmbtn alt sm" data-fr>Friend codes</button>':''}${pon('a1')?'<button type="button" class="pmbtn alt sm" data-sh>Display Shelf</button>':''}${pon('a6')?'<button type="button" class="pmbtn alt sm" data-ld>Ledger</button>':''}</div>
+      <p class="sub" style="margin-top:8px">${bk?'Jumps replaced your guild with a demo save. <button type="button" class="pmbtn sm" data-restore>Restore my guild</button>':'The first jump backs up your guild so you can restore it here.'}</p></div></div></div></div>`);
+  document.body.appendChild(ov);const close=()=>{ov.remove();sfx('ui')};ov.querySelector('.pmx').addEventListener('click',close);ov.addEventListener('click',e=>{if(e.target===ov)close()});
+  const rl=ov.querySelector('[data-reload]');const mark=()=>{dirty=true;rl.disabled=false;pmSave()};
+  ov.querySelectorAll('input[data-k]').forEach(i=>i.addEventListener('change',()=>{PM[i.dataset.k]=i.checked;mark()}));
+  ov.querySelector('[data-all]').addEventListener('click',()=>{PM.on=true;PM_ITEMS.forEach(([k])=>PM[k]=true);ov.querySelectorAll('input[data-k]').forEach(i=>i.checked=true);mark()});
+  ov.querySelector('[data-none]').addEventListener('click',()=>{PM_ITEMS.forEach(([k])=>PM[k]=false);ov.querySelectorAll('input[data-k]').forEach(i=>{if(i.dataset.k!=='on')i.checked=false});mark()});
+  rl.addEventListener('click',()=>{pmSave();location.hash='';location.reload()});
+  ov.querySelectorAll('[data-b]').forEach(b=>b.addEventListener('click',()=>{const B=BEATS[+b.dataset.b];plog('beat',B[1]);try{unlockAudio()}catch(e){}ov.remove();try{B[3]()}catch(e){console.warn('beat',e);toast2('That jump hit a snag: '+e.message)}}));
+  const f=ov.querySelector('[data-fr]');if(f)f.addEventListener('click',openFriends);const s=ov.querySelector('[data-sh]');if(s)s.addEventListener('click',()=>{if(prog&&prog.me)openShelf();else toast2('Make a Guildie first.')});
+  const l=ov.querySelector('[data-ld]');if(l)l.addEventListener('click',()=>{if(prog&&prog.me)openLedger();else toast2('Make a Guildie first.')});
+  const r=ov.querySelector('[data-restore]');if(r)r.addEventListener('click',()=>{try{const s=localStorage.getItem('guildies.pm.backup');if(s==='__empty')localStorage.removeItem(KEY);else localStorage.setItem(KEY,s);localStorage.removeItem('guildies.pm.backup')}catch(e){}location.hash='';location.reload()})}
+PM.openLab=openLab;PM.beats=BEATS;
+{const os0=openSettings;openSettings=function(){const r=os0.apply(this,arguments);try{const c=document.querySelector('.setov .rpcard');if(c){const b=el('<button type="button" class="pmbtn pmset">Slice Lab · Pitch Mode '+(PM.on?'ON':'OFF')+'</button>');
+  const h=c.querySelector('h2');(h?h.nextSibling:null)?c.insertBefore(b,h.nextSibling):c.appendChild(b);b.addEventListener('click',()=>{sfx('tab');openLab()})}
+  if(pon('a9')&&prog&&prog.me&&c){const b2=el('<button type="button" class="pmbtn alt pmset">Friend codes</button>');b.after(b2);b2.addEventListener('click',()=>{sfx('tab');openFriends()})}}catch(e){console.warn('pm set',e)}return r}}
+const hashLab=()=>{if(/^#(slicelab|pitch)$/.test(location.hash))setTimeout(openLab,1200)};hashLab();addEventListener('hashchange',hashLab);
+window.__G.pm=PM;PM.openCreate=e=>openCreate(e);PM.codex=()=>codexOpen();PM.use=(u,s)=>usePower(u,s);PM.S=()=>S;PM.endBattle=w=>endBattle(w);PM.setTab=t=>{tab=t;renderHall()};PM.startBattle=(q,o)=>startBattle(q,o);PM.toHall=t=>toHall(t);PM.renderHall=()=>renderHall();PM.openSettings=()=>openSettings();
+}
+/* ===== end v84z99zza PITCH MODE ===== */
 
 })();
 
