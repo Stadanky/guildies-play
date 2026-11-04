@@ -419,7 +419,7 @@ body:has(#seq.rx) #app>header{visibility:hidden}
 <script src="assets/cshop/cshop_pack.js"></script>
 <link rel="preload" as="image" href="assets/bg_forest.webp?v=84x" fetchpriority="high">
 <script src="assets/introlive/intro_live.js"></script>
-<title>Guildies Preview v84z99zzb</title>
+<title>Guildies Preview v84z99zzc</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Jolly+Lodger&family=Grandstander:wght@500;600;700;800;900&family=Nunito:wght@600;800;900&family=Press+Start+2P&family=Comic+Neue:wght@700&family=IM+Fell+English+SC&family=Permanent+Marker&family=Nosifer&display=swap">
@@ -4825,7 +4825,7 @@ html.reduce .vzs,html.reduce .vzlrw,html.reduce .vztally.in,html.reduce .vzsb.n2
     <div id="jkList"></div>
     <div class="jkctl"><button type="button" class="go sm" id="jkClose">Close</button></div></div></div>
   <div class="tcorner l">© 2026 KENNETH BENEDICT</div>
-  <div class="tcorner r">PICKY GAMES · PREVIEW v84z99zzb</div>
+  <div class="tcorner r">PICKY GAMES · PREVIEW v84z99zzc</div>
 </div>
 
 <!-- CREATE-A-GUILDIE (FTUE): Mirror Booth on a comic page + character sheet -->
@@ -15507,6 +15507,7 @@ zlog('zy loaded');
          cold open before Create      a4 power cut-ins, victory gags, voice barks      a5 Collector finale: rip a shelved Guildie free
          a6 Collector's Ledger season pass (mock, no payment)    a7 Codex as a sticker album    a8 a pet companion in every fight
          a9 a friend's Guildie as a guest (share codes)    a10 sound: rescue fanfare ladder, toy foley, enemy family deaths
+   ZZC   a12 smooth onboarding: the hub lessons run one at a time in a fixed order (playtest fix).
    ZZB   a11 all 16 Guildies: every elite and boss in the 4 slice stages (and the Collector) frees one or two Guildies.
    Save: prog.pm. Settings: localStorage guildies.pm (JSON of switches). Kill switch: window.__PM.on=false + reload. */
 {
@@ -15531,7 +15532,8 @@ const PM_ITEMS=[
  ['a8','Add','Pet companion','Gerald tags along in every fight and does a gag'],
  ['a9','Add','Guest Guildie','Friend codes: borrow a friend\'s Guildie for one fight'],
  ['a10','Add','Sound gaps','Rescue fanfare ladder, toy squeaks, enemy family deaths'],
- ['a11','Add','All 16 Guildies','Every elite and boss in the slice frees a Guildie (needs the 4-stage cut)']];
+ ['a11','Add','All 16 Guildies','Every elite and boss in the slice frees a Guildie (needs the 4-stage cut)'],
+ ['a12','Add','Smooth onboarding','One lesson at a time: squad then gear after fight 1, found the guild after Mangewood, no side-system pop-ups']];
 const PM={on:true,log:[]};PM_ITEMS.forEach(([k])=>PM[k]=true);
 try{const s=JSON.parse(localStorage.getItem('guildies.pm')||'null');if(s)Object.assign(PM,s)}catch(e){}
 window.__PM=PM;PM.items=PM_ITEMS;
@@ -15809,7 +15811,7 @@ function openShelf(opt){document.querySelectorAll('.pmov').forEach(n=>n.remove()
   const all=pon('c2')?SLICE_G():['me',...ROSTER];const own=all.filter(k=>k==='me'||prog.owned.includes(k));
   const ov=el(`<div class="pmov" role="dialog" aria-label="Display Shelf"><div class="pmcard"><button class="pmx" type="button" aria-label="Close">×</button>
     ${opt&&opt.end?`<div class="pmend"><b>SEASON 1 COMPLETE</b>The Collector is the one in a box now. Season 2: <b style="display:inline;font-size:inherit">The Collector's Museum</b> opens its back rooms.</div>`:''}
-    <h2>Display Shelf</h2><p class="sub">${own.length} of ${all.length} boxed. Tap a box to change its finish or make a share card. Finishes are cosmetic: bought directly, never random.</p>
+    <h2>Display Shelf</h2><p class="sub">${A12()?`You + ${own.filter(k=>k!=='me').length} of ${all.filter(k=>k!=='me').length} Guildies boxed.`:`${own.length} of ${all.length} boxed.`} Tap a box to change its finish or make a share card. Finishes are cosmetic: bought directly, never random.</p>
     <div class="pmshelf">${all.map((k,i)=>boxHTML(k,i,finOf(k),!own.includes(k))).join('')}</div><div class="pmsel" hidden></div></div></div>`);
   document.body.appendChild(ov);const close=()=>{ov.remove();sfx('ui')};ov.querySelector('.pmx').addEventListener('click',close);ov.addEventListener('click',e=>{if(e.target===ov)close()});
   const sel=ov.querySelector('.pmsel');
@@ -16129,7 +16131,7 @@ if(pon('c2')){
   try{const T=TR.pustulus,t0=T&&T.tick;if(t0)T.tick=function(u,dt){const b=u.swell;const r=t0.apply(this,arguments);try{if(b>=95&&u.swell<=30){u.st.vuln=Math.max(u.st.vuln||0,3);shout(u,'DRAINED! Hit him NOW!','#ffe14a');float(u.x,u.y-230,'WEAK 3s: DOUBLE DAMAGE','#ffe14a',20)}}catch(e){}return r}}catch(e){console.warn('pm pustulus',e)}
   try{const C=window.__CB&&window.__CB.cfg;if(C&&C.nodeAdj)C.nodeAdj.b_graveyard=.7}catch(e){}/* zzb: Gus walled a squad with no BLUNT */
   const DEN={el:'BLUNT',g:'barbarian',gear:'chair',why:'A heavy hit knocks the huff right out of him.',pain:'His huff blows your squad around.'};
-  {const w0=weakOf;weakOf=function(qk){if(qk==='L_forest')return DEN;return w0.apply(this,arguments)}}
+  {const w0=weakOf;weakOf=function(qk){if(HEIST&&pon('a12'))return null;if(qk==='L_forest')return DEN;return w0.apply(this,arguments)}}
 }
 /* the crew: after the first rescue, at the Guild HQ, three Guildies wriggle out of the shrink-wrap, then the Armory lesson */
 function crewCheck(){if(!A11()||!prog||!prog.me||HEIST)return;const p=pp();if(p.crew||!(prog.built||[]).length)return;const h=$('#hallOv');if(!h||h.hidden||(S&&!S.over))return;
@@ -16141,8 +16143,79 @@ function crewCheck(){if(!A11()||!prog||!prog.me||HEIST)return;const p=pp();if(p.
     <p class="bjnote">You can bring 3 Guildies into every fight. Pick your squad in the Armory.</p>
     <div class="bjbtns"><button type="button" class="go bjok">Pick my squad ▶︎</button></div></div></div>`);
   document.body.appendChild(o);try{sfx('fanfare');ladder(2)}catch(e){}
-  o.querySelector('.bjok').addEventListener('click',()=>{o.remove();tab='squad';renderHall();setTimeout(()=>{try{toast2('<b>Your Armory.</b> Tap a Guildie to put them in or take them out of your squad. Mix a tank, a hitter and a ranged Guildie.')}catch(e){}},700)})}
+  o.querySelector('.bjok').addEventListener('click',()=>{o.remove();if(A12()){armoryLesson();return}tab='squad';renderHall();setTimeout(()=>{try{toast2('<b>Your Armory.</b> Tap a Guildie to put them in or take them out of your squad. Mix a tank, a hitter and a ranged Guildie.')}catch(e){}},700)})}
 PM.crewCheck=crewCheck;
+/* ===== zzc a12 SMOOTH ONBOARDING (Kenneth's playtest note 2026-11-04: "the squad tutorials keep circling me back") =====
+   The hub lessons used to fire off renderHall timers and knock each other out: the crew card, the Witch's gear lesson and the
+   squad lesson all fired within seconds of fight 1, each replaced the other's bubble, and the squad lesson retried itself up to
+   5 times. The guild charter then fired after the next room rescue with "Three's a guild!" when the guild already had 7.
+   Now one director runs them in a fixed order:
+     after fight 1   crew card > Armory: squad (2 steps) > gear (2 steps) > "Next fight" opens the Ready Check for the NEXT fight
+     after Mangewood the guild charter: name the guild > Guild Power card > "Hit GO for Cavity Kingdom"
+   and the side systems stop interrupting: no Odd Jobs, Banner Loom or Undercroft bubbles, no Ghost Cat fish-run offers,
+   no portrait-banner toasts, no repeated toasts, and a rip ends with "Keep going" instead of a trip to the rooms. */
+const A12=()=>pon('a12')&&A11();
+const PMO={sq:0,gear:0,busy:0};PM.pmo=PMO;
+const wt=ms=>new Promise(z=>setTimeout(z,ms));
+const modalOn=()=>!!document.querySelector('.bjov,.pmov,.rpop,.vzov,.pmcrew,.atnov,.gform,.zyoff,.ojsheet')||[...document.querySelectorAll('.ov')].some(o=>!o.hidden&&o.id!=='hallOv'&&o.id!=='rotOv');
+const nextK=()=>{try{const n=nextRescue();return n&&n.k&&!n.gate?n.k:null}catch(e){return null}};
+const nextName=()=>{try{const k=nextK();if(!k)return '';return (ROOMS[k]&&ROOMS[k].name)||BN(k)||''}catch(e){return ''}};
+/* 1. the timers no longer start the squad and gear lessons on their own */
+{const sq0=sqTut;sqTut=function(){if(A12())return;return sq0.apply(this,arguments)};
+ const gx0=gearTut;gearTut=function(){if(A12())return;return gx0.apply(this,arguments)};
+ async function armoryLesson0(){if(PMO.busy)return;PMO.busy=1;try{
+   amTab='squad';tab='squad';sfx('whoosh');renderHall();await wt(1100);
+   if(!seen('sqTut')){await sq0();markSeen('sqTut')}
+   await wt(600);
+   if(!seen('gx1')&&prog.owned.includes(GX_A)&&(prog.gear||[]).includes(GX_AG)&&(prog.gear||[]).includes(GX_BG)){tab='hall';await gx0();markSeen('gx1')}
+   else{tab='hall';sfx('whoosh');renderHall();goCoach()}
+ }catch(e){console.warn('pm a12 armory',e)}PMO.busy=0}
+ PM.armoryLesson=armoryLesson0;}
+{const at0=atnIntro;atnIntro=function(){if(A12()&&!guildOfficial())return;return at0.apply(this,arguments)}}
+var armoryLesson=(...a)=>PM.armoryLesson(...a);
+/* the gear lesson's last button opens the Ready Check for the fight that is actually next (it used to say "the Robot!") */
+{const ZR=window.__ZR;if(ZR&&ZR.nextFight){const nf0=ZR.nextFight;ZR.nextFight=function(){if(!A12())return nf0.apply(this,arguments);tab='hall';sfx('whoosh');renderHall();const k=nextK();if(k)setTimeout(()=>{try{readyCheck(k)}catch(e){}},350)}}}
+function goCoach(msg){setTimeout(()=>{if(tab!=='hall'||CO)return;if(typeof charterDue==='function'&&charterDue()){charterCheck();return}coach({force:true,light:true,text:msg||`Hit <strong>GO!</strong> for ${nextName()?'<strong>'+esc(nextName())+'</strong>':'your next fight'}.`,target:()=>elRect('.qban .qgo'),auto:5000})},700)}
+/* 2. coach text that no longer fits the slice */
+{const c0=coach;coach=function(o){if(A12()&&o&&typeof o.text==='string'){const t=o.text;
+   if(/^New: <strong>Odd Jobs/.test(t)||/trapdoor on the rug/.test(t)||/Visit the <strong>Banner Loom/.test(t)||/Bounty Board<\/strong> is open/.test(t))return Promise.resolve('skip');
+   if(/^<b>Three\\'s a guild!<\/b>|^<b>Three's a guild!<\/b>/.test(t))o=Object.assign({},o,{text:`<b>Mangewood is free!</b> A guild this big needs a <strong>Charter</strong>. Follow me to the <strong>Great Hall</strong>.`});
+   if(/^<strong>The Witch brought her whole kit!/.test(t))o=Object.assign({},o,{text:`<b>Now gear.</b> The Witch brought her whole kit, and any Guildie can use any piece. Let's gear you both up.`,btn:'Show me ▶︎'});
+   if(/Next stop: the Robot!/.test(o.text)){const nn=nextName();o=Object.assign({},o,{text:o.text.replace('Next stop: the Robot!',nn?`Next stop: <strong>${esc(nn)}</strong>!`:'On to the next fight!')})}
+   /* on a phone the bat, the wand and the wheel card can sit below the fold: bring them into view first */
+   const sel=/Gerald the Vampire Bat/.test(o.text)?`[data-g="${GX_AG}"]`:/Wand of Changing Visage<\/strong> to grab/.test(o.text)?`[data-g="${GX_BG}"]`:null;
+   const wm=/Change your squad!<\/b>[\s\S]*?<strong>([^<]+)<\/strong>/.exec(o.text);
+   if(sel||wm)[60,400,900].forEach(ms=>setTimeout(()=>{try{let e=null;if(sel)e=[...document.querySelectorAll(sel)].find(x=>x.offsetParent);else{const k=Object.keys(GUILDIES).find(g=>GUILDIES[g].name===wm[1].replace(/&amp;/g,'&'));if(k)e=document.querySelector(`.kbi[data-k="${k}"]`)}
+     if(!e)return;const r=e.getBoundingClientRect();if(r.top<0||r.bottom>innerHeight-8||r.left<0||r.right>innerWidth)e.scrollIntoView({block:'center',inline:'center'})}catch(_){}} ,ms));
+  }return c0.apply(this,arguments.length>1?[o,...[...arguments].slice(1)]:[o])}}
+/* 3. one celebration after the charter, then GO (no Bounty Board detour, no "your call" choice) */
+{const nc0=nxNextChoice;nxNextChoice=function(){if(!A12())return nc0.apply(this,arguments);
+   const go=()=>{if(document.querySelector('.atnov,.gform')||modalOn()){setTimeout(go,1200);return}if(atnOn()&&!(prog.seen&&prog.seen.atnIntro))return;/* the Guild Power card shows first; its button calls bountyTut */
+     tab='hall';renderHall();goCoach(`<strong>${esc(guildName())}</strong> is official! Next stop: <strong>Cavity Kingdom</strong>. Hit <strong>GO!</strong>`)};setTimeout(go,1600)};
+ const bt0=bountyTut;bountyTut=function(){if(!A12())return bt0.apply(this,arguments);if(!seen('bty0'))markSeen('bty0');if(tab!=='hall'){tab='hall';renderHall()}
+   goCoach(guildOfficial()?`<strong>${esc(guildName())}</strong> is official! Next stop: <strong>Cavity Kingdom</strong>. Hit <strong>GO!</strong>`:null)}}
+/* 4. the guild is founded when Mangewood is cleared, not on the next room rescue */
+{const cs0=collectStep;collectStep=function(){if(!A12()||guildOfficial())return cs0.apply(this,arguments);const g0=prog.gofficial;prog.gofficial=1;try{return cs0.apply(this,arguments)}finally{if(!prog.gfPend)prog.gofficial=g0||0}}}
+const charterDue=()=>A12()&&prog&&prog.me&&!guildOfficial()&&!prog.gfPend&&prog.owned.includes('undawata');
+function charterCheck(){if(!charterDue()||PMO.busy)return;
+  const h=$('#hallOv');if(!h||h.hidden||(S&&!S.over))return;if(modalOn()||(bx().pend||[]).length){setTimeout(charterCheck,1500);return}
+  if(CO&&CO.light)coachEnd('replaced');else if(CO){setTimeout(charterCheck,1500);return}if(tab!=='hall'){tab='hall';renderHall()}
+  prog.gofficial=1;prog.cerTut=1;prog.gfPend='undawata';save();setTimeout(nxCharterTour,500)}
+PM.charterCheck=charterCheck;
+{const gf0=guildForm;guildForm=function(){const r=gf0.apply(this,arguments);try{if(A12())document.querySelectorAll('.gform .gfh').forEach(h=>{if(/Three's a guild/.test(h.textContent))h.textContent='Make it official!'})}catch(e){}return r}}
+{const rc0=readyCheck;readyCheck=function(){if(charterDue()&&!modalOn()){toHall('hall');setTimeout(charterCheck,400);return}return rc0.apply(this,arguments)}}
+/* 5. quiet side systems */
+const QUIET=['oj1','bn1','rit1'];
+const t2Seen={};{const t20=toast2;toast2=function(m){if(A12()&&typeof m==='string'){if(/New portrait banner/.test(m))return;const k=m.replace(/<[^>]+>/g,'');if(t2Seen[k]&&Date.now()-t2Seen[k]<30000)return;t2Seen[k]=Date.now()}return t20.apply(this,arguments)}}
+new MutationObserver(ms=>{if(!A12())return;for(const m of ms)for(const n of m.addedNodes)if(n.classList&&n.classList.contains('zyoff'))n.remove();}).observe(document.documentElement,{childList:true});
+/* 6. a rip ends with "Keep going" (back to Guild HQ, GO glows); the room visit is the second button */
+{const br1=bonusReveal;bonusReveal=function(k){const r=br1.apply(this,arguments);try{if(!A12())return r;const o=[...document.querySelectorAll('.bjov')].pop();if(!o)return r;
+   const ok=o.querySelector('.bjok'),x=o.querySelector('.bjx');if(!ok||!/room/i.test(ok.textContent))return r;
+   const nOk=ok.cloneNode(true);nOk.textContent='Keep going ▶︎';ok.replaceWith(nOk);
+   nOk.addEventListener('click',()=>{o.remove();bjBusy=false;toHall('hall');setTimeout(()=>{if(!(bx().pend||[]).length)goCoach()},900)});
+   if(x){const nx=x.cloneNode(true);nx.textContent=`See ${GUILDIES[k]?GUILDIES[k].name:'their'}'s room`;x.replaceWith(nx);nx.addEventListener('click',()=>ok.click())}}catch(e){console.warn('pm a12 rip',e)}return r}}
+{const rh2=renderHall;renderHall=function(){const r=rh2.apply(this,arguments);try{if(A12()&&prog&&prog.me){QUIET.forEach(k=>{if(!seen(k))markSeen(k)});setTimeout(charterCheck,1600)}}catch(e){}return r}}
+/* ===== end zzc a12 ===== */
 {const rh1=renderHall;renderHall=function(){const r=rh1.apply(this,arguments);try{setTimeout(crewCheck,1300)}catch(e){}return r}}
 const hashLab=()=>{if(/^#(slicelab|pitch)$/.test(location.hash))setTimeout(openLab,1200)};hashLab();addEventListener('hashchange',hashLab);
 window.__G.pm=PM;PM.openCreate=e=>openCreate(e);PM.codex=()=>codexOpen();PM.use=(u,s)=>usePower(u,s);PM.S=()=>S;PM.endBattle=w=>endBattle(w);PM.setTab=t=>{tab=t;renderHall()};PM.startBattle=(q,o)=>startBattle(q,o);PM.toHall=t=>toHall(t);PM.renderHall=()=>renderHall();PM.openSettings=()=>openSettings();PM.seed=(n,x)=>seed(n,x);PM.peek=src=>eval(src);PM.prog=()=>prog;PM.save=()=>save();
